@@ -1,0 +1,14 @@
+.getChars {
+    display: flex;
+    overflow: hidden;
+    h2 {
+        font-size: clamp(4.5vh, 5vw, 6vw);
+        letter-spacing: -0.1rem;
+
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        @media (max-width: 456px) {
+            line-height: 0.88;
+            font-size: 3.5vh;
+        }
+    }
+}
