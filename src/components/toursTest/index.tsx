@@ -8,10 +8,6 @@ const tours = [
     { src: '/assets/tours/2.jpg', alt: 'tour-2', title: 'Giza Pyramids, Sphinx, Egyptian Museum, Khan Al', duration: '15 days', price: 'From $4,000', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.' },
     { src: '/assets/tours/3.jpg', alt: 'tour-3', title: 'Giza Pyramid, Sphinx, Memphis & Sakkara', duration: '20 days', price: 'From $5,000', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.' },
     { src: '/assets/tours/4.jpg', alt: 'tour-4', title: 'Giza Pyramids, Great Sphinx, Camel Ride, and VIP Lunch', duration: '20 days', price: 'From $5,000', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.' },
-    { src: '/assets/tours/1.jpg', alt: 'tour-1', title: 'VIP inclusive 2-Day Private Tour to All pyramids and Cairo    ', duration: '10 days', price: 'From $3,000', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.' },
-    { src: '/assets/tours/2.jpg', alt: 'tour-2', title: 'Giza Pyramids, Sphinx, Egyptian Museum, Khan Al', duration: '15 days', price: 'From $4,000', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.' },
-    { src: '/assets/tours/3.jpg', alt: 'tour-3', title: 'Giza Pyramid, Sphinx, Memphis & Sakkara', duration: '20 days', price: 'From $5,000', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.' },
-    { src: '/assets/tours/4.jpg', alt: 'tour-4', title: 'Giza Pyramids, Great Sphinx, Camel Ride, and VIP Lunch', duration: '20 days', price: 'From $5,000', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac neque.' },
 ];
 
 const index = () => {

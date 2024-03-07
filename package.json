@@ -31,8 +31,6 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.2",
     "typescript": "^5",
-    "webpack": "^1.15.0",
-    "webpack-dev-middleware": "^1.2.0",
-    "webpack-hot-middleware": "^2.0.0"
+    "webpack": "^1.15.0"
   }
 }
