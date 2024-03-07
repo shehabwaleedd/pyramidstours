@@ -18,6 +18,10 @@
         color: var(--title-color);
         text-align: left;
         margin: 2rem 0;
+
+        @media (max-width: 768px) {
+            font-size: var(--bigger-font-size);
+        }
     
     }
     &__container {

@@ -1,0 +1,35 @@
+.nav {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+    background-color: var(--accent-color);
+    top: 0rem;
+    left: 0;
+
+    .hamburger {
+        display: flex;
+        justify-content: flex-end;
+        color: var(--background-color);
+        font-size: 2rem;
+        z-index: 9999;
+        position: absolute;
+        right: 3rem;
+        top: 2rem;
+        font-family: var(--title-font);
+        cursor: pointer;
+
+        @media (max-width: 468px) {
+            right: 2rem;
+        }
+
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+

@@ -25,6 +25,10 @@
         object-fit: cover;
         border-bottom-left-radius: 3rem;
         border-bottom-right-radius: 3rem;
+
+        @media  (max-width: 667px) {
+            height: 50vh;
+        }
     }
     &__text_search {
         position: absolute;
@@ -41,8 +45,8 @@
     }
     &__middle {
         display: flex;
-        align-items: flex-start;
-        justify-content: space-around;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
         width: fit-content;
         height: fit-content;

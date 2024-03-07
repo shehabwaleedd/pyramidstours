@@ -21,6 +21,10 @@
         display: flex;
         gap: 1rem;
 
+        @media (max-width: 667px) {
+            display: none;
+        }
+
         li {
             font-size: 1rem;
             text-decoration: none;
@@ -30,6 +34,33 @@
                 color: #fff;
             }
 
+        }
+    }
+    .menu {
+        @media (min-width: 1268px) {
+            display: none;
+        }
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: 100%;
+        width: 100%;sd
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 6.5vh;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            font-display: swap;
+            user-select: none;
+            font-family: var(--body-font);
+            font-size: var(--body-font-size);
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            text-transform: capitalize;
+            color: #fff;
         }
     }
 }

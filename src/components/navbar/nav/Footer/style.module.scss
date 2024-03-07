@@ -1,0 +1,47 @@
+.footer {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    font-size: 12px;
+    margin-top: 40px;
+    padding: 1rem;
+    padding-left: 2rem;
+
+    ul {
+        overflow: hidden;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 0.9rem;
+        font-family: var(--body-font);
+
+
+    }
+
+    li {
+        overflow: hidden;
+        color: var(--background-color);
+        text-align: center;
+
+        @media (max-width: 456px) {
+            padding-top: 0.4rem;
+        }
+
+        span {
+            color: var(--background-color);
+            font-family: var(--body-font);
+            overflow: hidden;
+        }
+
+        a {
+            color: var(--background-color);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            text-align: center;
+
+        }
+    }
+}

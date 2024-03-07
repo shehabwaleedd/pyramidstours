@@ -28,9 +28,9 @@ const index = () => {
                                 height={800}
                             />
                         </div>
+                        <span>{tour.price}</span>
                         <h3>{tour.title}</h3>
                         <p>{tour.description}</p>
-                        <span>{tour.price}</span>
                         <button> View Tour</button>
                     </div>
                 ))}

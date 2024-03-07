@@ -1,0 +1,28 @@
+.body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    a {
+        color: var(--background-color);
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    p {
+        margin: 0px;
+        display: flex;
+        overflow: hidden;
+        font-family: var(--title-font);
+        font-size: 2rem;
+        color: var(--background-color);
+        justify-content: center;
+        align-items: center;
+    }
+}
