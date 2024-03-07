@@ -21,9 +21,9 @@ const Navbar = () => {
                     <h1>Pyramids</h1>
                 </div>
                 <ul>
-                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Trips</a></li>
+                    <li><a href="#">Cities</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
 

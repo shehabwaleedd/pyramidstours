@@ -21,7 +21,7 @@
             color: var(--container-color);
 
             @media (max-width: 570px) {
-                font-size: 12vw;
+                font-size: 5vh;
             }
         }
 
@@ -51,6 +51,9 @@
             li {
                 font-size: var(--body-font-size);
                 color: var(--container-color);
+                @media (max-width: 570px) {
+                    font-size: var(--small-font-size);
+                }
                 a {
                     text-decoration: none;
                     color: var(--container-color);
@@ -58,6 +61,9 @@
                 span {
                     font-size: var(--body-font-size);
                     color: var(--container-color);
+                    @media (max-width: 570px) {
+                        font-size: var(--small-font-size);
+                    }
                     a {
                         text-decoration: none;
                         color: var(--title-color);
