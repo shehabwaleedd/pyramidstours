@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScrolling from "@/animation/SmoothScrolling";
 import Navbar from "@/components/navbar";
-import Footer from "@/components/footer/Footer";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",

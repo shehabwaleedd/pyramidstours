@@ -27,9 +27,17 @@ const index = () => {
                                 width={800}
                                 height={800}
                             />
+                            <div>
+                                <span>
+                                    {tour.duration}
+                                </span>
+                                <span style={{backgroundColor: "var(--accent-color)", color: "var(--container-color)"}}>
+                                    Offer
+                                </span>
+                            </div>
                         </div>
-                        <span>{tour.price}</span>
                         <h3>{tour.title}</h3>
+                        <span>{tour.price}</span>
                         <p>{tour.description}</p>
                         <button> View Tour</button>
                     </div>
