@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScrolling from "@/animation/SmoothScrolling";
-import Navbar from "@/components/navbar"
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <SmoothScrolling>
           {children}
         </SmoothScrolling>
+        <Footer />
       </body>
     </html>
   );

@@ -8,8 +8,9 @@
     position: relative;
     h1 {
         font-size: var(--title-size);
-        font-family: var(--logo-font);
+        font-family: var(--title-font);
         color: #fff;
+        text-transform: lowercase;
         text-align: center;
     }
     p {
@@ -24,19 +25,6 @@
         object-fit: cover;
         border-bottom-left-radius: 3rem;
         border-bottom-right-radius: 3rem;
-    }
-    &__text {
-        position: absolute;
-        top: 50%; /* Position 50% from top */
-        left: 50%; /* Position 50% from left */
-        transform: translate(-50%, -50%); /* Shift element to be centered */
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        width: 100%;
-        padding: 1rem;
     }
     &__text_search {
         position: absolute;
@@ -53,32 +41,25 @@
     }
     &__middle {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-around;
         cursor: pointer;
-        width: max-content;
+        width: fit-content;
         height: fit-content;
         position: relative;
         left: 0;
         border: 1px solid var(--border-color);
         border-radius: 2rem;
-        padding: 0.5rem 2rem;
+        padding: 1rem 2rem;
         background-color: var(--background-color);
         gap: 1rem;
         span {
-            font-size: 0.9rem;
+            font-size: 1.3rem;
             font-weight: 600;
             font-family: var(--body-font);
             color: var(--title-color);
             border-right: 1px solid var(--border-color);
             padding-right: 0.5rem;
-            letter-spacing: 0.1rem;
-        }
-        p {
-            font-size: 0.9rem;
-            font-weight: 500;
-            font-family: var(--body-font);
-            color: var(--text-color);
             letter-spacing: 0.1rem;
         }
     }
@@ -87,8 +68,8 @@
         right: 0.5rem;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 2rem;
-        padding: 0.5rem;
+        font-size: 3rem;
+        padding: 1rem;
         background-color: var(--accent-color);
         color: var(--container-color);
         border-radius: 2rem;

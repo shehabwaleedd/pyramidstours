@@ -8,6 +8,7 @@
   --sat: 0%;
   --hover-color: #91171F;
   --accent-color: #FF5349;
+  --dimmed-color: #f5f1eb;
   --accent-second-color: #327BC4;
   --lighter-text-color: #989898;
   --background-color: #F8F0E3;
@@ -25,9 +26,10 @@
 
   /* Fonts */
 
-  --body-font: 'Satoshi-Regular', sans-serif;
+  --body-font: 'Avantt-Regular', sans-serif;
   --subtitle-font: 'ClashDisplay-Thin', sans-serif;
-  --title-font: 'ClashDisplay-Medium', sans-serif;
+  --medium-font: 'Avantt-Medium', sans-serif;
+  --title-font: 'Avantt-Bold', sans-serif;
   --heading-font: 'ClashDisplay-SemiBold', sans-serif;
   --logo-font: 'Kalam-Bold', sans-serif;
 
@@ -157,6 +159,27 @@ img {
   font-family: 'Satoshi-Light';
   src: url('../../public/fonts/Satoshi-Light.woff2') format('woff2');
   font-weight: 200;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avantt-Bold';
+  src: url('../../public/fonts/Avantt-Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avantt-Medium';
+  src: url('../../public/fonts/Avantt-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avantt-Regular';
+  src: url('../../public/fonts/Avantt-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-display: swap;
   font-style: normal;
 }

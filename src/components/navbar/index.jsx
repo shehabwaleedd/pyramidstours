@@ -6,7 +6,7 @@ const index = () => {
     return (
         <nav className={styles.navbar}>
             <div className={styles.navbar__logo}>
-                <h1>PYRAMIDS</h1>
+                <h1>Pyramids</h1>
             </div>
             <ul>
                 <li><a href="#">Home</a></li>

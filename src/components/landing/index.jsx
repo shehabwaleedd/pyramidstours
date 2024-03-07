@@ -14,10 +14,7 @@ const index = () => {
                 playsInline
 
             ></video>
-            <div className={styles.landing__text}>
-                <h1> PYRAMIDS EGYPT TOURS </h1>
-                <p> Explore the beauty of Egypt </p>
-            </div>
+
             <div className={styles.landing__text_search}>
                 <div className={styles.landing__middle}>
                     <span>Destination</span>
