@@ -27,15 +27,17 @@ const index = () => {
                                 <span>
                                     {tour.duration}
                                 </span>
-                                <span style={{backgroundColor: "var(--accent-color)", color: "var(--container-color)"}}>
+                                <span style={{ backgroundColor: "var(--accent-color)", color: "var(--container-color)" }}>
                                     Offer
                                 </span>
                             </div>
                         </div>
-                        <h3>{tour.title}</h3>
-                        <span>{tour.price}</span>
-                        <p>{tour.description}</p>
-                        <button> View Tour</button>
+                        <div>
+                            <h3>{tour.title}</h3>
+                            <span>{tour.price}</span>
+                            <p>{tour.description}</p>
+                            <button> View Tour</button>
+                        </div>
                     </div>
                 ))}
             </div>
