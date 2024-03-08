@@ -6,7 +6,7 @@
   --text-color: #47393f;
   --hue: 0;
   --sat: 0%;
-  --hover-color: #91171F;
+  --second-accent-color: #2E9F90;
   --accent-color: #FF5349;
   --dimmed-color: #f5f1eb;
   --accent-second-color: #327BC4;
@@ -15,7 +15,6 @@
   --border-color: #c1c1c1;
   --animation-primary: 0.4s cubic-bezier(0.5, 0.75, 0, 1);
   --section-padding: min(3.5vw, 3.5em);
-
 
   /* Responsive Sizes  */
 
@@ -30,9 +29,8 @@
   --subtitle-font: 'ClashDisplay-Thin', sans-serif;
   --medium-font: 'Avantt-Medium', sans-serif;
   --title-font: 'Avantt-Bold', sans-serif;
-  --heading-font: 'ClashDisplay-SemiBold', sans-serif;
-  --logo-font: 'Kalam-Bold', sans-serif;
-
+  --heavy-font: "Avantt-Heavy", sans-serif;
+  --semi-bold-font: "Avantt-SemiBold", sans-serif;
   /* Font Sizes Based on Golden Ratio */
 
 
@@ -163,9 +161,24 @@ img {
   font-style: normal;
 }
 @font-face {
+  font-family: 'Avantt-Heavy';
+  src: url('../../public/fonts/Avantt-Heavy.ttf') format('truetype');
+  font-weight: 800;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
   font-family: 'Avantt-Bold';
   src: url('../../public/fonts/Avantt-Bold.ttf') format('truetype');
   font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Avantt-SemiBold';
+  src: url('../../public/fonts/Avantt-SemiBold.ttf') format('truetype');
+  font-weight: 500;
   font-display: swap;
   font-style: normal;
 }

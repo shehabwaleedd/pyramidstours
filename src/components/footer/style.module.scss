@@ -1,5 +1,4 @@
 .footer {
-    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,7 +17,7 @@
         padding-bottom: 5vh;
         h2 {
             font-size: 10vw;
-            color: var(--container-color);
+            color: var(--title-color);
 
             @media (max-width: 570px) {
                 font-size: 5vh;
@@ -27,7 +26,7 @@
 
         p {
             font-size: var(--body-font-size);
-            color: var(--container-color);
+            color: var(--title-color);
         }
     }
 
@@ -50,17 +49,17 @@
 
             li {
                 font-size: var(--body-font-size);
-                color: var(--container-color);
+                color: var(--title-color);
                 @media (max-width: 570px) {
                     font-size: var(--small-font-size);
                 }
                 a {
                     text-decoration: none;
-                    color: var(--container-color);
+                    color: var(--title-color);
                 }
                 span {
                     font-size: var(--body-font-size);
-                    color: var(--container-color);
+                    color: var(--title-color);
                     @media (max-width: 570px) {
                         font-size: var(--small-font-size);
                     }
