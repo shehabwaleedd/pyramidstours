@@ -68,7 +68,7 @@ const Page = () => {
 
     return (
         <main className={styles.container}>
-            <Image src="/assets/backgrounds/1.jpg"
+            <Image src="/assets/backgrounds/2.jpg"
                 height={1000}
                 width={1920}
                 alt='register background'

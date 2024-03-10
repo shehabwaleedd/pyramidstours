@@ -21,7 +21,7 @@
         display: flex;
         gap: 1rem;
 
-        @media (max-width: 667px) {
+        @media (max-width: 967px) {
             display: none;
         }
 
@@ -37,7 +37,7 @@
         }
     }
     .menu {
-        @media (min-width: 1268px) {
+        @media (min-width: 968px) {
             display: none;
         }
 
@@ -45,7 +45,7 @@
         align-items: center;
         justify-content: flex-end;
         height: 100%;
-        width: 100%;sd
+        width: 100%;
         button {
             display: flex;
             align-items: center;
