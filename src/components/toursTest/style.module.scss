@@ -91,7 +91,7 @@
             span {
                 font-size: var(--normal-font-size);
                 font-family: var(--body-font);
-                color: var(--accent-color);
+                color: var(--second-accent-color);
                 text-align: left;
                 margin: 0.3rem 0;
             }
@@ -108,7 +108,7 @@
                 cursor: pointer;
                 transition: background-color 0.3s;
                 &:hover {
-                    background-color: var(--accent-color);
+                    background-color: var(--second-accent-color);
                     color: var(--background-color);
                 }
             }

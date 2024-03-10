@@ -7,13 +7,15 @@ import { FiSearch } from 'react-icons/fi'
 const index = () => {
     return (
         <section className={styles.landing}>
-            <video src="/mainVideo.mp4"
+            <video
                 autoPlay
                 loop
                 muted
                 playsInline
 
-            ></video>
+            >
+                <source src="/mainVideo.mp4" type="video/mp4" />
+            </video>
 
             <div className={styles.landing__text_search}>
                 <div className={styles.landing__middle}>
