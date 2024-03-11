@@ -23,8 +23,7 @@ const Register = () => {
         password: yup.string().matches(/^(?=.*[A-Za-z])(?=.*\d).{8,}$/, 'at least 6 charchter and start with upperCase').required(),
         rePassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
         phone: yup.number().required("Phone is required").positive("Phone must be a positive number").integer("Phone must be an integer"),
-        country: yup.string().required("Country is required"),
-        region: yup.string().required("Region is required"),
+        nationality: yup.string().required("Country is required"),
         gender: yup.string(),
     })
 
@@ -40,8 +39,7 @@ const Register = () => {
             password: '',
             rePassword: '',
             phone: '',
-            country: '',
-            region: '',
+            nationality: '',
             gender: '',
         },
         validationSchema,
@@ -55,7 +53,7 @@ const Register = () => {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 localStorage.setItem('token', response.data.token);
-                router.push('/register/verify'); // Navigate to home or dashboard
+                router.push('/'); // Navigate to home or dashboard
             } catch (error) {
                 setErrorFromDataBase(error.response?.data.message || 'An error occurred');
             } finally {
@@ -126,14 +124,14 @@ const Register = () => {
                 <div className={styles.register__form__group}>
 
                     <div className={styles.register__form__group_column}>
-                        <label htmlFor="country">
-                            Country
+                        <label htmlFor="nationality">
+                            Nationality
                         </label>
                         <CountryDropdown
-                            value={registerFormik.values.country}
-                            onChange={(val) => registerFormik.setFieldValue('country', val)}
+                            value={registerFormik.values.nationality}
+                            onChange={(val) => registerFormik.setFieldValue('nationality', val)}
                             priorityOptions={
-                                ['AE', 'GB', 'CA', 'AU', 'DE',
+                                ['GB', 'CA', 'AU', 'DE', 'AE',
                                     'EG', 'FR', 'ES', 'NL', 'BR',
                                     'PT', 'MX', 'IN', 'CN', 'JP',
                                     'RU', 'IT', 'SE', 'NO', 'DK',
@@ -144,40 +142,31 @@ const Register = () => {
                             }
                         />
                     </div>
-
-
-                    <div className={styles.register__form__group_column}>
-                        <label htmlFor="region">
-                            Region
-                        </label>
-                        <RegionDropdown
-                            country={registerFormik.values.country}
-                            value={registerFormik.values.region}
-                            onChange={(val) => registerFormik.setFieldValue('region', val)} />
-                    </div>
-
-                </div>
-                {registerFormik.errors.name ? <div className={styles.register__error}>{registerFormik.errors.name}</div> : null}
-                {registerFormik.errors.email ? <div className={styles.register__error}>{registerFormik.errors.email}</div> : null}
-                {registerFormik.errors.gender ? <div className={styles.register__error}>{registerFormik.error} </div> : null}
-                <div className={styles.register__form__group__passwords}>
-                    <div className={styles.register__form__group_column}>
-                        <label htmlFor="password"> Password</label>
-                        <input type="password" placeholder="Password" className={styles.register__input} name="password" onChange={registerFormik.handleChange} value={registerFormik.values.password} />
-                    </div>
-                    <div className={styles.register__form__group_column}>
-                        <label htmlFor="password">Repeat Password</label>
-                        <input type="password" placeholder="Repeat Password" className={styles.register__input} name="rePassword" onChange={registerFormik.handleChange} value={registerFormik.values.rePassword} />
-                    </div>
                     <div className={styles.register__form__group_column}>
                         <label htmlFor="tel"> Phone </label>
                         <input type="tel" placeholder="Phone" className={styles.register__input} name="phone" onChange={registerFormik.handleChange} value={registerFormik.values.phone} />
                     </div>
 
                 </div>
+                {registerFormik.errors.name ? <div className={styles.register__error}>{registerFormik.errors.name}</div> : null}
+                {registerFormik.errors.email ? <div className={styles.register__error}>{registerFormik.errors.email}</div> : null}
+                {registerFormik.errors.gender ? <div className={styles.register__error}>{registerFormik.errors.gender} </div> : null}
+                {registerFormik.errors.phone ? <div className={styles.register__error}>{registerFormik.errors.phone}</div> : null}
+                <div className={styles.register__form__group__passwords}>
+                    <div className={styles.register__form__group_column}>
+                        <label htmlFor="password"> Password</label>
+                        <input type="password" placeholder="Password" className={styles.register__input} name="password" onChange={registerFormik.handleChange} value={registerFormik.values.password} 
+                            autoComplete="new-password"
+                        />
+                    </div>
+                    <div className={styles.register__form__group_column}>
+                        <label htmlFor="password">Repeat Password</label>
+                        <input type="password" placeholder="Repeat Password" className={styles.register__input} name="rePassword" onChange={registerFormik.handleChange} value={registerFormik.values.rePassword} />
+                    </div>
+
+                </div>
                 {registerFormik.errors.password ? <div className={styles.register__error}>{registerFormik.errors.password}</div> : null}
                 {registerFormik.errors.rePassword ? <div className={styles.register__error}>{registerFormik.errors.rePassword}</div> : null}
-                {registerFormik.errors.phone ? <div className={styles.register__error}>{registerFormik.errors.phone}</div> : null}
                 <div className={styles.register__form__group}>
                     <div className={styles.register__form__group_column}>
                         <label htmlFor="avatar">Profile Picture</label>

@@ -10,13 +10,27 @@
     z-index: 10;
     mix-blend-mode: difference;
     user-select: none;
+    height: 6.5vh;
 
     &__logo {
-        font-size: 1.5rem;
-        font-weight: 700;
         font-family: var(--title-font);
+        position: relative;
+        top: 2.5rem;
+        
         a {
             color: #fff;
+        }
+        h1 {
+            font-size: var(--semi-big-font-size);
+            letter-spacing: 0.05rem;
+        }
+        h2 {
+            font-size: var(--semi-big-font-size);
+            letter-spacing: 0.2rem;
+        }
+        h3 {
+            font-size: var(--semi-big-font-size);
+            letter-spacing: 0.1rem;
         }
     }
 
