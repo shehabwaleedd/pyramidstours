@@ -1,11 +1,11 @@
 import styles from "./page.module.scss";
 import Landing from "@/components/landing"
-import Tours from "@/components/toursTest"
+import Testimonials from "@/components/testimonials"
 export default function Home() {
   return (
     <main className={styles.main}>
       <Landing />
-      <Tours />
+      <Testimonials />
     </main>
   );
 }

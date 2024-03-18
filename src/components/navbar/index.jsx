@@ -7,11 +7,13 @@ import { FiMenu } from "react-icons/fi";
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
+import { FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 
 const Navbar = () => {
     const { isLoggedIn } = useAuth();
     const router = usePathname();
     const [navOpen, setNavOpen] = useState(false);
+    const [cartCount, setCartCount] = useState(0);
     const toggleNavOpen = useCallback(() => {
         setNavOpen(prevNavOpen => !prevNavOpen);
     }, []);
@@ -36,14 +38,29 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <ul>
-                    <li><a href="#">Trips</a></li>
-                    <li><a href="#">Cities</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                    {isLoggedIn ? <li><a href="/account">Account</a></li> : (
-                        <li><a href="/login">Login</a></li>
-                    
-                    )}
+                    <div className={styles.navbar__ul_left}>
+                        <li><a href="#">Trips</a></li>
+                        <li><a href="#">Cities</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </div>
+                    <div className={styles.navbar__ul_right}>
+                        <li>
+                            <Link href="/login">
+                                {isLoggedIn ? "Account" : "Login"}
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/wishlist">
+                                <FiHeart />
+                            </Link>
+                        </li>
+                        <li className={styles.cart}>
+                            <FiShoppingCart />
+                            <span>{cartCount}</span>
+                        </li>
+
+                    </div>
                 </ul>
 
                 <div className={styles.menu}>

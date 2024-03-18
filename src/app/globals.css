@@ -7,11 +7,11 @@
   --subtitle-color: #4c4c4c;
   --hue: 0;
   --sat: 0%;
-  --second-accent-color: #2E9F90;
-  --accent-color: #FF5349;
-  --dimmed-color: #f5f1eb;
+  --second-accent-color: #FF1A1A;
+  --accent-color: #FF1A1A;
+  --dimmed-color: #f8f5f1;
   --lighter-text-color: #989898;
-  --background-color: #F8F0E3;
+  --background-color: #FFF;
   --border-color: #c1c1c1;
   --animation-primary: 0.4s cubic-bezier(0.5, 0.75, 0, 1);
   --section-padding: min(3.5vw, 3.5em);

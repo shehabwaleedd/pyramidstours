@@ -20,7 +20,6 @@ const index = () => {
             <div className={styles.landing__text_search}>
                 <div className={styles.landing__middle}>
                     <span>Destination</span>
-                    <span>Time</span>
                     <div className={styles.landing__search}>
                         <FiSearch />
                     </div>
