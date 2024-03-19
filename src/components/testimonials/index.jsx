@@ -109,7 +109,7 @@ const Testimonials = () => {
                                             <span style={{ backgroundColor: "var(--second-accent-color)" }}>
                                                 Offer
                                             </span>
-                                            <span>{tour.duration}</span>
+                                            <span style={{ color: "var(--title-color)" }}>{tour.duration}</span>
                                         </div>
                                     </div>
                                     <div className={styles.bottom}>
