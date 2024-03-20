@@ -1,0 +1,169 @@
+.testimonials {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+    min-height: 90vh;
+    img {
+        width: 100%;
+        height: 70lvh;
+        object-fit: cover;
+    }
+
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 70vw;
+        height: fit-content;
+        background-color: var(--background-color);
+        box-shadow: 0 4px 30px rgba(206, 191, 176, 0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid #c1c1c19b;
+        -webkit-backdrop-filter: blur(5px);
+        border-radius: 2rem;
+        padding: 2rem;
+        // border: 1px solid var(--border-color);
+        gap: 2rem;
+        z-index: 2;
+        position: relative;
+        top: -3rem;
+
+        img {
+            width: 100%;
+            max-width: 30rem;
+            margin-bottom: 2rem;
+            object-fit: contain;
+        }
+
+        @media (max-width: 1368px) {
+            max-width: 99vw;
+
+        }
+
+
+        &__group {
+            display: flex;
+            width: 100%;
+            gap: 1rem;
+
+            @media (max-width: 456px) {
+                flex-direction: column;
+            }
+
+            &_column {
+                padding-top: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+
+        &__group__passwords {
+            display: flex;
+            width: 100%;
+            gap: 1rem;
+            @media (max-width: 456px) {
+                flex-direction: column;
+            }
+        }
+        
+
+
+
+        input,
+        select {
+            height: fit-content;
+            width: 100%;
+            padding: 10px 0rem;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 0;
+            outline: none;
+            color: var(--title-color);
+            background-color: transparent;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    
+            &::placeholder {
+                color: var(--title-color);
+            }
+    
+            &::-moz-placeholder {
+                /* Firefox 19+ */
+                color: var(--title-color);
+                opacity: 1;
+            }
+    
+            &:hover {
+                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                border-bottom: 1px solid var(--title-color);
+            }
+    
+            &:focus {
+                border-bottom: 1px solid var(--title-color);
+                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+        }
+
+        label {
+            font-size: 1.5rem;
+            color: var(--title-color);
+            font-family: var(--title-font);
+            text-transform: capitalize;
+    
+            @media (max-width: 467px) {
+                font-size: 1.3rem;
+            }
+        }
+        textarea {
+            width: 100%;
+            padding: 2rem 1rem;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            outline: none;
+            background-color: transparent;
+            color: var(--title-color);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    
+            &:hover {
+                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                border-bottom: 1px solid var(--title-color);
+            }
+    
+            &:focus {
+                border-bottom: 1px solid var(--title-color);
+                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+    
+            &::placeholder {
+                color: var(--title-color);
+            }
+    
+            &::-moz-placeholder {
+                /* Firefox 19+ */
+                color: var(--title-color);
+                opacity: 1;
+            }
+        }
+
+
+        .register__btn {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid var(--title-color);
+            border-radius: 2rem;
+            font-size: 1.5rem;
+            background-color: var(--title-color);
+            color: var(--background-color);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    }
+}
