@@ -29,7 +29,7 @@ const CreateTestimonials: React.FC = () => {
         validationSchema: yup.object({
             userName: yup.string().required("Name is required"),
             email: yup.string().email("Invalid email address").required("Email is required"),
-            description: yup.string().required("Description is required"),
+            description: yup.string().required("Description is required").min(100, "Description must be at least 100 characters").max(650, "Description can't exceed 650 characters"),
             rate: yup.number().min(1, "Please select a rate").required("Rate is required"),
         }),
         onSubmit: async (values) => {
@@ -86,10 +86,7 @@ const CreateTestimonials: React.FC = () => {
                             value={formik.values.userName}
                             placeholder="Name"
                         />
-                        {formik.errors.userName && formik.touched.userName && <div>{formik.errors.userName}</div>}
                     </div>
-                </div>
-                <div className={styles.testimonials__form__group}>
                     <div className={styles.register__form__group_column}>
                         <label htmlFor="email"> Email </label>
                         <input
@@ -99,42 +96,37 @@ const CreateTestimonials: React.FC = () => {
                             value={formik.values.email}
                             placeholder="Email"
                         />
-                        {formik.errors.email && formik.touched.email && <div>{formik.errors.email}</div>}
                     </div>
                 </div>
-                <div className={styles.testimonials__form__group}>
-                    <div className={styles.register__form__group_column}>
-                        <label> Rate </label>
-                        {[1, 2, 3, 4, 5].map((star) => (
-                            <span key={star} onClick={() => handleRating(star)} style={{ color: rating >= star ? 'gold' : 'grey' }}>
-                                {rating >= star ? '★' : '☆'}
-                            </span>
-                        ))}
-                    </div>
-                    {formik.errors.rate && formik.touched.rate && <div>{formik.errors.rate}</div>}
+                {formik.errors.userName && formik.touched.userName && <div className={styles.error}>{formik.errors.userName}</div>}
+                {formik.errors.email && formik.touched.email && <div className={styles.error}>{formik.errors.email}</div>}
+                <div className={styles.register__form__group_column}>
+                    <label> Rate </label>
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span key={star} onClick={() => handleRating(star)} style={{ color: rating >= star ? 'gold' : 'grey' }}>
+                            {rating >= star ? '★' : '☆'}
+                        </span>
+                    ))}
                 </div>
-                <div className={styles.testimonials__form__group}>
-                    <div className={styles.register__form__group_column}>
-                        <label htmlFor="description"> Description </label>
-                        <textarea
-                            name="description"
-                            onChange={formik.handleChange}
-                            value={formik.values.description}
-                            placeholder="Description"
-                        />
-                        {formik.errors.description && formik.touched.description && <div>{formik.errors.description}</div>}
-                    </div>
+                {formik.errors.rate && formik.touched.rate && <div className={styles.error}>{formik.errors.rate}</div>}
+                <div className={styles.register__form__group_column}>
+                    <label htmlFor="description"> Description </label>
+                    <textarea
+                        name="description"
+                        onChange={formik.handleChange}
+                        value={formik.values.description}
+                        placeholder="Description"
+                    />
                 </div>
+                {formik.errors.description && formik.touched.description && <div className={styles.error}>{formik.errors.description}</div>}
 
-                <div className={styles.testimonials__form__group}>
-                    <div className={styles.register__form__group_column}>
-                        <label htmlFor="avatar"> Avatar </label>
-                        <input
-                            type="file"
-                            name="avatar"
-                            onChange={handleAvatarChange}
-                        />
-                    </div>
+                <div className={styles.register__form__group_column}>
+                    <label htmlFor="avatar"> Avatar </label>
+                    <input
+                        type="file"
+                        name="avatar"
+                        onChange={handleAvatarChange}
+                    />
                     {avatar && (
                         <div className={styles.testimonials__form__group__avatar}>
                             <Image src={URL.createObjectURL(avatar)}
@@ -147,7 +139,7 @@ const CreateTestimonials: React.FC = () => {
                 </div>
                 <button type="submit" className={styles.register__btn} disabled={formik.isSubmitting}> {formik.isSubmitting ? 'Submitting...' : 'Submit'}</button>
             </form>
-            {errorFromDataBase && <div>{errorFromDataBase}</div>}
+            {errorFromDataBase && <div className={styles.error}>{errorFromDataBase}</div>}
         </main>
     );
 };

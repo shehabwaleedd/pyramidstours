@@ -1,5 +1,4 @@
 import "./globals.css";
-import SmoothScrolling from "@/animation/SmoothScrolling";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { AuthProvider } from '@/context/AuthContext';
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
     title: "Pyramids Egypt Tours - Explore Ancient Wonders",
     description: "Embark on a journey through time with Pyramids Egypt Tours. Discover the ancient wonders of the Giza Pyramids, Sphinx, and more. Experience the rich history and breathtaking landscapes of Egypt with our expert-guided tours.",
-    images: "/assets/backgrounds/2.jpg",
+    images: "https://res.cloudinary.com/dfxz1hh8s/image/upload/v1710937871/rthedhnufmo6l3rz69d0.jpg",
     url: "https://pyramidsegypttour.com",
     site_name: "Pyramids Egypt Tours",
   },
@@ -60,9 +59,7 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <Navbar />
-          <SmoothScrolling>
-            {children}
-          </SmoothScrolling>
+          {children}
           <Footer />
         </AuthProvider>
       </body>

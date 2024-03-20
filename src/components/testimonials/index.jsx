@@ -3,10 +3,9 @@ import React, { useRef, useEffect } from 'react';
 import styles from './style.module.scss';
 import { GoArrowRight } from "react-icons/go";
 import { GoArrowLeft } from "react-icons/go";
-import { usePathname } from 'next/navigation';
 import { Swiper, SwiperSlide } from "swiper/react";
 import useWindowWidth from '@/hooks/useWindowWidth';
-import SwiperCore from 'swiper/core';
+import SwiperCore from 'swiper';
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -21,7 +20,6 @@ SwiperCore.use([Navigation, Pagination]);
 const Testimonials = () => {
     const swiperRef = useRef(null);
     const swiperRefs = useRef([]);
-    const pathname = usePathname();
     const windowWidth = useWindowWidth()
     const isMobile = windowWidth < 555;
     const isTablet = windowWidth < 777
@@ -64,7 +62,7 @@ const Testimonials = () => {
             ],
         },
     ];
-    
+
 
     const handleNextSlide = (index) => {
         if (swiperRefs.current[index]) {
@@ -106,7 +104,7 @@ const Testimonials = () => {
                                     <div className={styles.image}>
                                         <Image src={tour.src} alt={tour.alt} width={800} height={800} />
                                         <div>
-                                            <span style={{ backgroundColor: "var(--second-accent-color)" }}>
+                                            <span style={{ backgroundColor: "var(--accent-color)" }}>
                                                 Offer
                                             </span>
                                             <span style={{ color: "var(--title-color)" }}>{tour.duration}</span>
