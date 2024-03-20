@@ -74,6 +74,8 @@ const CreateTestimonials: React.FC = () => {
                 height={1000}
                 width={1920}
                 alt='register background'
+                placeholder='blur'
+                blurDataURL='/assets/backgrounds/1.jpg'
             />
             <form onSubmit={formik.handleSubmit} className={styles.testimonials__form}>
                 <div className={styles.testimonials__form__group}>
