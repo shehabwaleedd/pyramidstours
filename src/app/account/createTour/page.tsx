@@ -492,9 +492,9 @@ const PricingOptions: React.FC<PricingOptionsProps> = ({ name, groupSizes }) => 
 };
 
 
-const appendFormData = (formData, values, parentKey) => {
+const appendFormData = ( formData: FormData, values: any, parentKey?: string) => {
     if (values instanceof File) {
-        formData.append(parentKey, values);
+        formData.append(parentKey!, values);
     } else if (Array.isArray(values)) {
         values.forEach((value, index) => {
             if (typeof value === 'object' && !(value instanceof File)) {
@@ -507,7 +507,7 @@ const appendFormData = (formData, values, parentKey) => {
         Object.entries(values).forEach(([key, value]) => {
             appendFormData(formData, value, parentKey ? `${parentKey}[${key}]` : key);
         });
-    } else {
+    } else if (parentKey) {
         formData.append(parentKey, values);
     }
 };
