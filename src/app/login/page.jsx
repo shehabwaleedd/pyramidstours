@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useFormik } from 'formik';
 import * as yup from 'yup'
 import axios from 'axios';
@@ -12,7 +12,7 @@ import Image from 'next/image';
 const Page = () => {
     const [errorFromDataBase, setErrorFromDataBase] = useState('')
     const [isLoading, setIsLoading] = useState(false);
-    const { handleLoginSuccess, isLoggedIn } = useAuth();
+    const { handleLoginSuccess, isLoggedIn, setUser } = useAuth();
 
     const router = useRouter();
     let validationSchema = yup.object({
@@ -33,37 +33,33 @@ const Page = () => {
             try {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values);
 
-                // Assuming success message means HTTP status 200
                 if (response.status === 200 && response.data.message === "success") {
-                    const userData = response.data.data;
+                    setUser(response.data.data); 
+                    console.log('User data:', response.data.data);
                     handleLoginSuccess(response.data.token, response.data.data);
-
-                    if (!userData.confirmedEmail) {
-                        router.push('/register/verify');
-                    } else {
-                        router.push('/account');
-                    }
-                } else {
-                    throw new Error('Login failed for an unknown reason.');
                 }
             } catch (err) {
-                if (err.response && Array.isArray(err.response.data)) {
-                    const messages = err.response.data.map(e => e).join('\n');
-                    setErrorFromDataBase(messages);
-                } else {
-                    // Assuming err.response.data or err.response.statusText contains the error message you want to display
-                    const errorMessage = err?.response?.data?.message || err?.response?.statusText || 'An unexpected error occurred during login.';
-                    setErrorFromDataBase(errorMessage);
+                let errorMessage = 'An unexpected error occurred during login.'; // Default error message
+                if (err.response && err.response.data) {
+                    if (typeof err.response.data === 'object' && 'err' in err.response.data) {
+                        errorMessage = err.response.data.err;
+                    } else if (Array.isArray(err.response.data)) {
+                        errorMessage = err.response.data.map(e => e.message || e).join('\n');
+                    }
                 }
+                setErrorFromDataBase(errorMessage);
             } finally {
                 setIsLoading(false);
             }
         },
     });
 
-    if (isLoggedIn) {
-        router.push('/account');
-    }
+    useEffect(() => {
+        if (isLoggedIn) {
+            router.push('/account');
+        }
+    }, [router]);
+
 
 
     return (

@@ -49,13 +49,14 @@ const Register = () => {
             if (avatar) formData.append('avatar', avatar);
 
             try {
-                const response = await axios.post('https://tours-b5zy.onrender.com/user/register', formData, {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/register`, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 localStorage.setItem('token', response.data.token);
                 router.push('/'); // Navigate to home or dashboard
             } catch (error) {
-                setErrorFromDataBase(error.response?.data.message || 'An error occurred');
+                console.log(error.response);
+                setErrorFromDataBase(error.response?.data?.err || 'An error occurred');
             } finally {
                 setSubmitting(false);
             }
@@ -155,7 +156,7 @@ const Register = () => {
                 <div className={styles.register__form__group__passwords}>
                     <div className={styles.register__form__group_column}>
                         <label htmlFor="password"> Password</label>
-                        <input type="password" placeholder="Password" className={styles.register__input} name="password" onChange={registerFormik.handleChange} value={registerFormik.values.password} 
+                        <input type="password" placeholder="Password" className={styles.register__input} name="password" onChange={registerFormik.handleChange} value={registerFormik.values.password}
                             autoComplete="new-password"
                         />
                     </div>
@@ -178,8 +179,8 @@ const Register = () => {
 
                 <button type="submit" disabled={registerFormik.isSubmitting} className={styles.register__btn}>{registerFormik.isSubmitting ? 'Registering...' : 'Register'}</button>
                 <Link href="/login"> <span className={styles.register__login}>Already have an account? Login</span></Link>
+                {errorFromDataBase ? <div className={styles.register__error}>{errorFromDataBase}</div> : null}
             </form>
-            {errorFromDataBase ? <div className={styles.register__error}>{errorFromDataBase}</div> : null}
 
 
 
