@@ -25,7 +25,7 @@
         padding: 2rem;
 
         @media (max-width: 777px) {
-            padding: 0;
+            padding: 1rem;
             padding-top: 4vh;
         }
 
@@ -200,6 +200,7 @@
     align-items: flex-start;
     gap: 1rem;
 
+
     @media (max-width: 557px) {
         flex-direction: column;
     }
@@ -211,9 +212,13 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: 1rem;
-
+    flex-wrap: wrap;
+    line-break: anywhere;
     @media (max-width: 557px) {
         flex-direction: column;
+    }
+    label {
+        font-size: 1rem;
     }
 }
 
@@ -241,7 +246,7 @@
     padding: 1rem 0;
 
     label {
-        font-size: 1.5rem;
+        font-size: 1rem;
         color: var(--title-color);
         font-family: var(--title-font);
         text-transform: capitalize;

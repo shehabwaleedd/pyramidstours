@@ -1,0 +1,176 @@
+import { GroupSize } from "@/types/createTour";
+
+export const presetOptionNames = [
+    { name: "Ticket for great pyramids" },
+    { name: "Ticket for sphinx" },
+    { name: "Ticket for egyptian museum" },
+    { name: "Ticket for khan el khalili" },
+    { name: "Ticket for citadel" },
+    { name: "Ticket for mohamed ali mosque" },
+    { name: "Ticket for coptic cairo" },
+    { name: "Ticket for islamic cairo" },
+    { name: "Ticket for al azhar park" },
+    { name: "Ticket for al azhar mosque" },
+    { name: "Ticket for cairo tower" },
+    { name: "Ticket for nile cruise" },
+    { name: "Ticket for felucca ride" },
+    { name: "Ticket for sound and light show" },
+    { name: "Ticket for camel ride" },
+    { name: "Ticket for quad bike" },
+    { name: "Ticket for hot air balloon" },
+    { name: "Ticket for snorkeling" },
+    { name: "Ticket for diving" },
+    { name: "Ticket for parasailing" },
+    { name: "Ticket for banana boat" },
+    { name: "Ticket for glass boat" },
+    { name: "Ticket for submarine" },
+    { name: "Ticket for horse carriage" },
+    { name: "Ticket for horse ride" },
+    { name: "Ticket for buggy ride" },
+    { name: "Ticket for sandboarding" },
+    { name: "Ticket for desert safari" },
+    { name: "Ticket for bedouin dinner" },
+    { name: "Ticket for belly dance show" },
+    { name: "Ticket for tanoura show" },
+    { name: "Ticket for alabaster factory" },
+    { name: "Ticket for papyrus institute" },
+    { name: "Ticket for perfume factory" },
+    { name: "Ticket for cotton shop" },
+    { name: "Ticket for gold shop" },
+    { name: "Ticket for silver shop" },
+    { name: "Ticket for spice shop" },
+
+
+];
+
+export const presetInclusions = [
+    "Free Wi-Fi.",
+    "Complimentary breakfast.",
+    "Airport transfers.",
+    "Welcome drink.",
+    // Add more inclusions as needed...
+];
+
+export const presetExclusions = [
+    "Airfare not included.",
+    "Dinner not included.",
+    "Personal expenses not covered.",
+    "Insurance not included.",
+    // Add more exclusions as needed...
+];
+
+export const presetWeekDays = [
+    { label: "Sunday", value: "Sunday" },
+    { label: "Monday", value: "Monday" },
+    { label: "Tuesday", value: "Tuesday" },
+    { label: "Wednesday", value: "Wednesday" },
+    { label: "Thursday", value: "Thursday" },
+    { label: "Friday", value: "Friday" },
+    { label: "Saturday", value: "Saturday" },
+]
+
+export const adultGroupSizes: GroupSize[] = [
+    { label: "1 adult", value: 1 },
+    { label: "2 adults", value: 2 },
+    { label: "3 adults", value: 3 },
+    { label: "4 adults", value: 4 },
+    { label: "5 adults", value: 5 },
+    { label: "6 adults", value: 6 },
+    { label: "7 adults", value: 7 },
+    { label: "8 adults", value: 8 },
+    { label: "9 adults", value: 9 },
+    { label: "10 adults", value: 10 }
+];
+
+export const childrenGroupSizes: GroupSize[] = [
+    { label: "1 child", value: 1 },
+    { label: "2 children", value: 2 },
+    { label: "3 children", value: 3 },
+    { label: "4 children", value: 4 },
+    { label: "5 children", value: 5 },
+    { label: "6 children", value: 6 },
+    { label: "7 children", value: 7 },
+    { label: "8 children", value: 8 },
+    { label: "9 children", value: 9 },
+    { label: "10 children", value: 10 }
+];
+
+
+export const repeatedTimes = [
+    { label: "06:00", value: "6" },
+    { label: "07:00", value: "7" },
+    { label: "08:00", value: "8" },
+    { label: "09:00", value: "9" },
+    { label: "10:00", value: "10" },
+    { label: "11:00", value: "11" },
+    { label: "12:00", value: "12" },
+    { label: "13:00", value: "13" },
+    { label: "14:00", value: "14" },
+    { label: "15:00", value: "15" },
+    { label: "16:00", value: "16" },
+    { label: "17:00", value: "17" },
+    { label: "18:00", value: "18" },
+    { label: "19:00", value: "19" },
+    { label: "20:00", value: "20" },
+    { label: "21:00", value: "21" },
+    { label: "22:00", value: "22" },
+    { label: "23:00", value: "23" },
+    { label: "00:00", value: "0" },
+    { label: "01:00", value: "1" },
+    { label: "02:00", value: "2" },
+    { label: "03:00", value: "3" },
+    { label: "04:00", value: "4" },
+    { label: "05:00", value: "5" }
+]
+
+
+export const duration = [
+    "1 hour",
+    "2 hours",
+    "3 hours",
+    "4 hours",
+    "5 hours",
+    "6 hours",
+    "7 hours",
+    "8 hours",
+    "9 hours",
+    "10 hours",
+    "11 hours",
+    "12 hours",
+    "13 hours",
+    "14 hours",
+    "15 hours",
+    "16 hours",
+    "17 hours",
+    "18 hours",
+    "19 hours",
+    "20 hours",
+    "21 hours",
+    "22 hours",
+    "23 hours",
+    "24 hours",
+    "25 hours",
+    "26 hours",
+    "27 hours",
+    "28 hours",
+    "29 hours",
+    "30 hours",
+    "31 hours",
+    "32 hours",
+    "33 hours",
+    "34 hours",
+    "35 hours",
+    "36 hours",
+    "37 hours",
+    "38 hours",
+    "39 hours",
+    "40 hours",
+    "41 hours",
+    "42 hours",
+    "43 hours",
+    "44 hours",
+    "45 hours",
+    "46 hours",
+    "47 hours",
+    "+48 hours",
+]
