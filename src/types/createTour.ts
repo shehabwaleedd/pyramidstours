@@ -34,7 +34,7 @@ export interface FormValues {
     images: File[];
     options: Option[];
     isRepeated: boolean;
-    repeatTime: number[];
+    repeatTime: string[];
     repeatDays: ("Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday")[];
     dateDetails?: string;
     location: {

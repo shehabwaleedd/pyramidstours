@@ -7,6 +7,7 @@ import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from "react-icons/io"
 import Image from 'next/image';
 import { DynamicFieldArrayProps, Option, ImageUploaderProps, FormValues, CustomFieldProps, PricingOptionsProps, ImagesUploaderProps, CheckboxGroupFieldArrayProps } from '@/types/createTour';
 import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, presetExclusions } from './components/presets';
+import { motion } from 'framer-motion';
 
 
 const initialValues: FormValues = {
@@ -89,11 +90,11 @@ const CheckboxGroupFieldArray: React.FC<CheckboxGroupFieldArrayProps> = ({ name,
     };
 
     return (
-        <div className={styles.formField}>
+        <div className={styles.checkboxField}>
             <label>{name}</label>
             <div className={styles.group}>
                 {options.map((option, index) => (
-                    <div key={index} className={styles.group}>
+                    <div key={index} className={styles.groupCheckboxes}>
                         <label>
                             {option.label}
                         </label>
@@ -110,10 +111,6 @@ const CheckboxGroupFieldArray: React.FC<CheckboxGroupFieldArrayProps> = ({ name,
         </div>
     );
 };
-
-
-
-
 
 
 const CustomField: React.FC<CustomFieldProps> = ({ name, label, type = "text", fieldType = "input", setFieldValue, options, onChange }) => {
@@ -170,36 +167,34 @@ const PricingOptions: React.FC<PricingOptionsProps> = ({ name }) => {
     const isAdultPricing = name === 'adultPricing';
 
     return (
-        <div className={styles.formField}>
+        <div className={styles.pricingField}>
             <label>{isAdultPricing ? 'Adults Pricing' : 'Children Pricing'}</label>
-            <div className={styles.group}>
-                <fieldset>
-                    <legend>{isAdultPricing ? 'Adults Pricing' : 'Children Pricing'}</legend>
-                    <FieldArray name={name}>
-                        {({ push, remove }) => (
-                            <>
-                                {values[name].map((item, index) => (
-                                    <div key={index} className={styles.formField}>
-                                        <label htmlFor={`${name}[${index}].price`}>{index + 1} {isAdultPricing ? 'Adult(s)' : 'Child(ren)'}</label>
-                                        <Field
-                                            name={`${name}[${index}].price`}
-                                            type="number"
-                                            className={styles.inputField}
-                                            placeholder={`Price for ${index + 1} ${isAdultPricing ? 'adult(s)' : 'child(ren)'}`}
-                                        />
-                                        <button type="button" onClick={() => remove(index)}>Remove</button>
-                                    </div>
-                                ))}
-                                <button
-                                    type="button"
-                                    onClick={() => push(isAdultPricing ? { adults: values[name].length + 1, price: 0 } : { children: values[name].length + 1, price: 0 })}
-                                >
-                                    Add {isAdultPricing ? 'Adult Pricing' : 'Children Pricing'}
-                                </button>
-                            </>
-                        )}
-                    </FieldArray>
-                </fieldset>
+            <div className={styles.formField}>
+                <legend>{isAdultPricing ? 'Adults Pricing' : 'Children Pricing'}</legend>
+                <FieldArray name={name}>
+                    {({ push, remove }) => (
+                        <>
+                            {values[name].map((item, index) => (
+                                <div key={index} className={styles.formField}>
+                                    <label htmlFor={`${name}[${index}].price`}>{index + 1} {isAdultPricing ? 'Adult(s)' : 'Child(ren)'}</label>
+                                    <Field
+                                        name={`${name}[${index}].price`}
+                                        type="number"
+                                        className={styles.inputField}
+                                        placeholder={`Price for ${index + 1} ${isAdultPricing ? 'adult(s)' : 'child(ren)'}`}
+                                    />
+                                    <button type="button" onClick={() => remove(index)}>Remove</button>
+                                </div>
+                            ))}
+                            <button
+                                className={styles.addbtn}
+                                type="button"
+                                onClick={() => push(isAdultPricing ? { adults: values[name].length + 1, price: 0 } : { children: values[name].length + 1, price: 0 })}>
+                                Add {isAdultPricing ? 'Adult Pricing' : 'Children Pricing'}
+                            </button>
+                        </>
+                    )}
+                </FieldArray>
             </div>
         </div>
     );
@@ -215,7 +210,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ mainImg, setMainImg }) =>
     };
 
     return (
-        <div className={styles.createEvent__container_content}>
+        <div className={styles.formField}>
             <label htmlFor="mainImg">Event&apos;s Main Image</label>
             <input
                 type="file"
@@ -244,7 +239,7 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUplo
     };
 
     return (
-        <div className={styles.createEvent__container_content}>
+        <div className={styles.formField}>
             <label htmlFor="images">Event&apos;s Gallery Images</label>
             <input
                 type="file"
@@ -252,16 +247,18 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUplo
                 accept="image/*"
                 multiple
             />
-            {uploadedImages.map((image, index) => (
-                <Image
-                    key={index}
-                    src={URL.createObjectURL(image)}
-                    alt={`Event Gallery Image ${index + 1}`}
-                    title={`Event Gallery Image ${index + 1}`}
-                    width={500}
-                    height={500}
-                />
-            ))}
+            <div className={styles.groupCheckboxes}>
+                {uploadedImages.map((image, index) => (
+                    <Image
+                        key={index}
+                        src={URL.createObjectURL(image)}
+                        alt={`Event Gallery Image ${index + 1}`}
+                        title={`Event Gallery Image ${index + 1}`}
+                        width={500}
+                        height={500}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
@@ -273,16 +270,6 @@ const CreateTour = () => {
     const [success, setSuccess] = useState(false);
     const [uploadedImages, setUploadedImages] = useState<File[]>([]);
     const [mainImg, setMainImg] = useState<File | null>(null);
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            setMainImg(e.target.files[0]);
-        }
-    };
-
-
-
-
 
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         const token = localStorage.getItem("token");
@@ -306,12 +293,12 @@ const CreateTour = () => {
             formData.append('mainImg', mainImg);
         }
 
-        values.adultPricing.forEach((item, index) => {
+        values.adultPricing.forEach((item: { adults: { toString: () => any; }; price: { toString: () => string | Blob; }; }, index: any) => {
             formData.append(`adultPricing[${index}][adults]`, item.adults?.toString() ?? '0');
             formData.append(`adultPricing[${index}][price]`, item.price.toString());
         });
 
-        values.childrenPricing.forEach((item, index) => {
+        values.childrenPricing.forEach((item: { children: { toString: () => any; }; price: { toString: () => string | Blob; }; }, index: any) => {
             formData.append(`childrenPricing[${index}][children]`, item.children?.toString() ?? '0');
             formData.append(`childrenPricing[${index}][price]`, item.price.toString());
         });
@@ -373,6 +360,9 @@ const CreateTour = () => {
         <main className={styles.createTour}>
             {error && <p className="error">{error}</p>}
             {success && <p className="success">Tour created successfully!</p>}
+            <section className={styles.createTour__upper}>
+                <Image src="/assets/backgrounds/2.jpg" alt="Create Tour" width={1920} height={1080} />
+            </section>
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
                 {({ values, isSubmitting, setFieldValue }) => ( // Add setFieldValue here
                     <section className={styles.createTour__container}>
@@ -389,8 +379,10 @@ const CreateTour = () => {
                                 <CheckboxGroupFieldArray name="inclusions" options={presetInclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.inclusions} />
                                 <CheckboxGroupFieldArray name="exclusions" options={presetExclusions.map((exc) => ({ value: exc, label: exc }))} setFieldValue={setFieldValue} values={values.exclusions} />
                             </div>
-                            <PricingOptions name="adultPricing" />
-                            <PricingOptions name="childrenPricing" />
+                            <div className={styles.group}>
+                                <PricingOptions name="adultPricing" />
+                                <PricingOptions name="childrenPricing" />
+                            </div>
                             <CustomField name="subtitle" setFieldValue={setFieldValue} fieldType="textarea" label='Subtitle (optional)' />
                             <CheckboxGroupFieldArray name="repeatDays" options={presetWeekDays} setFieldValue={setFieldValue} values={values.repeatDays} />
                             <CheckboxGroupFieldArray name="repeatTime" options={repeatedTimes} setFieldValue={setFieldValue} values={values.repeatTime} />
