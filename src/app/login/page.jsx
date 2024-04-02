@@ -21,6 +21,8 @@ const Page = () => {
 
     })
 
+
+
     const loginFormik = useFormik({
         initialValues: {
             email: '',
@@ -34,7 +36,7 @@ const Page = () => {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values);
 
                 if (response.status === 200 && response.data.message === "success") {
-                    setUser(response.data.data); 
+                    setUser(response.data.data);
                     console.log('User data:', response.data.data);
                     handleLoginSuccess(response.data.token, response.data.data);
                 }

@@ -29,7 +29,7 @@ const CreateTestimonials: React.FC = () => {
         validationSchema: yup.object({
             userName: yup.string().required("Name is required"),
             email: yup.string().email("Invalid email address").required("Email is required"),
-            description: yup.string().required("Description is required").min(100, "Description must be at least 100 characters").max(650, "Description can't exceed 650 characters"),
+            description: yup.string().required("Description is required").min(5, "Description must be at least 5 characters").max(650, "Description can't exceed 650 characters"),
             rate: yup.number().min(1, "Please select a rate").required("Rate is required"),
         }),
         onSubmit: async (values) => {

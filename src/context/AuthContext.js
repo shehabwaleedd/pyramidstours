@@ -35,12 +35,13 @@ export const AuthProvider = ({ children }) => {
             }
 
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
                     headers: { token },
                 });
                 if (response.status === 200 && response.data) {
                     setUser(response.data.data);
                     setIsLoggedIn(true);
+                    console.log('User data:', response.data)
                 } else {
                     console.error("Failed to fetch user data with token");
                     setIsLoggedIn(false);
@@ -52,7 +53,7 @@ export const AuthProvider = ({ children }) => {
                 setLoading(false);
             }
         };
-
+        console.log('User:', user)
         fetchUser();
     }, []);
 
@@ -64,7 +65,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('userId', userData._id);
         setUser(userData);
         setIsLoggedIn(true);
-        router.push('/account'); 
+        router.push('/account');
     };
 
 

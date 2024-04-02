@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Formik, Form, FieldArray, ErrorMessage, Field, useField, useFormikContext } from 'formik';
 import axios from 'axios'
 import styles from "./page.module.scss"
@@ -7,7 +7,6 @@ import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from "react-icons/io"
 import Image from 'next/image';
 import { DynamicFieldArrayProps, Option, ImageUploaderProps, FormValues, CustomFieldProps, PricingOptionsProps, ImagesUploaderProps, CheckboxGroupFieldArrayProps } from '@/types/createTour';
 import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, presetExclusions } from './components/presets';
-import { motion } from 'framer-motion';
 
 
 const initialValues: FormValues = {
@@ -285,7 +284,6 @@ const CreateTour = () => {
 
 
         const formData = new FormData();
-        // Append gallery images
         uploadedImages.forEach((file, index) => {
             formData.append(`images`, file);
         });
@@ -304,14 +302,11 @@ const CreateTour = () => {
         });
 
 
-
-
         Object.keys(values).forEach(key => {
             if (key !== "mainImg" && key !== "images") {
                 const value = values[key];
                 if (typeof value === "object" && !Array.isArray(value) && value !== null) {
                     Object.entries(value).forEach(([nestedKey, nestedValue]) => {
-                        // Assert that nestedValue is a string or Blob, as required by formData.append
                         if (typeof nestedValue === "string" || nestedValue instanceof Blob) {
                             formData.append(`${key}[${nestedKey}]`, nestedValue);
                         }
@@ -320,18 +315,15 @@ const CreateTour = () => {
                     value.forEach((item, index) => {
                         if (typeof item === "object" && item !== null) {
                             Object.entries(item).forEach(([nestedKey, nestedValue]) => {
-                                // Ensure nestedValue is converted to a string or is a Blob
                                 if (typeof nestedValue === "string" || nestedValue instanceof Blob) {
                                     formData.append(`${key}[${index}][${nestedKey}]`, nestedValue.toString());
                                 }
                             });
                         } else {
-                            // Assert that item is a string for formData.append
                             formData.append(`${key}[${index}]`, item.toString());
                         }
                     });
                 } else {
-                    // Assert value is a string, as formData.append requires string or Blob
                     formData.append(key, value.toString());
                 }
             }
@@ -342,7 +334,7 @@ const CreateTour = () => {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/tour`, formData, {
                 headers: {
                     token,
-                    'Content-Type': 'multipart/form-data' // If you are sending files, make sure to set this
+                    'Content-Type': 'multipart/form-data'
                 },
             });
             if (response.status === 200) {

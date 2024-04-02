@@ -1,0 +1,22 @@
+.gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 3vh;
+
+    &__card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        cursor: pointer;
+
+        img {
+            height: 40vh;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    }
+}

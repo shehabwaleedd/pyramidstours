@@ -105,31 +105,28 @@ img {
 
 
 ::-webkit-scrollbar {
-  width: 0.35rem;
-  height: 0.35rem;
+  width: 0.40rem;
+  height: 0.40rem;
   margin-block: 0.35rem;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollbarThumb-color);
+  background: var(--accent-color);
   border-radius: 10px;
 
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 149, 255, 0.267);
   border-radius: 50px;
 }
 
 ::selection {
   background-color: var(--accent-color);
-  color: var(--background-color);
+  color: var(--title-color);
 }
 
 
-::-webkit-scrollbar {
-  display: none;
-}
 
 .hiddenn {
   display: none;

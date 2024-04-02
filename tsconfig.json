@@ -23,7 +23,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/mainProjects/MainProjects.ts", "src/app/work/page.tsx", "src/app/case-study/(component).jsx", "src/components/animations/transition/Transition.jsx", "src/app/login/page.jsx", "src/app/case-study/[title]/page.jsx", "src/app/case-study/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/mainProjects/MainProjects.ts", "src/app/work/page.tsx", "src/app/case-study/(component).jsx", "src/components/animations/transition/Transition.jsx", "src/app/login/page.jsx", "src/app/case-study/[title]/page.jsx", "src/app/case-study/page.jsx", "src/lib/AuthContext.js"],
   "exclude": ["node_modules"],
   
 }

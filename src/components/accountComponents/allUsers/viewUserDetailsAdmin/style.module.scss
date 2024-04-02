@@ -1,0 +1,96 @@
+.viewUserDetailsAdmin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    max-width: fit-content;
+    transform: translate(-50%, -50%);
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f5ec0a;
+    box-shadow: 0 4px 30px rgba(96, 65, 58, 0.1);
+    border-radius: 2rem;
+    backdrop-filter: blur(5px);
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    z-index: 100;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+    &__container {
+        width: 100%;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        min-width: 400px;
+
+        &__close {
+            button {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                font-size: 2rem;
+                color: var(--title-color);
+                cursor: pointer;
+                transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+                &:hover {
+                    color: #c92a2a;
+                }
+            }
+        }
+
+        &__top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+
+            img {
+                width: 5rem;
+                height: 5rem;
+                object-fit: cover;
+                border-radius: 50%;
+
+            }
+        }
+
+        &__bottom {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+            width: 100%;
+
+            p {
+                font-size: 1rem;
+                color: var(--title-color);
+                font-family: var(--subtitle-font);
+                font-weight: 200;
+                text-transform: capitalize;
+            }
+        }
+
+        &__lower {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 1vh;
+            width: 100%;
+
+            button {
+                padding: 0;
+            }
+        }
+    }
+
+}
