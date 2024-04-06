@@ -13,7 +13,7 @@ import AllTours from "@/components/accountComponents/allTours"
 import ForgotPassword from '@/components/accountComponents/forgetPassword'
 import PersonalInfo from '@/components/accountComponents/personalInfo/index'
 import ChangePassword from "@/components/accountComponents/changePassword"
-import CreateTour from './createTour/page'
+import CreateTour from './tours/createTour/page'
 import { AnimatePresence, motion } from 'framer-motion'
 const Account = () => {
     const { user, loading, error, setUser, handleLogout, isLoggedIn } = useAuth();

@@ -100,16 +100,12 @@ const Navbar = () => {
                                 {isLoggedIn ? "Account" : "Login"}
                             </Link>
                         </li>
-                        <li>
+                        <li className={styles.cart}>
                             <Link href="/wishlist">
                                 <FiHeart />
                             </Link>
-                        </li>
-                        <li className={styles.cart}>
-                            <FiShoppingCart />
                             <span>{cartCount}</span>
                         </li>
-
                     </div>
                 </ul>
 

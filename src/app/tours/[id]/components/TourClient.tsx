@@ -15,6 +15,10 @@ import Image from 'next/image'
 import { TourType } from '@/types/homePageTours';
 
 
+interface TourClientProps {
+    id: string;
+}
+
 interface FormValues {
     date: Date | [Date | null, Date | null];
     adults: number;
@@ -30,10 +34,8 @@ interface Values {
     selectedOptions: string[];
 }
 
-const TourClient: React.FC<TourType> = ({ id }) => {
+const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const { tour } = useTourById(id)
-
-
     const initialValues: FormValues = {
         date: new Date(),
         adults: 1,

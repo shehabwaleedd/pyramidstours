@@ -108,7 +108,7 @@ const DashboardTours = ({ tours, loading, title, refreshTours }) => {
         <motion.section className={styles.userTours} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             {title && <h1>{title}</h1>}
             <div className={styles.userTours__container}>
-                {tours.map((event, index) => (
+                {tours?.map((event, index) => (
                     <div key={index} className={styles.userTours__container_card}>
                         <div className={styles.userTours__container_card_top}>
                             <Image src={event.mainImg ? event.mainImg.url : "/noimage.png"} alt={event.title} width={500} height={500} quality={100} />

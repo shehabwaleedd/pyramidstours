@@ -3,9 +3,9 @@ export interface Img {
     public_id: string;
 }
 export interface ImageFile {
-    previewUrl: string; 
+    previewUrl: string;
     file: File;
-
+    url?: string;
 }
 
 export interface CurrentImage {

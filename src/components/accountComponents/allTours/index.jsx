@@ -6,7 +6,7 @@ const AllTours = () => {
     const { tours, getAllTours, loading } = useAllTours();
 
     return (
-        <DashboardTours events={tours} refreshEvents={getAllTours} title="All Tours" loading={loading} />
+        <DashboardTours tours={tours} refreshEvents={getAllTours} title="All Tours" loading={loading} />
     )
 }
 

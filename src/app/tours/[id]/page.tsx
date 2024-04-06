@@ -33,7 +33,9 @@ export async function generateMetadata({ params }: { params: any }) {
 const page = ({ params }: { params: { id: string } }) => {
     return (
         <main className={styles.tourDetails}>
-            <TourClient id={params.id}/>
+            <TourClient id={params.id}
+                
+            />
         </main>
     )
 }

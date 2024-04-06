@@ -112,8 +112,8 @@ const CheckboxGroupFieldArray: React.FC<CheckboxGroupFieldArrayProps> = ({ name,
 };
 
 
-const CustomField: React.FC<CustomFieldProps> = ({ name, label, type = "text", fieldType = "input", setFieldValue, options, onChange }) => {
-    if (type === "file") {
+const CustomField: React.FC<CustomFieldProps> = ({ name, label,  fieldType = "input", setFieldValue, options, onChange }) => {
+    if (fieldType === "file") {
         return (
             <div className={styles.formField}>
                 <label htmlFor={name}>{label}</label>
@@ -150,7 +150,7 @@ const CustomField: React.FC<CustomFieldProps> = ({ name, label, type = "text", f
                         placeholder={label}
                     />
                 ) : (
-                    <Field id={name} name={name} type={type}
+                    <Field id={name} name={name} type={fieldType}
                         placeholder={label}
                     />
                 )}
@@ -250,7 +250,7 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUplo
                 {uploadedImages.map((image, index) => (
                     <Image
                         key={index}
-                        src={URL.createObjectURL(image)}
+                        src={URL.createObjectURL(image.url )}
                         alt={`Event Gallery Image ${index + 1}`}
                         title={`Event Gallery Image ${index + 1}`}
                         width={500}
@@ -264,9 +264,9 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUplo
 
 
 const CreateTour = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+    const [success, setSuccess] = useState<boolean>(false);
     const [uploadedImages, setUploadedImages] = useState<File[]>([]);
     const [mainImg, setMainImg] = useState<File | null>(null);
 
@@ -356,7 +356,7 @@ const CreateTour = () => {
                 <Image src="/assets/backgrounds/2.jpg" alt="Create Tour" width={1920} height={1080} />
             </section>
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                {({ values, isSubmitting, setFieldValue }) => ( // Add setFieldValue here
+                {({ values, isSubmitting, setFieldValue }) => ( 
                     <section className={styles.createTour__container}>
                         <Form className={styles.createTour__container_content}>
                             <div className={styles.group}>
@@ -383,7 +383,7 @@ const CreateTour = () => {
                                 <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="input" label='Destination' />
                             </div>
                             <CustomField name="dateDetails" fieldType="textarea" setFieldValue={setFieldValue} label='Date Details (e.g. "Every Monday and Friday from 9:00 AM to 5:00 PM")' />
-                            <CustomField name="isRepeated" type="checkbox" fieldType="input" setFieldValue={setFieldValue} label='Is this tour repeated?' />
+                            <CustomField name="isRepeated"  fieldType="checkbox" setFieldValue={setFieldValue} label='Is this tour repeated?' />
                             <button type="submit" className={styles.submitButton} disabled={isSubmitting || loading}>
                                 {loading ? 'Submitting...' : 'Submit'}
                             </button>
