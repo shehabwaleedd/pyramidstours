@@ -5,7 +5,7 @@ import axios from 'axios'
 import styles from "./page.module.scss"
 import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from "react-icons/io";
 import Image from 'next/image';
-import { DynamicFieldArrayProps, Option, ImageUploaderProps, FormValues, CustomFieldProps, PricingOptionsProps, ImagesUploaderProps, CheckboxGroupFieldArrayProps } from '@/types/createTour';
+import { DynamicFieldArrayProps, ImageFile, Option, ImageUploaderProps, FormValues, CustomFieldProps, PricingOptionsProps, ImagesUploaderProps, CheckboxGroupFieldArrayProps } from '@/types/createTour';
 import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, presetExclusions } from './components/presets';
 
 
@@ -231,9 +231,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ mainImg, setMainImg }) =>
 
 const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUploadedImages }) => {
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            setUploadedImages(Array.from(e.target.files));
+    const handleImageChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        const files = e.target.files;
+        if (files) {
+            const imageFiles: ImageFile[] = Array.from(files).map(file => ({ file }));
+            setUploadedImages(imageFiles);
         }
     };
 
@@ -250,11 +252,12 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUplo
                 {uploadedImages.map((image, index) => (
                     <Image
                         key={index}
-                        src={URL.createObjectURL(image.url )}
+                        src={URL.createObjectURL(image.file)}
                         alt={`Event Gallery Image ${index + 1}`}
                         title={`Event Gallery Image ${index + 1}`}
                         width={500}
                         height={500}
+                        onLoad={e => URL.revokeObjectURL(e.currentTarget.src)}
                     />
                 ))}
             </div>
@@ -267,7 +270,7 @@ const CreateTour = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [success, setSuccess] = useState<boolean>(false);
-    const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+    const [uploadedImages, setUploadedImages] = useState<ImageFile[]>([]);
     const [mainImg, setMainImg] = useState<File | null>(null);
 
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
@@ -285,7 +288,7 @@ const CreateTour = () => {
 
         const formData = new FormData();
         uploadedImages.forEach((file, index) => {
-            formData.append(`images`, file);
+            formData.append(`images`, file.file);
         });
         if (mainImg) {
             formData.append('mainImg', mainImg);
@@ -328,6 +331,7 @@ const CreateTour = () => {
                 }
             }
         });
+        
 
         try {
             setLoading(true);

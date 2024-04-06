@@ -3,7 +3,7 @@ export interface Img {
     public_id: string;
 }
 export interface ImageFile {
-    previewUrl: string; 
+    
     file: File;
 
 }
@@ -92,8 +92,8 @@ export interface ImageUploaderProps {
 export interface ImagesUploaderProps {
     uploadedImages: ImageFile[];
     setUploadedImages: (images: ImageFile[]) => void;
-    currentImages: CurrentImage[];
-    setCurrentImages: (images: CurrentImage[]) => void;
+    currentImages?: CurrentImage[];
+    setCurrentImages?: (images: CurrentImage[]) => void;
 }
 
 interface CheckboxOption {
