@@ -7,7 +7,12 @@ import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from "react-icons/io"
 import Image from 'next/image';
 import { DynamicFieldArrayProps, ImageFile, Option, ImageUploaderProps, FormValues, CustomFieldProps, PricingOptionsProps, ImagesUploaderProps, CheckboxGroupFieldArrayProps } from '@/types/createTour';
 import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, presetExclusions } from './components/presets';
-
+import DynamicFieldArray from './components/DynamicFieldArray';
+import CheckboxGroupFieldArray from './components/ChecboxGroupFieldArray';
+import CustomField from './components/CustomField';
+import PricingOptions from './components/PricingOptions';
+import ImageUploader from './components/ImageUploader';
+import ImagesUploader from './components/ImagesUploader';
 
 const initialValues: FormValues = {
     title: '',
@@ -30,241 +35,6 @@ const initialValues: FormValues = {
 };
 
 
-const DynamicFieldArray: React.FC<DynamicFieldArrayProps> = ({ name, label, fieldType, options }) => {
-    const { values, setFieldValue } = useFormikContext<any>(); // Use your form values interface instead of any
-    const [field, , helpers] = useField<Option[]>(name);
-
-    return (
-        <FieldArray name={name}>
-            {({ push, remove }) => (
-                <div className={styles.formField}>
-                    <label>{label}</label>
-                    {field.value.map((option, index) => (
-                        <div key={index} className={styles.group}>
-                            {fieldType === 'select' && options ? (
-                                <select
-                                    value={option.name}
-                                    onChange={(e) => setFieldValue(`${name}[${index}].name`, e.target.value)}
-                                >
-                                    <option value="">Select an Option</option>
-                                    {options.map((o: { value: string; label: string }, idx: number) => (
-                                        <option key={idx} value={o.value}>{o.label}</option>
-                                    ))}
-                                </select>
-                            ) : (
-                                <input
-                                    type="text"
-                                    value={option.name}
-                                    onChange={(e) => setFieldValue(`${name}[${index}].name`, e.target.value)}
-                                />
-                            )}
-                            <input
-                                type="number"
-                                value={option.price}
-                                onChange={(e) => setFieldValue(`${name}[${index}].price`, Number(e.target.value))}
-                                placeholder="Price"
-                            />
-                            <button type="button" onClick={() => remove(index)}><IoIosRemoveCircleOutline /></button>
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => push({ name: options?.[0].value || '', price: 0 })}
-                    >
-                        <IoIosAddCircleOutline /> Add {label}
-                    </button>
-                </div>
-            )}
-        </FieldArray>
-    );
-};
-
-const CheckboxGroupFieldArray: React.FC<CheckboxGroupFieldArrayProps> = ({ name, options, setFieldValue, values }) => {
-
-    const handleChange = (optionValue: string) => {
-        const newValues = values.includes(optionValue)
-            ? values.filter((value) => value !== optionValue)
-            : [...values, optionValue];
-        setFieldValue(name, newValues);
-    };
-
-    return (
-        <div className={styles.checkboxField}>
-            <label>{name}</label>
-            <div className={styles.group}>
-                {options.map((option, index) => (
-                    <div key={index} className={styles.groupCheckboxes}>
-                        <label>
-                            {option.label}
-                        </label>
-                        <input
-                            type="checkbox"
-                            name={name}
-                            value={option.value}
-                            checked={values.includes(option.value)}
-                            onChange={() => handleChange(option.value)}
-                        />
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
-
-
-const CustomField: React.FC<CustomFieldProps> = ({ name, label,  fieldType = "input", setFieldValue, options, onChange }) => {
-    if (fieldType === "file") {
-        return (
-            <div className={styles.formField}>
-                <label htmlFor={name}>{label}</label>
-                <input
-                    id={name}
-                    name={name}
-                    type="file"
-                    onChange={onChange}
-                    accept="image/*"
-                    multiple={name === "images"}
-                />
-                <ErrorMessage name={name} component="div" className={styles.error} />
-            </div>
-        );
-    } else if (fieldType === "select" && options) {
-        return (
-            <div className={styles.formField}>
-                <label htmlFor={name}>{label}</label>
-                <Field as="select" name={name}>
-                    <option value="">Select {name}</option>
-                    {options.map((option, index) => (
-                        <option key={index} value={option.value}>{option.label}</option>
-                    ))}
-                </Field>
-                <ErrorMessage name={name} component="div" className={styles.error} />
-            </div>
-        );
-    } else {
-        return (
-            <div className={styles.formField}>
-                <label htmlFor={name}>{label}</label>
-                {fieldType === "textarea" ? (
-                    <Field as="textarea" id={name} name={name}
-                        placeholder={label}
-                    />
-                ) : (
-                    <Field id={name} name={name} type={fieldType}
-                        placeholder={label}
-                    />
-                )}
-                <ErrorMessage name={name} component="div" className={styles.error} />
-            </div>
-        );
-    }
-};
-
-
-const PricingOptions: React.FC<PricingOptionsProps> = ({ name }) => {
-    const { values } = useFormikContext<FormValues>();
-    const isAdultPricing = name === 'adultPricing';
-
-    return (
-        <div className={styles.pricingField}>
-            <label>{isAdultPricing ? 'Adults Pricing' : 'Children Pricing'}</label>
-            <div className={styles.formField}>
-                <legend>{isAdultPricing ? 'Adults Pricing' : 'Children Pricing'}</legend>
-                <FieldArray name={name}>
-                    {({ push, remove }) => (
-                        <>
-                            {values[name].map((item, index) => (
-                                <div key={index} className={styles.formField}>
-                                    <label htmlFor={`${name}[${index}].price`}>{index + 1} {isAdultPricing ? 'Adult(s)' : 'Child(ren)'}</label>
-                                    <Field
-                                        name={`${name}[${index}].price`}
-                                        type="number"
-                                        className={styles.inputField}
-                                        placeholder={`Price for ${index + 1} ${isAdultPricing ? 'adult(s)' : 'child(ren)'}`}
-                                    />
-                                    <button type="button" onClick={() => remove(index)}>Remove</button>
-                                </div>
-                            ))}
-                            <button
-                                className={styles.addbtn}
-                                type="button"
-                                onClick={() => push(isAdultPricing ? { adults: values[name].length + 1, price: 0 } : { children: values[name].length + 1, price: 0 })}>
-                                Add {isAdultPricing ? 'Adult Pricing' : 'Children Pricing'}
-                            </button>
-                        </>
-                    )}
-                </FieldArray>
-            </div>
-        </div>
-    );
-};
-
-
-
-const ImageUploader: React.FC<ImageUploaderProps> = ({ mainImg, setMainImg }) => {
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] ?? null;
-        setMainImg(file);
-    };
-
-    return (
-        <div className={styles.formField}>
-            <label htmlFor="mainImg">Event&apos;s Main Image</label>
-            <input
-                type="file"
-                onChange={handleImageChange}
-                accept="image/*"
-            />
-            {mainImg && (
-                <Image
-                    src={URL.createObjectURL(mainImg)}
-                    alt="Event Main Image"
-                    title='Event Main Image'
-                    width={500}
-                    height={500}
-                />
-            )}
-        </div>
-    );
-};
-
-const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUploadedImages }) => {
-
-    const handleImageChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        const files = e.target.files;
-        if (files) {
-            const imageFiles: ImageFile[] = Array.from(files).map(file => ({ file }));
-            setUploadedImages(imageFiles);
-        }
-    };
-
-    return (
-        <div className={styles.formField}>
-            <label htmlFor="images">Event&apos;s Gallery Images</label>
-            <input
-                type="file"
-                onChange={handleImageChange}
-                accept="image/*"
-                multiple
-            />
-            <div className={styles.groupCheckboxes}>
-                {uploadedImages.map((image, index) => (
-                    <Image
-                        key={index}
-                        src={URL.createObjectURL(image.file)}
-                        alt={`Event Gallery Image ${index + 1}`}
-                        title={`Event Gallery Image ${index + 1}`}
-                        width={500}
-                        height={500}
-                        onLoad={e => URL.revokeObjectURL(e.currentTarget.src)}
-                    />
-                ))}
-            </div>
-        </div>
-    );
-}
-
 
 const CreateTour = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -279,13 +49,6 @@ const CreateTour = () => {
             setError("Unauthorized");
             return;
         }
-
-        console.log("Main image:", mainImg);
-        console.log("Uploaded images:", uploadedImages);
-        console.log("Adult pricing:", values.adultPricing);
-        console.log("Children pricing:", values.childrenPricing);
-
-
         const formData = new FormData();
         uploadedImages.forEach((file, index) => {
             formData.append(`images`, file.file);
@@ -331,7 +94,7 @@ const CreateTour = () => {
                 }
             }
         });
-        
+
 
         try {
             setLoading(true);

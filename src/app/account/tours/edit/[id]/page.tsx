@@ -1,7 +1,4 @@
 'use client'
-
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
@@ -14,7 +11,7 @@ import { useTourById } from '@/lib/tours/useTourById';
 import Loading from '../../../../../animation/loading/Loading';
 import Link from 'next/link';
 import { IoArrowBack } from "react-icons/io5";
-import { DynamicFieldArrayProps, Option, FormValues, CustomFieldProps, PricingOptionsProps, ImageUploaderProps, ImageFile, CheckboxGroupFieldArrayProps, ImagesUploaderProps } from '@/types/editTour';
+import { DynamicFieldArrayProps, Option, FormValues, Img, CustomFieldProps, PricingOptionsProps, ImageUploaderProps, ImageFile, CheckboxGroupFieldArrayProps, ImagesUploaderProps, CurrentImage } from '@/types/editTour';
 import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, presetExclusions } from '../../createTour/components/presets';
 
 
@@ -69,7 +66,7 @@ const CustomField: React.FC<CustomFieldProps> = ({ name, label, fieldType = "inp
 };
 
 const DynamicFieldArray: React.FC<DynamicFieldArrayProps> = ({ name, label, fieldType, options }) => {
-    const { values, setFieldValue } = useFormikContext<any>(); // Use your form values interface instead of any
+    const { values, setFieldValue } = useFormikContext<any>();
     const [field] = useField<Option[]>(name);
 
     return (
@@ -161,16 +158,18 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({
 }) => {
 
 
-    const handleImageChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-        const files = event.target.files;
+    const handleImageChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        const files = e.target.files;
         if (files) {
-            const fileArray = Array.from(files).map((file) => ({
+            const imageFiles: ImageFile[] = Array.from(files).map(file => ({
                 file,
-                previewUrl: URL.createObjectURL(file),
+                previewUrl: URL.createObjectURL(file), // Correctly creating ImageFile objects
             }));
-            setUploadedImages([...uploadedImages, ...fileArray]);
+            setUploadedImages([...uploadedImages, ...imageFiles]);
         }
     };
+
+
 
     const handleRemoveUploaded = (index: number) => {
         const newImages = [...uploadedImages];
@@ -213,11 +212,14 @@ const ImagesUploader: React.FC<ImagesUploaderProps> = ({
 };
 
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ mainImg, setMainImg }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ mainImg, setMainImg, setMainImgUrl, mainImgUrl }) => {
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] ?? null;
-        setMainImg(file);
+        const file = e.target.files?.[0];
+        if (file) {
+            setMainImg(file);
+            setMainImgUrl('')
+        }
     };
 
     return (
@@ -230,11 +232,11 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ mainImg, setMainImg }) =>
             />
             {mainImg && (
                 <Image
-                    src={mainImg.url}
-                    alt="Event Main Image"
-                    title='Event Main Image'
+                    src={URL.createObjectURL(mainImg)}
+                    alt="Main image"
                     width={500}
                     height={500}
+                    onLoad={(e) => URL.revokeObjectURL(e.currentTarget.src)}
                 />
             )}
         </div>
@@ -284,18 +286,28 @@ const PricingOptions: React.FC<PricingOptionsProps> = ({ name }) => {
 
 const EditTour = () => {
     const router = useRouter();
+    const [mainImgUrl, setMainImgUrl] = useState<string | null>(null);
     const [mainImg, setMainImg] = useState<File | null>(null);
-    const [newImageFiles, setNewImageFiles] = useState<File[]>([]);
-    const [imageFiles, setImageFiles] = useState<string[]>([]);
+    const [newImageFiles, setNewImageFiles] = useState<ImageFile[]>([]);
+    const [currentImages, setCurrentImages] = useState<CurrentImage[]>([])
     const { id } = useParams();
     const { tour, loading } = useTourById(id as string);
 
     useEffect(() => {
         if (tour) {
-            setMainImg(tour.mainImg);
-            setImageFiles(tour.images);
+            const mappedImages: CurrentImage[] = tour.images.map((image: Img) => ({
+                url: image.url,
+                public_id: image.public_id, // Adjust this line if your Img interface doesn't exactly match CurrentImage
+            }));
+            setCurrentImages(mappedImages);
+
+            if (tour.mainImg && tour.mainImg.url) {
+                setMainImgUrl(tour.mainImg.url);
+
+            }
         }
     }, [tour]);
+
 
     const initialValues: FormValues = {
         title: tour?.title ?? '',
@@ -323,7 +335,7 @@ const EditTour = () => {
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         const formData = new FormData();
         newImageFiles.forEach((file, index) => {
-            formData.append(`images`, file);
+            formData.append(`images`, file.file);
         });
         if (mainImg && mainImg instanceof File) {
             formData.append('mainImg', mainImg);
@@ -383,10 +395,6 @@ const EditTour = () => {
             setSubmitting(false);
         }
     }
-
-
-
-
     return (
         <main className={styles.editTour}>
             <div className={styles.editTour__container}>
@@ -404,8 +412,8 @@ const EditTour = () => {
                             <Form className={styles.editTour__container_content}>
                                 <CustomField name="title" label="Title" fieldType='input' />
                                 <CustomField name="description" label="Description" fieldType="textarea" />
-                                <ImageUploader mainImg={mainImg} setMainImg={setMainImg} />
-                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles} currentImages={imageFiles} setCurrentImages={setImageFiles} />
+                                <ImageUploader mainImg={mainImg} setMainImg={setMainImg} mainImgUrl={mainImgUrl} setMainImgUrl={setMainImgUrl} />
+                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles} currentImages={currentImages} setCurrentImages={setCurrentImages} />
                                 <DynamicFieldArray name="options" label="Options" fieldType="select" options={presetOptionNames.map((opt) => ({ value: opt.name, label: opt.name }))} />
                                 <CheckboxGroupFieldArray name="repeatTime" options={repeatedTimes} setFieldValue={setFieldValue} values={values.repeatTime} />
                                 <CheckboxGroupFieldArray name="repeatDays" options={presetWeekDays} setFieldValue={setFieldValue} values={values.repeatDays} />
@@ -424,12 +432,8 @@ const EditTour = () => {
                                 <CustomField name="subtitle" label="Subtitle" fieldType='textarea' />
                                 <button type="submit" disabled={isSubmitting} className={styles.submitButton}>{isSubmitting ? 'Updating...' : 'Update Tour'}
                                 </button>
-                                {/* display errors */}
-
                             </Form>
                         )}
-
-
                     </Formik>
                 )}
             </div>

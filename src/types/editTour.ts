@@ -5,7 +5,6 @@ export interface Img {
 export interface ImageFile {
     previewUrl: string;
     file: File;
-    url?: string;
 }
 
 export interface CurrentImage {
@@ -87,13 +86,15 @@ export interface PricingOptionsProps {
 export interface ImageUploaderProps {
     mainImg: File | null;
     setMainImg: (img: File | null) => void;
+    mainImgUrl: string | null;
+    setMainImgUrl: (url: string) => void;
 }
 
 export interface ImagesUploaderProps {
-    uploadedImages: ImageFile[];
-    setUploadedImages: (images: ImageFile[]) => void;
-    currentImages: CurrentImage[];
-    setCurrentImages: (images: CurrentImage[]) => void;
+    uploadedImages: ImageFile[];                      // Array of images selected for upload
+    setUploadedImages: React.Dispatch<React.SetStateAction<ImageFile[]>>;
+    currentImages: CurrentImage[];                    // Array of images already uploaded
+    setCurrentImages: React.Dispatch<React.SetStateAction<CurrentImage[]>>;
 }
 
 interface CheckboxOption {

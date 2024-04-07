@@ -90,10 +90,11 @@ export interface ImageUploaderProps {
 }
 
 export interface ImagesUploaderProps {
+    images: File[];
+    setImages: (images: File[]) => void;
+    imageFiles?: ImageFile[];
     uploadedImages: ImageFile[];
     setUploadedImages: (images: ImageFile[]) => void;
-    currentImages?: CurrentImage[];
-    setCurrentImages?: (images: CurrentImage[]) => void;
 }
 
 interface CheckboxOption {
