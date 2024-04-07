@@ -6,6 +6,7 @@
     height: 100%;
     width: 100%;
     position: relative;
+
     h1 {
         font-size: var(--title-size);
         font-family: var(--title-font);
@@ -13,12 +14,14 @@
         text-transform: lowercase;
         text-align: center;
     }
+
     p {
         font-size: var(--body-size);
         color: #fff;
         text-align: center;
         margin: 1rem 0;
     }
+
     video {
         width: 100%;
         height: 80lvh;
@@ -26,23 +29,29 @@
         border-bottom-left-radius: 3rem;
         border-bottom-right-radius: 3rem;
 
-        @media  (max-width: 667px) {
-            height: 60lvh;
+        @media (max-width: 667px) {
+            height: 50lvh;
         }
     }
+
     &__text_search {
         position: absolute;
-        top: 90%; /* Position 50% from top */
-        left: 50%; /* Position 50% from left */
-        transform: translate(-50%, -50%); /* Shift element to be centered */
+        top: 90%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100%;
         width: 100%;
-        padding: 1rem;
+
+        @media (max-width: 555px) {
+
+            width: 85%;
+        }
     }
+
     &__middle {
         display: flex;
         align-items: center;
@@ -54,17 +63,55 @@
         left: 0;
         border: 1px solid var(--border-color);
         border-radius: 2rem;
-        padding: 1rem 2rem;
-        background-color: var(--background-color);
+        padding: 0.5rem 1rem;
+        background-color: var(--dimmed-color);
         gap: 1rem;
-        span {
-            font-size: 1.3rem;
-            font-family: var(--body-font);
-            color: var(--border-color);
-            padding-right: 3.5rem;
-            letter-spacing: 0.1rem;
+
+
+        @media (max-width: 667px) {
+            padding: 0.25rem 0.5rem;
+        }
+
+        .formGroup {
+
+            padding: 0.6rem;
+            background-color: var(--background-color);
+            box-shadow: 0 4px 30px rgba(96, 77, 58, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid #dadada9b;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            cursor: pointer;
+            border-radius: 2rem;
+
+            @media (max-width: 555px) {
+                font-size: 0.8rem;
+                width: 60%;
+            }
+
+            label {
+                display: none;
+            }
+
+            input,
+            select {
+                background-color: transparent;
+                border: none;
+                outline: none;
+                text-overflow: '';
+                font-size: 1rem;
+                font-family: var(--body-font);
+                color: #383838;
+
+                @media (max-width: 555px) {
+                    font-size: 0.8rem;
+                    width: 70%;
+                }
+            }
         }
     }
+
     svg {
         position: absolute;
         right: 0.5rem;
@@ -75,8 +122,18 @@
         background-color: var(--accent-color);
         color: var(--container-color);
         border-radius: 2rem;
+
+        @media (max-width: 555px) {
+            padding: 0.5rem;
+            font-size: 2rem;
+        }
     }
+
     &__search {
         padding: 1rem;
+
+        @media (max-width: 555px) {
+            padding: 0.5rem;
+        }
     }
 }

@@ -1,8 +1,8 @@
 import styles from "./page.module.scss";
-import Landing from "@/components/landing"
 import Testimonials from "@/components/testimonials";
 import TestimonialsCards from "@/components/testimonialHomePage"
 import { useAllTours } from "@/lib/tours/useAllTours";
+import SearchForm from "@/components/landing";
 
 
 
@@ -11,7 +11,7 @@ export default function Home() {
   
   return (
     <main className={styles.main}>
-      <Landing />
+      <SearchForm />
       <Testimonials />
       <TestimonialsCards />
     </main>

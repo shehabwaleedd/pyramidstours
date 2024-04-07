@@ -8,76 +8,148 @@
     left: 0;
     width: 100%;
     z-index: 10;
-    mix-blend-mode: difference;
     user-select: none;
     height: 6.5vh;
+    background-color: var(--background-color);
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    box-shadow: 0 4px 30px rgba(96, 77, 58, 0.15);
+    border-bottom: 1px solid #dadada9b;
+
 
     &__logo {
         font-family: var(--title-font);
         position: relative;
-        top: 2.5rem;
-        
+        top: 0rem;
+
         a {
-            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            color: var(--title-color);
+
+            @media (max-width: 555px) {
+                width: fit-content;
+            }
         }
+
         h1 {
             font-size: 1.8rem;
             letter-spacing: 0.05rem;
         }
+
         h2 {
             font-size: 1.8rem;
             letter-spacing: 0.2rem;
         }
+
         h3 {
             font-size: 1.8rem;
             letter-spacing: 0.1rem;
         }
     }
 
-    ul {
+    .ul {
         display: flex;
         gap: 4vw;
         width: 100%;
         justify-content: flex-end;
         align-items: center;
         position: relative;
-        top: 1rem;
+        top: 0;
+        height: fit-content;
+
         @media (max-width: 967px) {
             display: none;
         }
+
         .navbar__ul_left {
             display: flex;
             gap: 1rem;
             align-items: center;
             justify-content: flex-start;
+
             @media (max-width: 967px) {
                 display: none;
             }
         }
+
         .navbar__ul_right {
             display: flex;
             gap: 1rem;
             align-items: center;
             justify-content: flex-end;
+
             @media (max-width: 967px) {
                 display: none;
             }
         }
 
         li {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             text-decoration: none;
             transition: color 0.3s;
             font-family: var(--body-font);
+            position: relative;
+            width: 100%;
+            height: fit-content;
+
             a {
-                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.3rem;
+
             }
+
+            .dropdown {
+                position: absolute;
+                top: 3rem;
+                left: -1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                width: 18vw;
+                background-color: var(--background-color);
+                border-radius: 1rem;
+                padding: 1rem;
+                gap: 0.5rem;
+
+                li {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    width: 100%;
+                    gap: 0.5rem;
+                    height: fit-content;
+
+                    a {
+                        justify-content: start;
+                        height: fit-content;
+                        width: 100%;
+                        font-size: 1.1rem;
+
+                        &:hover {
+                            color: var(--accent-color);
+                        }
+                    }
+                }
+            }
+
+            a {
+                color: var(--title-color);
+            }
+
             svg {
-                fill: #fff;
+                color: var(--title-color);
             }
 
         }
     }
+
     .menu {
         @media (min-width: 968px) {
             display: none;
@@ -88,6 +160,9 @@
         justify-content: flex-end;
         height: 100%;
         width: 100%;
+        position: relative;
+        z-index: 9;
+
         button {
             display: flex;
             align-items: center;
@@ -102,7 +177,12 @@
             padding-left: 0.5rem;
             padding-right: 0.5rem;
             text-transform: capitalize;
-            color: #fff;
+            color: var(--title-color);
+        }
+
+        svg {
+            color: var(--title-color);
+            fill: var(--title-color);
         }
     }
 }
@@ -118,10 +198,11 @@
     color: var(--container-color);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
+
     span {
         position: absolute;
         top: -0.75rem;
-        color: #fff;
+        color: var(--title-color);
         font-size: 0.8rem;
     }
 }
