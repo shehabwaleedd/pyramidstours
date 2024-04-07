@@ -4,16 +4,9 @@ import React from 'react';
 import Image from 'next/image';
 import { ErrorMessage } from 'formik';
 import styles from '../page.module.scss';
+import { ImagesUploaderProps, ImageFile } from '@/types/editTour';
 
-
-const ImagesUploader: React.FC<ImagesUploaderProps> = ({
-    uploadedImages,
-    setUploadedImages,
-    currentImages,
-    setCurrentImages,
-}) => {
-
-
+const ImagesUploader: React.FC<ImagesUploaderProps> = ({ uploadedImages, setUploadedImages, currentImages, setCurrentImages }) => {
     const handleImageChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const files = e.target.files;
         if (files) {

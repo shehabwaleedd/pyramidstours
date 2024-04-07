@@ -21,11 +21,6 @@ export interface DynamicFieldArrayProps {
 
 }
 
-export interface Option {
-    name?: string;
-    price?: number;
-}
-
 export interface PricingDetail {
     adults?: number;
     children?: number;
@@ -109,4 +104,16 @@ export interface CheckboxGroupFieldArrayProps {
     options: CheckboxOption[];
     setFieldValue: (field: string, value: any) => void;
     values: string[];
+}
+
+
+export interface Option {
+    name: string;
+    price: number;
+}
+
+export interface OptionsFieldArrayProps {
+    name: string;
+    options: Option[];
+    setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FieldArray, useField, useFormikContext } from 'formik';
+import { FieldArray, useField, useFormikContext, ErrorMessage } from 'formik';
 import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from 'react-icons/io';
 import styles from '../page.module.scss';
 import { DynamicFieldArrayProps, Option } from '@/types/createTour';
@@ -47,6 +47,7 @@ const DynamicFieldArray: React.FC<DynamicFieldArrayProps> = ({ name, label, fiel
                     >
                         <IoIosAddCircleOutline /> Add {label}
                     </button>
+                    <ErrorMessage name={name} component="div" className={styles.error} />
                 </div>
             )}
         </FieldArray>
