@@ -14,14 +14,13 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const [hasAnimationShown, setHasAnimationShown] = useState(false);
-
+    const [wishlist, setWishlist] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token)
     }, []);
-
 
 
     useEffect(() => {
@@ -40,8 +39,8 @@ export const AuthProvider = ({ children }) => {
                 });
                 if (response.status === 200 && response.data) {
                     setUser(response.data.data);
+                    setWishlist(response.data.data.wishList || []);
                     setIsLoggedIn(true);
-                    console.log('User data:', response.data)
                 } else {
                     console.error("Failed to fetch user data with token");
                     setIsLoggedIn(false);
@@ -56,6 +55,39 @@ export const AuthProvider = ({ children }) => {
         console.log('User:', user)
         fetchUser();
     }, []);
+
+
+    const addToWishlist = async (tourId) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/addToWishlist/${tourId}`, {}, {
+                    headers: { token },
+                });
+                setWishlist((currentWishlist) => [...currentWishlist, tourId]);
+            } catch (error) {
+                console.error('Error adding to wishlist:', error);
+            }
+        } else {
+            console.log('User must be logged in to add to wishlist');
+        }
+    };
+
+    const removeFromWishlist = async (tourId) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/removeWishlist/${tourId}`, {}, {
+                    headers: { token },
+                });
+                setWishlist((currentWishlist) => currentWishlist.filter((id) => id !== tourId));
+            } catch (error) {
+                console.error('Error removing from wishlist:', error);
+            }
+        } else {
+            console.log('User must be logged in to remove from wishlist');
+        }
+    };
 
 
 
@@ -96,6 +128,9 @@ export const AuthProvider = ({ children }) => {
         handleLogout,
         hasAnimationShown,
         setHasAnimationShown,
+        addToWishlist,
+        removeFromWishlist,
+        wishlist,
     };
 
     return (

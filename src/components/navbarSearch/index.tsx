@@ -5,8 +5,12 @@ import styles from "./styles.module.scss"
 import axios from 'axios';
 import { motion, useAnimation } from 'framer-motion';
 
-interface apiResponse {
-    data: TourType[];
+interface ApiResponse {
+    message: string;
+    data: {
+        page: number;
+        result: TourType[];
+    };
 }
 
 
@@ -22,14 +26,11 @@ const NavbarSearch = () => {
     useEffect(() => {
         const fetchTours = async () => {
             try {
-                const response = await axios.get<apiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/tour`);
-                if (Array.isArray(response.data)) {
-                    const fetchedDestinations = response.data.map(tour => tour.location.from);
-                    const uniqueDestinations = Array.from(new Set(fetchedDestinations)); // Remove duplicates
-                    setDestinations(uniqueDestinations);
-                } else {
-                    console.error('Expected an array but received:', response.data);
-                }
+                const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/tour`);
+                const tours = response.data.data.result; 
+                const fetchedDestinations = tours.map(tour => tour.location.from);
+                const uniqueDestinations = Array.from(new Set(fetchedDestinations));
+                setDestinations(uniqueDestinations);
             } catch (error) {
                 console.error('Failed to fetch tours:', error);
             }

@@ -1,6 +1,6 @@
 :root {
 
-  --container-color: #F2F0EB;
+  --container-color: #F1F1EC;
   --subtitle-color: #515151;
   --title-color: #282828;
   --text-color: #47393f;
@@ -9,9 +9,10 @@
   --sat: 0%;
   --second-accent-color: #1A9DFF;
   --accent-color: #FF1A1A;
-  --dimmed-color: #f8f5f1;
+  --accent-c2olor:#ffe4e4;
+  --dimmed-color: #f1f1f1;
   --lighter-text-color: #989898;
-  --background-color: #FFF;
+  --background-color: #F8F9FA;
   --border-color: #c1c1c1;
   --animation-primary: 0.4s cubic-bezier(0.5, 0.75, 0, 1);
   --section-padding: min(3.5vw, 3.5em);
@@ -159,6 +160,7 @@ img {
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Avantt-Heavy';
   src: url('../../public/fonts/Avantt-Heavy.ttf') format('truetype');
@@ -166,6 +168,7 @@ img {
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Avantt-Bold';
   src: url('../../public/fonts/Avantt-Bold.ttf') format('truetype');
@@ -181,6 +184,7 @@ img {
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Avantt-Medium';
   src: url('../../public/fonts/Avantt-Medium.ttf') format('truetype');
@@ -188,6 +192,7 @@ img {
   font-display: swap;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'Avantt-Regular';
   src: url('../../public/fonts/Avantt-Regular.ttf') format('truetype');

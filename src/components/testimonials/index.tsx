@@ -8,12 +8,14 @@ import useWindowWidth from '@/hooks/useWindowWidth';
 import SwiperCore from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
 import { useAllTours } from '@/lib/tours/useAllTours';
-import { MainImg, TourGroup, TourType, TourData } from '@/types/homePageTours';
+import { TourGroup, TourType } from '@/types/homePageTours';
+import { useAuth } from '@/context/AuthContext';
 import "swiper/css";
 import "swiper/css/pagination";
 import 'swiper/css/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { FiHeart } from "react-icons/fi";
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -27,6 +29,12 @@ const Testimonials: React.FC = () => {
     const isMobile = windowWidth ? windowWidth < 555 : false;
     const isTablet = windowWidth ? windowWidth < 777 : false;
     const isBigScreen = windowWidth ? windowWidth < 1900 : false;
+    const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
+    
+    const isTourInWishlist = (tourId: string) => {
+        return (wishlist as { _id: string }[]).some(tour => tour._id === tourId);
+    };
+
     const router = useRouter();
     // Filter tours for Cairo
     const cairoTours: TourType[] = Array.isArray(tours) ? tours.filter((tour: TourType) => tour.location.from === "Giza") : [];
@@ -35,9 +43,11 @@ const Testimonials: React.FC = () => {
         tours: cairoTours,
     };
 
+
     useEffect(() => {
-        console.log("Tours", tours);
-    }, [tours]);
+        console.log('wush', wishlist);
+    }, [wishlist]);
+
 
     const handleNextSlide = (index: number) => {
         swiperRefs.current[index]?.slideNext();
@@ -50,6 +60,15 @@ const Testimonials: React.FC = () => {
     const handleTourClick = (id: string) => {
         router.push(`/tours/${id}`);
     }
+
+    const handleWishlistClick = (event: React.MouseEvent, tourId: string) => {
+        event.stopPropagation();
+        if (isTourInWishlist(tourId)) {
+            removeFromWishlist(tourId);
+        } else {
+            addToWishlist(tourId);
+        }
+    };
 
 
 
@@ -75,18 +94,21 @@ const Testimonials: React.FC = () => {
                             <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
                                 <div className={styles.image}>
                                     <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
-                                    <div>
+                                    <div style={{ zIndex: 99 }}>
                                         <span style={{ backgroundColor: "var(--accent-color)" }}>
                                             Offer
                                         </span>
-                                        <span style={{ color: "var(--title-color)" }}>{tour.duration}</span>
+                                        <button onClick={(event) => handleWishlistClick(event, tour._id)} style={{ backgroundColor: isTourInWishlist(tour._id) ? "#ffe4e4" : "var(--background-color)", }}>
+                                            {isTourInWishlist(tour._id) ? <FiHeart style={{ fill: "var(--accent-color)", color: "var(--accent-color)" }} /> : <FiHeart />}
+                                        </button>
                                     </div>
+
                                 </div>
                                 <div className={styles.bottom}>
                                     <h3>{tour.title}</h3>
                                     <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
                                     <p>{tour.description.slice(0, 150)}</p>
-                                    <button>Book Now</button>
+                                    <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
                                 </div>
                             </div>
                         </SwiperSlide>
