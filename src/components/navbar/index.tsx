@@ -10,7 +10,10 @@ import Link from 'next/link';
 import { FiShoppingCart, FiHeart, FiUser } from "react-icons/fi";
 import Image from 'next/image';
 import { GoChevronDown } from "react-icons/go";
-
+import { TbMenuDeep } from "react-icons/tb";
+import { LiaUserSolid } from "react-icons/lia";
+import AccountHeaderNavbar from "@/components/accountHeaderNavbar/";
+import NavbarSearch from '../navbarSearch';
 
 const NavbarData = [
     {
@@ -80,16 +83,27 @@ const NavbarData = [
 const Navbar = () => {
     const { isLoggedIn } = useAuth();
     const router = usePathname();
-    const [navOpen, setNavOpen] = useState(false);
-    const [cartCount, setCartCount] = useState(0);
+    const [navOpen, setNavOpen] = useState<boolean>(false);
+    const [cartCount, setCartCount] = useState<number | null>(0);
+    const [desktopNavOpen, setDesktopNavOpen] = useState<boolean | null>(false)
     const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+    const [profileOpen, setProfileOpen] = useState<boolean | null>(false);
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const toggleNavOpen = useCallback(() => {
         setNavOpen(prevNavOpen => !prevNavOpen);
     }, []);
+
+    const toggleDesktopNavOpen = useCallback(() => {
+        setDesktopNavOpen(prevDesktopNavOpen => !prevDesktopNavOpen);
+    }, [])
+    const toggleProfileOpen = () => setProfileOpen(prev => !prev);
+
+
     useEffect(() => {
         setNavOpen(false);
+        setDesktopNavOpen(false)
+        setProfileOpen(false)
     }, [router])
 
     const handleDropdown = (id: number | null) => {
@@ -106,13 +120,16 @@ const Navbar = () => {
     };
 
     return (
-        <>
-            <nav className={styles.navbar}>
+        <motion.header className={styles.navbar} animate={{ height: desktopNavOpen ? "99vh" : "6.5vh", }} transition={{ duration: 0.75, ease: [0.42, 0, 0.58, 1] }}>
+            <motion.nav className={styles.navbar__container}>
                 <div className={styles.navbar__logo}>
-                    <Link href="/">
-                        <Image src="/Pyramids_logo.webp" alt="pyramids" width={80} height={70} objectFit='cover' />
+                    <div className={styles.logo_content}>
+                        <Link href="/">
+                            <Image src="/Pyramids_logo.webp" alt="pyramids" width={80} height={70} objectFit='cover' />
+                        </Link>
                         <h1>Pyramids</h1>
-                    </Link>
+                    </div>
+                    <NavbarSearch />
                 </div>
                 <ul className={styles.ul}>
                     <div className={styles.navbar__ul_left}>
@@ -132,8 +149,7 @@ const Navbar = () => {
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0 }}
                                                 transition={{ duration: 0.2 }}
-                                                className={styles.dropdown}
-                                            >
+                                                className={styles.dropdown}>
                                                 {item?.subMenu?.map((subItem, index) => (
                                                     <motion.li key={index}>
                                                         <Link href={subItem.href}>
@@ -156,9 +172,15 @@ const Navbar = () => {
                     </div>
                     <div className={styles.navbar__ul_right}>
                         <li>
-                            <Link href="/login">
-                                {isLoggedIn ? "Account" : "Login"}
-                            </Link>
+                            {isLoggedIn ?
+                                (<button onClick={toggleProfileOpen}>
+                                    <LiaUserSolid style={{ fontSize: "1.6rem" }} />
+                                </button>
+                                ) : (
+                                    <Link href="/login">
+                                        Login
+                                    </Link>
+                                )}
                         </li>
                         <li className={styles.cart}>
                             <Link href="/wishlist">
@@ -166,17 +188,39 @@ const Navbar = () => {
                             </Link>
                             <span>{cartCount}</span>
                         </li>
+                        <div className={styles.desktop_menu}>
+                            <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
+                        </div>
                     </div>
                 </ul>
-
                 <div className={styles.menu}>
+                    <ul>
+                        <li>
+                            {isLoggedIn ?
+                                (<button onClick={toggleProfileOpen}>
+                                    <LiaUserSolid style={{ fontSize: "1.6rem" }} />
+                                </button>
+                                ) : (
+                                    <Link href="/login">
+                                        Login
+                                    </Link>
+                                )}
+                        </li>
+                        <li className={styles.cart}>
+                            <Link href="/wishlist">
+                                <FiHeart />
+                            </Link>
+                            <span>{cartCount}</span>
+                        </li>
+                    </ul>
                     <button onClick={toggleNavOpen}><FiMenu style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                 </div>
-            </nav>
+            </motion.nav>
             <AnimatePresence mode='wait'>
                 {navOpen && <Nav setNavOpen={setNavOpen} navOpen={navOpen} />}
+                {profileOpen && <AccountHeaderNavbar profileOpen={profileOpen} />}
             </AnimatePresence>
-        </>
+        </motion.header>
     )
 }
 

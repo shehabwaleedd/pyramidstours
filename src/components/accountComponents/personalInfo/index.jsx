@@ -30,37 +30,20 @@ const index = ({ user }) => {
                 </div>
                 <div className={styles.account__lower_right_content_bottom_content}>
                     <h3>Gender</h3>
-                    <p>{user.gender}</p>
+                    <p>{user.gender ?? "N/A"}</p>
                 </div>
                 <div className={styles.account__lower_right_content_bottom_content}>
                     <h3>Phone</h3>
                     <p>{user.phone}</p>
                 </div>
                 <div className={styles.account__lower_right_content_bottom_content}>
-                    <h3>Country</h3>
-                    <p>{user.country}</p>
-                </div>
-                <div className={styles.account__lower_right_content_bottom_content}>
-                    <h3>Region</h3>
-                    <p>{user.region}</p>
+                    <h3>Nationality</h3>
+                    <p>{user.nationality}</p>
                 </div>
                 <div className={styles.account__lower_right_content_bottom_content}>
                     <h3>Age</h3>
                     <p>{user.age}</p>
                 </div>
-                {user?.company && (
-                    <div className={styles.account__lower_right_content_bottom_content}>
-                        <h3>Company</h3>
-                        <p>{user.company}</p>
-                    </div>
-                )}
-                {user?.position && (
-                    <div className={styles.account__lower_right_content_bottom_content}>
-                        <h3>Position</h3>
-                        <p>{user.position}</p>
-                    </div>
-                )}
-
             </div>
         </motion.section>
     )

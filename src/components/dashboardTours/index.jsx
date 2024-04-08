@@ -19,7 +19,7 @@ const DashboardTours = ({ tours, loading, title, refreshTours }) => {
         const isConfirm = confirm("Are you sure you want to delete this event?");
         if (isConfirm) {
             try {
-                const response = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/event/${eventId}`, {
+                const response = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/tour/${eventId}`, {
                     headers: {
                         token: localStorage.getItem("token"),
                     },
@@ -38,63 +38,6 @@ const DashboardTours = ({ tours, loading, title, refreshTours }) => {
         }
     };
 
-    // changing event.status to approved 
-    const handlePublishClick = async (eventId) => {
-        console.log('User Role:', user.role);
-        console.log('Event Status:', event.status);
-        const isConfirmed = window.confirm("Are you sure you want to publish this event?");
-        if (isConfirmed) {
-            try {
-                // Prepare the data to update the event status to "published"
-                const data = { status: "published" };
-                const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour/changeState/${eventId}`, data, {
-                    headers: {
-                        token: localStorage.getItem("token"),
-                        "Content-Type": "application/json",
-                    },
-                });
-
-                // Check if the request was successful
-                if (response.status === 200) {
-                    alert("Event published successfully.");
-                    await refreshTours();
-                } else {
-                    throw new Error("Failed to publish event.");
-                }
-            } catch (error) {
-                console.error("Error publishing event:", error);
-                alert("There was a problem publishing the event, please try again later.");
-            }
-        }
-    };
-
-    const handleDisplayedClick = async (eventId, toDisplay) => {
-
-        const isConfirmed = window.confirm(toDisplay ? "Are you sure you want to hide this event from home page?" : "Are you sure you want to display this event in home page?");
-        if (isConfirmed) {
-            try {
-                // Prepare the data to update the event status to "published"
-                const data = { isDisplayed: !toDisplay };
-                const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour/${eventId}`, data, {
-                    headers: {
-                        token: localStorage.getItem("token"),
-                        "Content-Type": "multipart/form-data",
-                    },
-                });
-
-                // Check if the request was successful
-                if (response.status === 200) {
-                    alert("Event display status changed successfully.");
-                    await refreshTours();
-                } else {
-                    throw new Error("Failed to change event display status.");
-                }
-            } catch (error) {
-                console.error("Error changing event display status:", error);
-                alert("There was a problem changing the event display status, please try again later.");
-            }
-        }
-    };
 
 
     if (loading) {
@@ -134,7 +77,7 @@ const DashboardTours = ({ tours, loading, title, refreshTours }) => {
                                     <h2>{event.title.slice(0, 20)}...</h2>
                                 </div>
                             </div>
-                            <p>
+                            <p className={styles.p}>
                                 {event.description.slice(0, 150)}...
                             </p>
                             <div className={styles.userTours__container_card_bottom_lower}>

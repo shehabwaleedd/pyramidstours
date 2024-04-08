@@ -31,7 +31,7 @@ const initialValues: FormValues = {
     childrenPricing: [{ children: 1, price: 0 }],
     duration: [],
     subtitle: '',
-    tourParticipants: [],
+    isOffer: false,
 };
 
 
@@ -123,7 +123,7 @@ const CreateTour = () => {
                 <Image src="/assets/backgrounds/2.jpg" alt="Create Tour" width={1920} height={1080} />
             </section>
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                {({ values, isSubmitting, setFieldValue }) => ( 
+                {({ values, isSubmitting, setFieldValue }) => (
                     <section className={styles.createTour__container}>
                         <Form className={styles.createTour__container_content}>
                             <div className={styles.group}>
@@ -150,7 +150,10 @@ const CreateTour = () => {
                                 <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="input" label='Destination' />
                             </div>
                             <CustomField name="dateDetails" fieldType="textarea" setFieldValue={setFieldValue} label='Date Details (e.g. "Every Monday and Friday from 9:00 AM to 5:00 PM")' />
-                            <CustomField name="isRepeated"  fieldType="checkbox" setFieldValue={setFieldValue} label='Is this tour repeated?' />
+                            <div className={styles.groupCheckboxes}>
+                                <CustomField name="isRepeated" fieldType="checkbox" setFieldValue={setFieldValue} label='Is this tour repeated?' />
+                                <CustomField name="isOffer" fieldType="checkbox" setFieldValue={setFieldValue} label='Is this tour has an offer?' />
+                            </div>
                             <button type="submit" className={styles.submitButton} disabled={isSubmitting || loading}>
                                 {loading ? 'Submitting...' : 'Submit'}
                             </button>

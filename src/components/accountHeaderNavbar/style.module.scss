@@ -1,0 +1,108 @@
+.accountHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 6.5vh;
+    gap: 2rem;
+    position: relative;
+    user-select: none;
+
+    img {
+        width: 4vh;
+        height: 4vh;
+        object-fit: cover;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        top: 0.2rem;
+    }
+
+    &__avatar {
+        cursor: pointer;
+    }
+
+    &__profile {
+        position: fixed;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
+        height: fit-content;
+        padding: 1rem;
+        background: #F2F0EBbb;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid #dadada9b;
+        border-radius: 2rem;
+        top: 5rem;
+        right: 2rem;
+
+        &_upper {
+            display: flex;
+            width: 100%;
+            gap: 0.4rem;
+            align-items: flex-start;
+            justify-content: flex-start;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+
+            h3 {
+                font-family: var(--body-font);
+                font-size: 1.3rem;
+                color: var(--title-color);
+                font-weight: 400;
+                text-transform: capitalize;
+                letter-spacing: 0.05rem;
+            }
+
+            p {
+                font-family: var(--body-font);
+                font-size: 0.8rem;
+                color: var(--title-color);
+                font-display: swap;
+                letter-spacing: 0.05rem;
+            }
+        }
+
+        &_lower {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            gap: 0.4rem;
+            align-items: flex-start;
+            justify-content: flex-start;
+            height: 100%;
+            padding-top: 1rem;
+
+            button {
+                display: flex;
+                font-family: var(--body-font);
+                font-size: 1rem;
+                color: var(--title-color);
+                text-transform: capitalize;
+                letter-spacing: 0.05rem;
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--accent-color);
+                }
+            }
+
+            a {
+                font-family: var(--body-font);
+                font-size: 1rem;
+                color: var(--title-color);
+                text-transform: capitalize;
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--accent-color);
+                }
+            }
+        }
+
+    }
+}
