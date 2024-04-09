@@ -31,7 +31,7 @@ const Footer = () => {
                     </li>
                     <li>
                         <span>
-                            Made by <Link href="https://www.cairo-studio.com"> Cairo Studio</Link>
+                            Made by <Link href="https://www.cairo-studio.com" style={{color: "var(--accent-color)"}}> Cairo Studio</Link>
                         </span>
                     </li>
                 </ul>

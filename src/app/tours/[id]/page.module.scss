@@ -26,6 +26,10 @@
             z-index: 1;
             filter: grayscale(20%);
 
+            @media (max-width: 777px) {
+                height: 40lvh;
+            }
+
         }
 
         &::after {
@@ -59,8 +63,12 @@
             h1 {
                 font-size: var(--biggest-font-size);
                 color: var(--background-color);
-                text-align: left;
+                text-align: center;
                 font-family: var(--title-font);
+
+                @media (max-width: 777px) {
+                    font-size: var(--semi-big-font-size);
+                }
             }
 
             &_details {
@@ -87,20 +95,28 @@
         width: 100%;
         padding: 1vw 3vw;
         gap: 1rem;
+
         h2 {
             font-size: var(--bigger-font-size);
             color: var(--title-color);
             font-family: var(--title-font);
+
+            @media (max-width: 777px) {
+                font-size: var(--semi-big-font-size);
+            }
         }
+
         &_desc {
             display: flex;
             width: 100%;
             align-items: center;
             justify-content: flex-start;
             gap: 0.5rem;
+
             svg {
-                color: var(--accent-color);
+                color: var(--title-color);
             }
+
             p {
                 font-family: var(--body-font);
             }
@@ -118,15 +134,29 @@
         justify-content: start;
         align-items: start;
 
+        @media (max-width: 777px) {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
         &_left {
             display: flex;
             flex-direction: column;
             width: 100%;
             padding: 1rem;
             position: sticky;
-            top: 1rem;
+            top: -1rem;
             align-self: start;
             gap: 1rem;
+
+            @media (max-width: 777px) {
+                position: relative;
+                top: 0;
+                padding: 0;
+            }
+
             &_options {
                 padding: 1rem;
                 display: flex;
@@ -222,7 +252,8 @@
 
                 p {
                     color: var(--text-color);
-                    font-size: 1.3rem;
+                    font-family: var(--body-font);
+                    font-size: 1rem;
                 }
             }
 

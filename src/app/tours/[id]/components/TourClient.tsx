@@ -144,12 +144,8 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                         };
                         return (
                             <Form className={styles.eventDetails__lower_left}>
-                                <Calendar
-                                    onChange={value => setFieldValue('date', value)}
-                                    value={initialValues.date}
-                                    minDate={new Date()}
-                                    className={styles.calendar}
-                                />
+                                <h2> Tailor Your Tour</h2>
+                                <Calendar onChange={value => setFieldValue('date', value)} value={initialValues.date} minDate={new Date()} className={styles.calendar}/>
                                 <div className={styles.headGroup}>
                                     <h2>Tour Available in</h2>
                                     <div className={styles.group}>
