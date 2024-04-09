@@ -15,7 +15,8 @@ interface ApiResponse {
 const SearchField = ({ }) => {
     const [destinations, setDestinations] = useState<string[]>([]);
     const [selectedDestination, setSelectedDestination] = useState<string>('');
-    const [selectedDate, setSelectedDate] = useState<string>('');
+    const [days, setDays] = useState<string[]>([]);
+    const [selectedDay, setSelectedDay] = useState<string>('');
     const [selectedPriceRange, setSelectedPriceRange] = useState<string>('');
     const priceRanges = ['0-100', '101-200', '201-300', '301-400', '401+']; // Manual preset for price ranges
 
@@ -27,9 +28,12 @@ const SearchField = ({ }) => {
             try {
                 const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/tour`);
                 const tours = response.data.data.result; // Correctly access the result array
-                const fetchedDestinations = tours.map(tour => tour.location.from);
+                const fetchedDestinations = tours.map(tour => tour.location.to);
+                const fetchedRepeatDays = tours.flatMap(tour => tour.repeatDays);
                 const uniqueDestinations = Array.from(new Set(fetchedDestinations));
+                const uniqueDays = Array.from(new Set(fetchedRepeatDays));
                 setDestinations(uniqueDestinations);
+                setDays(uniqueDays);
             } catch (error) {
                 console.error('Failed to fetch tours:', error);
             }
@@ -37,12 +41,13 @@ const SearchField = ({ }) => {
         fetchTours();
     }, []);
 
+
     const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const queryParams = new URLSearchParams({
             ...(selectedDestination && { destination: selectedDestination }),
-            ...(selectedDate && { date: selectedDate }),
+            ...(selectedDay && { date: selectedDay }),
             ...(selectedPriceRange && { priceRange: selectedPriceRange }),
         }).toString();
 
@@ -66,8 +71,13 @@ const SearchField = ({ }) => {
                     </select>
                 </div>
                 <div className={styles.formGroup}>
-                    <label>Date</label>
-                    <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} min={new Date().toISOString().split("T")[0]} />
+                    <label>Days</label>
+                    <select value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
+                        <option value="">Days</option>
+                        {days.map((day, index) => (
+                            <option key={index} value={day}>{day}</option>
+                        ))}
+                    </select>
                 </div>
                 <div className={styles.formGroup}>
                     <label>Price Range</label>
