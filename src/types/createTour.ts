@@ -59,7 +59,7 @@ export interface FormValues {
     childrenPricing: PricingDetail[];
     duration: string[] | string;
     subtitle: string;
-
+    hasOffer: boolean;
     [key: string]: unknown;
 }
 

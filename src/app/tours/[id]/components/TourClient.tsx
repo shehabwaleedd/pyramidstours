@@ -211,7 +211,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     <ImageSlider images={tour?.images ?? []} name={tour?.title ?? ''} />
                     <div className={styles.eventDetails__lower_right_desc}>
                         <h2>Description</h2>
-                        <p>{tour?.description}</p>
+                        <p dangerouslySetInnerHTML={{ __html: tour?.description ?? '' }} />
                     </div>
                     <div className={styles.eventDetails__lower_right_exclusionsAndInclusions}>
                         <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__exclusions}>
@@ -237,7 +237,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     </div>
                     <div className={styles.eventDetails__lower_right_desc}>
                         <h2> Itenerary </h2>
-                        <p>{tour?.subtitle}</p>
+                        <p dangerouslySetInnerHTML={{ __html: tour?.subtitle ?? '' }} />
                     </div>
                     <div className={styles.eventDetails__lower_right_exclusionsAndInclusions}>
                         <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__inclusions}>

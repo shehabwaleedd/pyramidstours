@@ -39,10 +39,11 @@ export interface TourType {
     adultPricing: { adults: number; price: number; _id: string; totalPrice: number }[];
     childrenPricing: { children: number; price: number; _id: string; totalPrice: number }[];
     duration: string;
-    isOffer: boolean;
+    hasOffer: boolean;
     subtitle: string;
     __v: number;
-    tour: string;
+    tour?: string;
+
 }
 
 

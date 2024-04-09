@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Tour } from "@/types/hooks";
+import { TourType } from "@/types/homePageTours";
 
 export const useAllTours = () => {
-    const [tours, setTours] = useState<Tour | null>(null);
+    const [tours, setTours] = useState<TourType[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {

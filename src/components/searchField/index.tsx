@@ -59,7 +59,7 @@ const SearchField = ({ }) => {
                 <div className={styles.formGroup}>
                     <label>Destination</label>
                     <select value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
-                        <option value="">Select Destination</option>
+                        <option value="">Destination</option>
                         {destinations.map((dest, index) => (
                             <option key={index} value={dest}>{dest}</option>
                         ))}
@@ -72,7 +72,7 @@ const SearchField = ({ }) => {
                 <div className={styles.formGroup}>
                     <label>Price Range</label>
                     <select value={selectedPriceRange} onChange={(e) => setSelectedPriceRange(e.target.value)}>
-                        <option value="">Select Price Range</option>
+                        <option value="">Price Range</option>
                         {priceRanges.map((range, index) => (
                             <option key={index} value={range}>{range}$</option>
                         ))}

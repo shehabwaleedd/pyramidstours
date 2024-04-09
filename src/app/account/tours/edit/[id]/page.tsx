@@ -64,7 +64,7 @@ const EditTour = () => {
         childrenPricing: tour?.childrenPricing ?? [],
         duration: tour?.duration ?? [],
         subtitle: tour?.subtitle ?? '',
-        isOffer: tour?.isOffer ?? false,
+        hasOffer: tour?.hasOffer ?? false,
 
     };
 
@@ -166,7 +166,7 @@ const EditTour = () => {
                                 </div>
                                 <CustomField name="duration" label="Duration" fieldType='select' options={duration.map((d) => ({ value: d, label: d }))} />
                                 <CustomField name="subtitle" label="Subtitle" fieldType='textarea' />
-                                <CustomField name="isOffer" label="Is Offer" fieldType='checkbox' />
+                                <CustomField name="hasOffer" label="Is Offer" fieldType='checkbox' />
                                 <button type="submit" disabled={isSubmitting} className={styles.submitButton}>{isSubmitting ? 'Updating...' : 'Update Tour'}
                                 </button>
                             </Form>

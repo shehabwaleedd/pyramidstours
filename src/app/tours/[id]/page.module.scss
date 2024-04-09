@@ -249,11 +249,13 @@
                 padding: 1rem;
                 border-radius: 1rem;
                 gap: 1rem;
-
+                line-break: anywhere;
+                width: 100%;
                 p {
                     color: var(--text-color);
                     font-family: var(--body-font);
                     font-size: 1rem;
+                    line-break: anywhere;
                 }
             }
 
