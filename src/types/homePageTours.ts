@@ -22,14 +22,19 @@ export interface TourType {
     data: any;
     mainImg: MainImg;
     location: Location;
+    mapDetails: string;
+    itinerary: string;
+    historyBrief: string;
+    category: string;
+    tags: string[];
     _id: string;
     id: string;
     title: string;
     description: string;
     images: Img[];
     options: {
-        price: any; name: string; _id: string 
-}[];
+        price: any; name: string; _id: string
+    }[];
     isRepeated: boolean;
     repeatTime: string[];
     repeatDays: string[];

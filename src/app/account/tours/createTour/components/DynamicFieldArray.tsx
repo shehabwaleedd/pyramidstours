@@ -4,8 +4,10 @@ import { IoIosAddCircleOutline, IoIosRemoveCircleOutline } from 'react-icons/io'
 import styles from '../page.module.scss';
 import { DynamicFieldArrayProps, Option } from '@/types/createTour';
 
-const DynamicFieldArray: React.FC<DynamicFieldArrayProps> = ({ name, label, fieldType, options }) => {
-    const { setFieldValue } = useFormikContext<any>(); 
+const DynamicFieldArray: React.FC<DynamicFieldArrayProps> = ({ name, label, fieldType, options,
+
+}) => {
+    const { setFieldValue } = useFormikContext<any>();
     const [field] = useField<Option[]>(name);
 
     return (
@@ -13,7 +15,7 @@ const DynamicFieldArray: React.FC<DynamicFieldArrayProps> = ({ name, label, fiel
             {({ push, remove }) => (
                 <div className={styles.formField}>
                     <label>{label}</label>
-                    {field.value.map((option, index) => (
+                    {Array.isArray(field.value) && field.value.map((option, index) => (
                         <div key={index} className={styles.group}>
                             {fieldType === 'select' && options ? (
                                 <select

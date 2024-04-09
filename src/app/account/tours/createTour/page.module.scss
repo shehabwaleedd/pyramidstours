@@ -248,6 +248,12 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: 1rem;
+    height: 100%;
+
+    label,
+    input {
+        width: 100%;
+    }
 
 
     @media (max-width: 557px) {
@@ -352,6 +358,7 @@
     border: 1px solid var(--border-color);
     border-radius: 2rem;
     width: 100%;
+    height: 100%;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
 }
@@ -366,7 +373,8 @@
     border: none;
     overflow: none;
     line-break: anywhere;
-    .ql-toolbar.ql-snow { 
+
+    .ql-toolbar.ql-snow {
         border: none;
     }
 }

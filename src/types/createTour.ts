@@ -45,10 +45,14 @@ export interface FormValues {
     mainImg: File | null;
     images: File[];
     options: Option[];
+    tags: string[];
+    category: string;
+    mapDetails: string;
+    historyBrief: string;
+    itinerary: string;
     isRepeated: boolean;
     repeatTime: string[];
     repeatDays: string[];
-    dateDetails?: string;
     location: {
         from: string;
         to: string;
@@ -58,7 +62,6 @@ export interface FormValues {
     adultPricing: PricingDetail[];
     childrenPricing: PricingDetail[];
     duration: string[] | string;
-    subtitle: string;
     hasOffer: boolean;
     [key: string]: unknown;
 }

@@ -15,9 +15,9 @@ const CheckboxGroupFieldArray: React.FC<CheckboxGroupFieldArrayProps> = ({ name,
     return (
         <div className={styles.checkboxField}>
             <label>{name}</label>
-            <div className={styles.group}>
+            <div className={styles.groupCheckboxes}>
                 {options.map((option, index) => (
-                    <div key={index} className={styles.groupCheckboxes}>
+                    <div key={index} className={styles.group}>
                         <label>
                             {option.label}
                         </label>

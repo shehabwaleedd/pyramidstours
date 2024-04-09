@@ -5,16 +5,13 @@ import axios from 'axios'
 import styles from "./page.module.scss"
 import Image from 'next/image';
 import { ImageFile, FormValues } from '@/types/createTour';
-import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, presetExclusions } from './components/presets';
+import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, categoryOptions, presetExclusions, presetLocations } from './components/presets';
 import DynamicFieldArray from './components/DynamicFieldArray';
 import CheckboxGroupFieldArray from './components/ChecboxGroupFieldArray';
 import CustomField from './components/CustomField';
 import PricingOptions from './components/PricingOptions';
 import ImageUploader from './components/ImageUploader';
 import ImagesUploader from './components/ImagesUploader';
-import dynamic from 'next/dynamic';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css'; // Add this import for styles
 import ReactQuillField from './components/ReactQuillField';
 
 const initialValues: FormValues = {
@@ -26,15 +23,19 @@ const initialValues: FormValues = {
     isRepeated: false,
     repeatTime: [],
     repeatDays: [],
-    dateDetails: '',
     location: { from: '', to: '' },
     inclusions: [],
     exclusions: [],
     adultPricing: [{ adults: 1, price: 0 }],
     childrenPricing: [{ children: 1, price: 0 }],
     duration: [],
-    subtitle: '',
     hasOffer: false,
+    mapDetails: '',
+    historyBrief: '',
+    category: '',
+    tags: [],
+    itinerary: '',
+
 };
 
 
@@ -134,27 +135,31 @@ const CreateTour = () => {
                                 <CustomField name="title" setFieldValue={setFieldValue} label='title' fieldType="input" />
                                 <CustomField name="duration" setFieldValue={setFieldValue} fieldType="select" options={duration.map((time) => ({ value: time, label: time }))} label='Duration' />
                             </div>
+                            <div className={styles.group}>
+                                <CustomField name="location.from" label="Starting location" fieldType="select" options={presetLocations.map((loc) => ({ value: loc.value, label: loc.label }))} />
+                                <CustomField name="location.to" label="Destination" fieldType="select" options={presetLocations.map((loc) => ({ value: loc.value, label: loc.label }))} />
+                            </div>
                             <ReactQuillField name="description" label="Description" value={values.description} onChange={setFieldValue} />
                             <ImageUploader mainImg={mainImg} setMainImg={setMainImg} />
                             <ImagesUploader uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} />
                             <DynamicFieldArray name="options" label="Options" fieldType="select" options={presetOptionNames.map((opt) => ({ value: opt.name, label: opt.name }))} />
-                            <div className={styles.formField}>
+                            <ReactQuillField name="itinerary" label="Iternary" value={values.itinerary} onChange={setFieldValue} />
+                            <CustomField name="mapDetails" fieldType="input" setFieldValue={setFieldValue} label='Google Map Link' />
+                            <ReactQuillField name="historyBrief" label="History Brief" value={values.historyBrief} onChange={setFieldValue} />
+                            <div className={styles.group}>
                                 <CheckboxGroupFieldArray name="inclusions" options={presetInclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.inclusions} />
                                 <CheckboxGroupFieldArray name="exclusions" options={presetExclusions.map((exc) => ({ value: exc, label: exc }))} setFieldValue={setFieldValue} values={values.exclusions} />
+                                <CheckboxGroupFieldArray name="tags" options={categoryOptions.map((cat) => ({ value: cat.value, label: cat.label }))} setFieldValue={setFieldValue} values={values.tags} />
                             </div>
+                            <CustomField name="category" label="Category" fieldType="select" options={categoryOptions.map((cat) => ({ value: cat.value, label: cat.label }))}
+                            />
                             <div className={styles.group}>
                                 <PricingOptions name="adultPricing" />
                                 <PricingOptions name="childrenPricing" />
                             </div>
-                            <ReactQuillField name="subtitle" label="Iternary" value={values.subtitle} onChange={setFieldValue} />
                             <CheckboxGroupFieldArray name="repeatDays" options={presetWeekDays} setFieldValue={setFieldValue} values={values.repeatDays} />
                             <CheckboxGroupFieldArray name="repeatTime" options={repeatedTimes} setFieldValue={setFieldValue} values={values.repeatTime} />
                             <div className={styles.group}>
-                                <CustomField name="location.from" setFieldValue={setFieldValue} fieldType="input" label='Starting location' />
-                                <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="input" label='Destination' />
-                            </div>
-                            <CustomField name="dateDetails" fieldType="textarea" setFieldValue={setFieldValue} label='Date Details (e.g. "Every Monday and Friday from 9:00 AM to 5:00 PM")' />
-                            <div className={styles.groupCheckboxes}>
                                 <CustomField name="isRepeated" fieldType="checkbox" setFieldValue={setFieldValue} label='Is this tour repeated?' />
                                 <CustomField name="hasOffer" fieldType="checkbox" setFieldValue={setFieldValue} label='Is this tour has an offer?' />
                             </div>

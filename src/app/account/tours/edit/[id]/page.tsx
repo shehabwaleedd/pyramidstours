@@ -2,22 +2,23 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
-import { Formik, Form} from 'formik';
+import { Formik, Form } from 'formik';
 import axios from 'axios';
 import styles from "./page.module.scss"
 import { useTourById } from '@/lib/tours/useTourById';
 import Loading from '../../../../../animation/loading/Loading';
 import Link from 'next/link';
 import { IoArrowBack } from "react-icons/io5";
-import {  FormValues, Img, ImageFile, CurrentImage } from '@/types/editTour';
-import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, presetExclusions } from '../../createTour/components/presets';
+import { Img, ImageFile, CurrentImage } from '@/types/editTour';
+import { FormValues } from '@/types/createTour';
+import { repeatedTimes, duration, presetOptionNames, presetWeekDays, presetInclusions, categoryOptions, presetExclusions, presetLocations } from '../../createTour/components/presets';
 import DynamicFieldArray from '../../createTour/components/DynamicFieldArray';
 import CustomField from '../../createTour/components/CustomField';
 import CheckboxGroupFieldArray from '../../createTour/components/ChecboxGroupFieldArray';
 import PricingOptions from '../../createTour/components/PricingOptions';
 import ImagesUploader from './components/EditImagesUploader';
 import ImageUploader from './components/EditImageUploader';
-
+import ReactQuillField from '../../createTour/components/ReactQuillField';
 
 
 const EditTour = () => {
@@ -33,7 +34,7 @@ const EditTour = () => {
         if (tour) {
             const mappedImages: CurrentImage[] = tour.images.map((image: Img) => ({
                 url: image.url,
-                public_id: image.public_id, 
+                public_id: image.public_id,
             }));
             setCurrentImages(mappedImages);
             setMainImgUrl(tour.mainImg.url);
@@ -48,12 +49,11 @@ const EditTour = () => {
         images: [],
         options: tour?.options.map(option => ({
             name: option.name,
-            price: option.price || 0, 
+            price: option.price || 0,
         })) || [],
         isRepeated: tour?.isRepeated ?? false,
         repeatTime: tour?.repeatTime ?? [],
         repeatDays: tour?.repeatDays ?? [],
-        dateDetails: tour?.dateDetails ?? '',
         location: {
             from: tour?.location.from ?? '',
             to: tour?.location.to ?? ''
@@ -63,8 +63,12 @@ const EditTour = () => {
         adultPricing: tour?.adultPricing ?? [],
         childrenPricing: tour?.childrenPricing ?? [],
         duration: tour?.duration ?? [],
-        subtitle: tour?.subtitle ?? '',
         hasOffer: tour?.hasOffer ?? false,
+        historyBrief: tour?.historyBrief ?? '',
+        category: tour?.category ?? '',
+        tags: tour?.tags ?? [],
+        itinerary: tour?.itinerary ?? '',
+        mapDetails: tour?.mapDetails ?? '',
 
     };
 
@@ -146,25 +150,33 @@ const EditTour = () => {
                         onSubmit={handleSubmit} className={styles.form}>
                         {({ values, setFieldValue, isSubmitting }) => (
                             <Form className={styles.editTour__container_content}>
-                                <CustomField name="title" label="Title" fieldType='input' />
-                                <CustomField name="description" label="Description" fieldType="textarea" />
+                                <div className={styles.group}>
+                                    <CustomField name="title" label="Title" fieldType='input' />
+                                    <CustomField name="duration" label="Duration" fieldType='select' options={duration.map((d) => ({ value: d, label: d }))} />
+                                </div>
+                                <ReactQuillField name="description" label="Description" value={values.description} onChange={setFieldValue} />
+                                <div className={styles.group}>
+                                    <CustomField name="location.from" setFieldValue={setFieldValue} fieldType="select" label='Starting location' options={presetLocations.map((loc) => ({ value: loc.value, label: loc.label }))} />
+                                    <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="select" label='Destination' options={presetLocations.map((loc) => ({ value: loc.value, label: loc.label }))} />
+                                </div>
                                 <ImageUploader mainImg={mainImg} setMainImg={setMainImg} mainImgUrl={mainImgUrl} setMainImgUrl={setMainImgUrl} />
                                 <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles} currentImages={currentImages} setCurrentImages={setCurrentImages} />
                                 <DynamicFieldArray name="options" label="Options" fieldType="select" options={presetOptionNames.map((opt) => ({ value: opt.name, label: opt.name }))} />
                                 <CheckboxGroupFieldArray name="repeatTime" options={repeatedTimes} setFieldValue={setFieldValue} values={values.repeatTime} />
                                 <CheckboxGroupFieldArray name="repeatDays" options={presetWeekDays} setFieldValue={setFieldValue} values={values.repeatDays} />
-                                <CustomField name="dateDetails" label="Date Details" fieldType="textarea" />
+                                <CustomField name="category" label="Category" fieldType='select' options={categoryOptions.map((cat) => ({ value: cat.value, label: cat.label }))} />
+                                <ReactQuillField name="historyBrief" label="History Brief" value={values.historyBrief} onChange={setFieldValue} />
+                                <ReactQuillField name="itinerary" label="Itinerary" value={values.itinerary} onChange={setFieldValue} />
+                                <CustomField name="mapDetails" label="Google Map Link" fieldType='input' />
                                 <div className={styles.group}>
-                                    <CustomField name="location.from" setFieldValue={setFieldValue} fieldType="input" label='Starting location' />
-                                    <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="input" label='Destination' />
+                                    <CheckboxGroupFieldArray name="inclusions" options={presetInclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.inclusions} />
+                                    <CheckboxGroupFieldArray name="exclusions" options={presetExclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.exclusions} />
+                                    <CheckboxGroupFieldArray name="tags" options={categoryOptions.map((cat) => ({ value: cat.value, label: cat.label }))} setFieldValue={setFieldValue} values={values.tags} />
                                 </div>
-                                <CheckboxGroupFieldArray name="inclusions" options={presetInclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.inclusions} />
-                                <CheckboxGroupFieldArray name="exclusions" options={presetExclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.exclusions} />
                                 <div className={styles.group}>
                                     <PricingOptions name="adultPricing" />
                                     <PricingOptions name="childrenPricing" />
                                 </div>
-                                <CustomField name="duration" label="Duration" fieldType='select' options={duration.map((d) => ({ value: d, label: d }))} />
                                 <CustomField name="subtitle" label="Subtitle" fieldType='textarea' />
                                 <CustomField name="hasOffer" label="Is Offer" fieldType='checkbox' />
                                 <button type="submit" disabled={isSubmitting} className={styles.submitButton}>{isSubmitting ? 'Updating...' : 'Update Tour'}
