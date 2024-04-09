@@ -82,7 +82,7 @@ const NavbarData = [
 ];
 
 const Navbar = () => {
-    const { isLoggedIn, wishlist, user } = useAuth();
+    const { isLoggedIn, user } = useAuth();
     const router = usePathname();
     const [navOpen, setNavOpen] = useState<boolean>(false);
     const [desktopNavOpen, setDesktopNavOpen] = useState<boolean | null>(false)
@@ -93,14 +93,27 @@ const Navbar = () => {
 
     const toggleNavOpen = useCallback(() => {
         setNavOpen(prevNavOpen => !prevNavOpen);
+        setWishlistOpen(false);
+        setProfileOpen(false);
     }, []);
 
 
     const toggleDesktopNavOpen = useCallback(() => {
         setDesktopNavOpen(prevDesktopNavOpen => !prevDesktopNavOpen);
+        setWishlistOpen(false);
+        setProfileOpen(false);
     }, [])
-    const toggleProfileOpen = () => setProfileOpen(prev => !prev);
-    const toggleWishlistOpen = () => setWishlistOpen(prev => !prev);
+    const toggleProfileOpen = () => {
+        setProfileOpen(prev => !prev);
+        setWishlistOpen(false);
+        setNavOpen(false);
+
+    };
+    const toggleWishlistOpen = () => {
+        setWishlistOpen(prev => !prev);
+        setProfileOpen(false);
+        setNavOpen(false);
+    };
 
     useEffect(() => {
         setNavOpen(false);
@@ -122,7 +135,7 @@ const Navbar = () => {
     };
 
     return (
-        <motion.header className={styles.navbar} animate={{ height: desktopNavOpen ? "99vh" : "6.5vh", }} transition={{ duration: 0.75, ease: [0.42, 0, 0.58, 1] }}>
+        <motion.header className={styles.navbar} animate={{ height: desktopNavOpen ? "99vh" : "6.5vh", }} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1}}>
             <motion.nav className={styles.navbar__container}>
                 <div className={styles.navbar__logo}>
                     <Link href="/" className={styles.logo_content}>
@@ -138,10 +151,10 @@ const Navbar = () => {
                                 <li key={item.id}
                                     onMouseEnter={() => handleDropdown(item.id)}
                                     onMouseLeave={() => handleDropdownDelayedClose(item.id)}>
-                                    <a href="#">
+                                    <Link href="#">
                                         {item.title}
                                         <GoChevronDown />
-                                    </a>
+                                    </Link>
                                     <AnimatePresence>
                                         {openDropdownId === item.id && (
                                             <motion.ul
@@ -210,7 +223,7 @@ const Navbar = () => {
                             <button onClick={toggleWishlistOpen}>
                                 <FiHeart />
                             </button>
-                            <span>{wishlist.length}</span>
+                            <span>{user?.wishList?.length | 0}</span>
                         </li>
                     </ul>
                     <button onClick={toggleNavOpen}><FiMenu style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
@@ -220,6 +233,7 @@ const Navbar = () => {
                 {navOpen && <Nav setNavOpen={setNavOpen} navOpen={navOpen} />}
                 {profileOpen && <AccountHeaderNavbar profileOpen={profileOpen} />}
                 {wishlistOpen && <WishlistHeader wishlistOpen={wishlistOpen} />}
+
             </AnimatePresence>
         </motion.header>
     )

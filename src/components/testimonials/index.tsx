@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styles from './style.module.scss';
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { useRouter } from 'next/navigation';
@@ -29,24 +29,15 @@ const Testimonials: React.FC = () => {
     const isMobile = windowWidth ? windowWidth < 555 : false;
     const isTablet = windowWidth ? windowWidth < 777 : false;
     const isBigScreen = windowWidth ? windowWidth < 1900 : false;
-    const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
-    
-    const isTourInWishlist = (tourId: string) => {
-        return (wishlist as { _id: string }[]).some(tour => tour._id === tourId);
-    };
 
-    const router = useRouter();
+
+
     // Filter tours for Cairo
     const cairoTours: TourType[] = Array.isArray(tours) ? tours.filter((tour: TourType) => tour.location.from === "Giza") : [];
     const cairoToursData: TourGroup = {
         mainTitle: "Giza Tours",
         tours: cairoTours,
     };
-
-
-    useEffect(() => {
-        console.log('wush', wishlist);
-    }, [wishlist]);
 
 
     const handleNextSlide = (index: number) => {
@@ -57,18 +48,7 @@ const Testimonials: React.FC = () => {
         swiperRefs.current[index]?.slidePrev();
     };
 
-    const handleTourClick = (id: string) => {
-        router.push(`/tours/${id}`);
-    }
 
-    const handleWishlistClick = (event: React.MouseEvent, tourId: string) => {
-        event.stopPropagation();
-        if (isTourInWishlist(tourId)) {
-            removeFromWishlist(tourId);
-        } else {
-            addToWishlist(tourId);
-        }
-    };
 
 
 
@@ -89,28 +69,9 @@ const Testimonials: React.FC = () => {
                     onSwiper={(swiper) => swiperRefs.current[0] = swiper}
                     spaceBetween={isMobile ? 20 : 50}
                     navigation={{ nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }}>
-                    {cairoToursData.tours.map((tour, index) => (
+                    {cairoToursData?.tours?.map((tour, index) => (
                         <SwiperSlide key={index}>
-                            <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
-                                <div className={styles.image}>
-                                    <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
-                                    <div style={{ zIndex: 99 }}>
-                                        <span style={{ backgroundColor: "var(--accent-color)" }}>
-                                            Offer
-                                        </span>
-                                        <button onClick={(event) => handleWishlistClick(event, tour._id)} style={{ backgroundColor: isTourInWishlist(tour._id) ? "#ffe4e4" : "var(--background-color)", }}>
-                                            {isTourInWishlist(tour._id) ? <FiHeart style={{ fill: "var(--accent-color)", color: "var(--accent-color)" }} /> : <FiHeart />}
-                                        </button>
-                                    </div>
-
-                                </div>
-                                <div className={styles.bottom}>
-                                    <h3>{tour.title}</h3>
-                                    <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
-                                    <p>{tour.description.slice(0, 150)}</p>
-                                    <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
-                                </div>
-                            </div>
+                            <TourCard tour={tour} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -120,3 +81,50 @@ const Testimonials: React.FC = () => {
 };
 
 export default Testimonials;
+
+
+const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
+
+    const router = useRouter();
+    const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
+    const isTourInWishlist = (tourId: string) => {
+        return (wishlist as { _id: string }[]).some(tour => tour._id === tourId);
+    };
+    
+    const handleWishlistClick = (event: React.MouseEvent, tourId: string) => {
+        event.stopPropagation();
+        if (isTourInWishlist(tourId)) {
+            removeFromWishlist(tourId);
+        } else {
+            addToWishlist(tourId);
+        }
+    };
+
+    const handleTourClick = (id: string) => {
+        router.push(`/tours/${id}`);
+    }
+
+
+    return (
+        <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
+            <div className={styles.image}>
+                <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
+                <div style={{ zIndex: 99 }}>
+                    <span style={{ backgroundColor: "var(--accent-color)" }}>
+                        Offer
+                    </span>
+                    <button onClick={(event) => handleWishlistClick(event, tour._id)} style={{ backgroundColor: isTourInWishlist(tour._id) ? "#ffe4e4" : "var(--background-color)", }}>
+                        {isTourInWishlist(tour._id) ? <FiHeart style={{ fill: "var(--accent-color)", color: "var(--accent-color)" }} /> : <FiHeart />}
+                    </button>
+                </div>
+
+            </div>
+            <div className={styles.bottom}>
+                <h3>{tour.title}</h3>
+                <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
+                <p>{tour.description.slice(0, 150)}</p>
+                <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
+            </div>
+        </div>
+    )
+}

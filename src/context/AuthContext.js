@@ -14,7 +14,9 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
     const [hasAnimationShown, setHasAnimationShown] = useState(false);
-    const [wishlist, setWishlist] = useState([]);
+    const [wishlist, setWishlist] = useState(
+        user?.wishList || []
+    );
     const router = useRouter();
 
     useEffect(() => {

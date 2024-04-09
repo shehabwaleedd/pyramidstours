@@ -40,6 +40,16 @@
         top: 5rem;
         right: 2rem;
 
+        @media (max-width: 555px) {
+            top: auto;
+            right: 0;
+            width: 100%;
+            bottom: 0;
+            border-radius: 0;
+            border-top-left-radius: 2rem;
+            border-top-right-radius: 2rem;
+        }
+
         &_upper {
             display: flex;
             width: 100%;

@@ -13,6 +13,16 @@
     top: 3rem;
     right: 3rem;
 
+    @media (max-width: 555px) {
+        top: auto;
+        right: 0;
+        width: 100%;
+        bottom: 0;
+        border-radius: 0;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+    }
+
     &__container {
         display: flex;
         justify-content: space-between;
@@ -21,6 +31,7 @@
         width: 100%;
         gap: 1rem;
         padding-bottom: 1rem;
+
         h3 {
             font-size: 2rem;
         }
@@ -66,12 +77,16 @@
             letter-spacing: 0.05rem;
         }
 
-        p, span {
+        p,
+        span {
             font-family: var(--body-font);
             font-size: 1rem;
             color: var(--title-color);
             font-display: swap;
             letter-spacing: 0.05rem;
+        }
+        span {
+            color: var(--accent-color);
         }
 
     }
