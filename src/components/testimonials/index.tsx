@@ -59,10 +59,6 @@ const Testimonials: React.FC = () => {
         swiperRefs.current[index]?.slidePrev();
     };
 
-
-
-
-
     return (
         <motion.section className={styles.testimonials}>
             {sortedAndGroupedTours?.map((group, index) => (

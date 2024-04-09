@@ -4,10 +4,11 @@ import { useTourById } from '@/lib/tours/useTourById'
 import axios from 'axios'
 import { Formik, Form, Field, } from 'formik';
 import styles from "..//page.module.scss"
-import { IoLocationSharp } from 'react-icons/io5';
+import { IoLocationSharp, IoPricetagOutline } from 'react-icons/io5';
 import { FiClock } from 'react-icons/fi';
 import { BsCurrencyDollar } from 'react-icons/bs';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { CiHashtag } from "react-icons/ci";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import ImageSlider from '@/components/imageSlider/ImageSlider'
@@ -43,6 +44,11 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
         selectedOptions: [],
         startTime: "",
         startDay: "",
+    };
+
+    const cleanGoogleMapLink = (mapDetails: string) => {
+        let cleanedLink = mapDetails.replace(/style="border:0;"\s?/g, '');
+        return cleanedLink;
     };
 
     const handleSubmit = async (values: FormValues) => {
@@ -109,10 +115,10 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     <div className={styles.eventDetails__mainImage__upper}>
                         <h1>{tour?.title}</h1>
                     </div>
-                    <div className={styles.eventDetails__mainImage__upper_details}>
-                        <p> <IoLocationSharp /> {tour?.location?.from}, {tour?.location?.to} </p>
-                        <p> <FiClock /> {tour?.duration} </p>
-                        <p> <BsCurrencyDollar />   From ${tour?.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</p>
+                    <div className={styles.eventDetails__mainImage__upper_details} style={{ flexWrap: "wrap" }}>
+                        {tour?.tags.map((tag, index) => (
+                            <span key={index}><CiHashtag />{tag}</span>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -124,6 +130,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     <p> <IoLocationSharp /> {tour?.location?.from}, {tour?.location?.to} </p>
                     <p> <FiClock /> {tour?.duration} </p>
                     <p> <BsCurrencyDollar />   From ${tour?.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</p>
+                    <p> <IoPricetagOutline /> {tour?.category} </p>
                 </div>
             </div>
             <aside className={styles.eventDetails__lower}>
@@ -145,7 +152,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                         return (
                             <Form className={styles.eventDetails__lower_left}>
                                 <h2> Tailor Your Tour</h2>
-                                <Calendar onChange={value => setFieldValue('date', value)} value={initialValues.date} minDate={new Date()} className={styles.calendar}/>
+                                <Calendar onChange={value => setFieldValue('date', value)} value={initialValues.date} minDate={new Date()} className={styles.calendar} />
                                 <div className={styles.headGroup}>
                                     <h2>Tour Available in</h2>
                                     <div className={styles.group}>
@@ -237,7 +244,11 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     </div>
                     <div className={styles.eventDetails__lower_right_desc}>
                         <h2> Itenerary </h2>
-                        <p dangerouslySetInnerHTML={{ __html: tour?.subtitle ?? '' }} />
+                        <p dangerouslySetInnerHTML={{ __html: tour?.itinerary ?? '' }} />
+                    </div>
+                    <div className={styles.eventDetails__lower_right_desc}>
+                        <h2> History Brief </h2>
+                        <p dangerouslySetInnerHTML={{ __html: tour?.historyBrief ?? '' }} />
                     </div>
                     <div className={styles.eventDetails__lower_right_exclusionsAndInclusions}>
                         <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__inclusions}>
@@ -263,7 +274,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     </div>
                 </div>
             </aside>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d20063.42830342647!2d31.116107356270323!3d29.972533959618342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145845030fe6fc6d%3A0x73111684bd1dce03!2sPyramids%20of%20Giza!5e0!3m2!1sen!2seg!4v1711913995057!5m2!1sen!2seg" width="600" height="450" loading="lazy" ></iframe>
+            <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />
         </section>
     )
 }

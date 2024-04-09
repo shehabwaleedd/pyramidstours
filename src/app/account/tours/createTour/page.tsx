@@ -13,6 +13,7 @@ import PricingOptions from './components/PricingOptions';
 import ImageUploader from './components/ImageUploader';
 import ImagesUploader from './components/ImagesUploader';
 import ReactQuillField from './components/ReactQuillField';
+import { useRouter } from 'next/navigation';
 
 const initialValues: FormValues = {
     title: '',
@@ -47,7 +48,7 @@ const CreateTour = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const [uploadedImages, setUploadedImages] = useState<ImageFile[]>([]);
     const [mainImg, setMainImg] = useState<File | null>(null);
-
+    const router = useRouter();
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -111,6 +112,7 @@ const CreateTour = () => {
             });
             if (response.status === 200) {
                 setSuccess(true);
+                router.push('/');
             }
         } catch (error: any) {
             setError(error.response?.data?.message || error.response?.err);

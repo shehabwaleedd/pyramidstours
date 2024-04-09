@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
-import ReactQuill, { ReactQuillProps } from 'react-quill';
+import dynamic from 'next/dynamic';
+import  { ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import styles from "../page.module.scss"
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 interface ReactQuillFieldProps extends Omit<ReactQuillProps, 'onChange'> {
     label: string;
