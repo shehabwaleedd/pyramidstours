@@ -13,8 +13,9 @@ import { GoChevronDown } from "react-icons/go";
 import { TbMenuDeep } from "react-icons/tb";
 import { LiaUserSolid } from "react-icons/lia";
 import AccountHeaderNavbar from "@/components/accountHeaderNavbar/";
-import NavbarSearch from '../navbarSearch';
 import WishlistHeader from '../wishlistHeader';
+import SearchField from '../searchField';
+import DesktopMenu from './desktopMenu';
 
 const NavbarData = [
     {
@@ -90,6 +91,7 @@ const Navbar = () => {
     const [profileOpen, setProfileOpen] = useState<boolean | null>(false);
     const [wishlistOpen, setWishlistOpen] = useState<boolean | null>(false);
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const isNavbar: boolean = true
 
     const toggleNavOpen = useCallback(() => {
         setNavOpen(prevNavOpen => !prevNavOpen);
@@ -135,14 +137,14 @@ const Navbar = () => {
     };
 
     return (
-        <motion.header className={styles.navbar} animate={{ height: desktopNavOpen ? "99vh" : "6.5vh", }} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1}}>
+        <motion.header className={styles.navbar} animate={{ height: desktopNavOpen ? "99vh" : "6.5vh", }} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1 }}>
             <motion.nav className={styles.navbar__container}>
                 <div className={styles.navbar__logo}>
                     <Link href="/" className={styles.logo_content}>
                         <Image src="/Pyramids_logo.webp" alt="pyramids" width={80} height={70} objectFit='cover' />
                         <h1>Pyramids</h1>
                     </Link>
-                    <NavbarSearch />
+                    <SearchField isNavbar={isNavbar} />
                 </div>
                 <ul className={styles.ul}>
                     <div className={styles.navbar__ul_left}>
@@ -228,6 +230,9 @@ const Navbar = () => {
                     </ul>
                     <button onClick={toggleNavOpen}><FiMenu style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                 </div>
+                <AnimatePresence mode="wait">
+                    {desktopNavOpen && <DesktopMenu />}
+                </AnimatePresence>
             </motion.nav>
             <AnimatePresence mode='wait'>
                 {navOpen && <Nav setNavOpen={setNavOpen} navOpen={navOpen} />}
@@ -235,6 +240,7 @@ const Navbar = () => {
                 {wishlistOpen && <WishlistHeader wishlistOpen={wishlistOpen} />}
 
             </AnimatePresence>
+
         </motion.header>
     )
 }

@@ -1,17 +1,18 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './style.module.scss'
 import SearchField from '../searchField';
 
 
 const SearchForm: React.FC = () => {
+    const isNavbar: boolean = false
     return (
         <section className={styles.landing}>
             <video autoPlay loop muted playsInline>
                 <source src="/mainVideo.mp4" type="video/mp4" />
             </video>
-            <SearchField />
+            <SearchField isNavbar={isNavbar}/>
         </section>
     )
 }

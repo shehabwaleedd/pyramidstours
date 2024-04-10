@@ -39,7 +39,7 @@ const CreateTestimonials: React.FC = () => {
                 formData.append('email', values.email);
                 formData.append('description', values.description);
                 formData.append('rate', values.rate.toString());
-                if (avatar) formData.append('avatar', avatar); // Add the avatar if it exists
+                if (avatar) formData.append('avatar', avatar); 
 
                 const response = await axios.post('https://tours-b5zy.onrender.com/testimonial', formData);
 
@@ -54,13 +54,11 @@ const CreateTestimonials: React.FC = () => {
         },
     });
 
-    // Handle star rating selection
     const handleRating = (rate: number) => {
         setRating(rate);
         formik.setFieldValue('rate', rate);
     };
 
-    // Handle file input change for avatar
     const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.currentTarget.files && event.currentTarget.files[0]) {
             setAvatar(event.currentTarget.files[0]);

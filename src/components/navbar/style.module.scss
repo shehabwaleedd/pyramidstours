@@ -22,7 +22,11 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        position: relative;
+        position: fixed;
+        top: -47%;
+        left: 0;
+        max-width: 99.9%;
+        margin: 0 auto;
 
     }
 
