@@ -141,7 +141,6 @@ const Navbar = () => {
             <motion.nav className={styles.navbar__container}>
                 <div className={styles.navbar__logo}>
                     <Link href="/" className={styles.logo_content}>
-                        <Image src="/Pyramids_logo.webp" alt="pyramids" width={80} height={70} objectFit='cover' />
                         <h1>Pyramids</h1>
                     </Link>
                     <SearchField isNavbar={isNavbar} />

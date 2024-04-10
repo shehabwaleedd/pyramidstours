@@ -16,6 +16,7 @@ import 'swiper/css/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { FiHeart } from "react-icons/fi";
+import TourCard from '../card';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -58,7 +59,6 @@ const Testimonials: React.FC = () => {
     const handlePrevSlide = (index: number) => {
         swiperRefs.current[index]?.slidePrev();
     };
-
     return (
         <motion.section className={styles.testimonials}>
             {sortedAndGroupedTours?.map((group, index) => (
@@ -67,14 +67,13 @@ const Testimonials: React.FC = () => {
                         <div className={styles.testimonials__upper}>
                             <h2>{group.mainTitle}</h2>
                             <div className={styles.testimonials_btns}>
-                                <button onClick={() => handlePrevSlide(0)} aria-label="Previous slide"><GoArrowLeft /></button>
-                                <button onClick={() => handleNextSlide(0)} aria-label="Next slide"><GoArrowRight /></button>
-                            </div>
+                                <button onClick={() => handlePrevSlide(index)} aria-label="Previous slide"><GoArrowLeft /></button>
+                                <button onClick={() => handleNextSlide(index)} aria-label="Next slide"><GoArrowRight /></button>                            </div>
                         </div>
                         <Swiper
                             slidesPerView={isMobile ? 1 : isTablet ? 2 : isBigScreen ? 3 : 4}
                             className={styles.testimonials__slide}
-                            onSwiper={(swiper) => swiperRefs.current[0] = swiper}
+                            onSwiper={(swiper) => swiperRefs.current[index] = swiper}
                             spaceBetween={isMobile ? 20 : 50}
                             navigation={{ nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }}>
                             {group?.tours?.map((tour: TourType) => (
@@ -92,50 +91,4 @@ const Testimonials: React.FC = () => {
 
 export default Testimonials;
 
-
-const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
-
-    const router = useRouter();
-    const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
-    const isTourInWishlist = (tourId: string) => {
-        return (wishlist as { _id: string }[]).some(tour => tour._id === tourId);
-    };
-
-    const handleWishlistClick = (event: React.MouseEvent, tourId: string) => {
-        event.stopPropagation();
-        if (isTourInWishlist(tourId)) {
-            removeFromWishlist(tourId);
-        } else {
-            addToWishlist(tourId);
-        }
-    };
-
-    const handleTourClick = (id: string) => {
-        router.push(`/tours/${id}`);
-    }
-
-
-    return (
-        <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
-            <div className={styles.image}>
-                <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
-                <div style={{ zIndex: 99 }}>
-                    <span style={{ backgroundColor: "var(--accent-color)" }}>
-                        Offer
-                    </span>
-                    <button onClick={(event) => handleWishlistClick(event, tour._id)} style={{ backgroundColor: isTourInWishlist(tour._id) ? "#ffe4e4" : "var(--background-color)", }}>
-                        {isTourInWishlist(tour._id) ? <FiHeart style={{ fill: "var(--accent-color)", color: "var(--accent-color)" }} /> : <FiHeart />}
-                    </button>
-                </div>
-
-            </div>
-            <div className={styles.bottom}>
-                <h3>{tour.title}</h3>
-                <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
-                <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
-                <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
-            </div>
-        </div>
-    )
-}
 

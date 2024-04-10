@@ -2,7 +2,6 @@
     padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
     position: fixed;
     top: 0;
     left: 0;
@@ -22,11 +21,6 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        position: fixed;
-        top: -47%;
-        left: 0;
-        max-width: 99.9%;
-        margin: 0 auto;
 
     }
 
@@ -36,6 +30,7 @@
         align-items: center;
         justify-content: flex-start;
         width: 100%;
+        padding-left: 0.5rem;
 
         .logo_content {
             display: flex;
@@ -43,21 +38,7 @@
             justify-content: flex-start;
             width: 100%;
             color: var(--title-color);
-            height: fit-content;
 
-            @media (max-width: 1155px) {
-                width: fit-content;
-
-                img {
-                    padding: 0.4rem;
-                    object-fit: cover;
-                }
-
-                h1 {
-                    position: relative;
-                    left: -0.7rem;
-                }
-            }
 
             @media (max-width: 600px) {
                 img {
@@ -65,7 +46,7 @@
                 }
 
                 h1 {
-                    padding-left: 0.3rem;
+                    left: 0.6rem;
                 }
             }
         }
@@ -73,6 +54,7 @@
         h1 {
             font-size: 1.8rem;
             letter-spacing: 0.05rem;
+            width: 100%;
         }
     }
 

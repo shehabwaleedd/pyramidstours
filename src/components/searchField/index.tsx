@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi'
 import { TourType } from '@/types/homePageTours';
@@ -51,13 +52,14 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
         if (selectedDay) query['repeatDays'] = selectedDay;
         if (selectedPriceRange) query['priceRange'] = selectedPriceRange;
 
-        // Use router.push to navigate with query parameters
-        
+        const queryString = new URLSearchParams(query).toString();
+        router.push(`/search/results?${queryString}`);
+
     };
 
     return (
-        <form onSubmit={handleSearch} className={isNavbar ? styles.navbarSearch : styles.landing__text_search}>
-            <div className={isNavbar ? styles.navbarSearch__middle : styles.landing__middle}>
+        <form onSubmit={handleSearch} className={isNavbar ? styles.navbarSearch : styles.landinSearch}>
+            <div className={isNavbar ? styles.navbarSearch__middle : styles.landinSearch__middle}>
                 <div className={styles.formField}>
                     <label>Destination</label>
                     <select value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
@@ -85,7 +87,7 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
                         ))}
                     </select>
                 </div>
-                <div className={isNavbar ? styles.navbarSearch__search : styles.landing__search}>
+                <div className={isNavbar ? styles.navbarSearch__search : styles.landinSearch__search}>
                     <button type="submit" className={styles.searchButton}><FiSearch /></button>
                 </div>
             </div>

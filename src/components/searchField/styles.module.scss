@@ -4,8 +4,9 @@
     gap: 0.2rem;
     align-items: center;
     justify-content: center;
-    position: relative;
     height: fit-content;
+    position: relative;
+    z-index: 9;
 
     @media (max-width: 750px) {
         display: none;
@@ -77,19 +78,24 @@
     }
 }
 
-.landing {
+.landinSearch {
+    position: relative;
+    z-index: 99;
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    z-index: 9;
 
-    &__text_search {
-        position: absolute;
-        top: 90%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        width: 100%;
+    @media (max-width: 555px) {
+        width: 80%;
+        margin: 0 auto;
     }
 
     &__middle {
@@ -106,45 +112,34 @@
         padding: 0.25rem 0.5rem;
         background-color: var(--dimmed-color);
         gap: 1rem;
+        z-index: 9;
 
-
-        @media (max-width: 667px) {
-            padding: 0.25rem 0.5rem;
-        }
 
         .formField {
-
-            padding: 0.6rem;
-            background-color: var(--background-color);
-            box-shadow: 0 4px 30px rgba(96, 77, 58, 0.1);
-            backdrop-filter: blur(5px);
-            border: 1px solid #dadada9b;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            text-indent: 1px;
-            cursor: pointer;
-            border-radius: 2rem;
-
-            @media (max-width: 555px) {
-                font-size: 0.8rem;
-            }
 
             label {
                 display: none;
             }
 
-            input,
             select {
                 background-color: transparent;
                 border: none;
                 outline: none;
-                text-overflow: '';
+                background-color: var(--background-color);
+                box-shadow: 0 4px 30px rgba(96, 77, 58, 0.1);
+                backdrop-filter: blur(5px);
+                border: 1px solid #dadada9b;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                cursor: pointer;
+                border-radius: 2rem;
+                padding: 0.6rem;
                 font-size: 1rem;
-                font-family: var(--body-font);
                 color: #383838;
-
+                font-family: var(--body-font);
                 @media (max-width: 555px) {
-                    font-size: 0.8rem;
+                    width: 100%;
+                    margin: 0 auto;
                 }
             }
         }
@@ -154,11 +149,12 @@
     &__search {
         svg {
             position: relative;
-            font-size: 3rem;
-            padding: 1rem;
+            font-size: 2rem;
+            padding: 0.25rem;
             background-color: var(--accent-color);
             color: var(--container-color);
             border-radius: 2rem;
+            z-index: 99;
 
             @media (max-width: 555px) {
                 padding: 0.5rem;
