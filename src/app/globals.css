@@ -19,7 +19,7 @@
 
   /* Responsive Sizes  */
 
-  --mobile: max-width: 767px;
+  --mobile-device: 567px;
   --tablet: max-width: 1168px;
   --desktop: 1424px;
   --big-desktop: 1940px;

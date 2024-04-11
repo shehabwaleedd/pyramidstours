@@ -141,6 +141,9 @@ const Navbar = () => {
         <motion.header className={styles.navbar} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1 }}>
             <motion.nav className={styles.navbar__container}>
                 <div className={styles.navbar__logo}>
+                    <Link href="/">
+                        <Image src="/Pyramids_logo.webp" alt="logo" width={300} height={300} />
+                    </Link>
                     <Link href="/" className={styles.logo_content}>
                         <h1>Pyramids</h1>
                     </Link>
@@ -228,7 +231,7 @@ const Navbar = () => {
                             <span>{user?.wishList?.length | 0}</span>
                         </li>
                     </ul>
-                    <button onClick={toggleNavOpen}><FiMenu style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
+                    <button onClick={toggleNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                 </div>
                 <AnimatePresence mode="wait">
                     {desktopNavOpen && <DesktopMenu />}
