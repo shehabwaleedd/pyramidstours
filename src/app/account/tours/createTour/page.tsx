@@ -148,7 +148,7 @@ const CreateTour = () => {
                             <ReactQuillField name="itinerary" label="Iternary" value={values.itinerary} onChange={setFieldValue} />
                             <CustomField name="mapDetails" fieldType="input" setFieldValue={setFieldValue} label='Google Map Link' />
                             <ReactQuillField name="historyBrief" label="History Brief" value={values.historyBrief} onChange={setFieldValue} />
-                            <div className={styles.group}>
+                            <div className={styles.formField}>
                                 <CheckboxGroupFieldArray name="inclusions" options={presetInclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.inclusions} />
                                 <CheckboxGroupFieldArray name="exclusions" options={presetExclusions.map((exc) => ({ value: exc, label: exc }))} setFieldValue={setFieldValue} values={values.exclusions} />
                                 <CheckboxGroupFieldArray name="tags" options={categoryOptions.map((cat) => ({ value: cat.value, label: cat.label }))} setFieldValue={setFieldValue} values={values.tags} />

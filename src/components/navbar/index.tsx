@@ -16,6 +16,7 @@ import AccountHeaderNavbar from "@/components/accountHeaderNavbar/";
 import WishlistHeader from '../wishlistHeader';
 import SearchField from '../searchField';
 import DesktopMenu from './desktopMenu';
+import { opacity, background } from './anim';
 
 const NavbarData = [
     {
@@ -137,7 +138,7 @@ const Navbar = () => {
     };
 
     return (
-        <motion.header className={styles.navbar} animate={{ height: desktopNavOpen ? "99vh" : "6.5vh", }} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1 }}>
+        <motion.header className={styles.navbar} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1 }}>
             <motion.nav className={styles.navbar__container}>
                 <div className={styles.navbar__logo}>
                     <Link href="/" className={styles.logo_content}>
@@ -233,6 +234,7 @@ const Navbar = () => {
                     {desktopNavOpen && <DesktopMenu />}
                 </AnimatePresence>
             </motion.nav>
+            <motion.div variants={background} initial="initial" animate={desktopNavOpen ? "open" : "closed"} className={styles.background}></motion.div>
             <AnimatePresence mode='wait'>
                 {navOpen && <Nav setNavOpen={setNavOpen} navOpen={navOpen} />}
                 {profileOpen && <AccountHeaderNavbar profileOpen={profileOpen} />}

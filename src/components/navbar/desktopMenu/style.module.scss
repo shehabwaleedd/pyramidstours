@@ -1,22 +1,28 @@
-.desktopMenu {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    height: 80vh;
-    width: 100%;
-    padding: 1rem;
+.nav {
+    overflow: hidden;
     position: fixed;
-    bottom: 0;
-    &__item {
+    background-color: var(--background-color);
+    z-index: 1;
+
+    .wrapper {
+        display: flex;
+        gap: 50px;
+        margin-bottom: 80px;
+        padding: 4rem;
+    }
+
+    .container {
         display: flex;
         flex-direction: column;
-        a {
-            p {
-                font-size: 3rem;
-                color: var(--title-color);
-                font-family: var(--title-font);
-            }
+        justify-content: space-between;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+    .nav {
+        .wrapper {
+            margin-bottom: 0px;
+            justify-content: space-between;
         }
     }
 }
