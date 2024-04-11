@@ -14,10 +14,24 @@ import 'react-calendar/dist/Calendar.css';
 import ImageSlider from '@/components/imageSlider/ImageSlider'
 import Image from 'next/image'
 import { TourType } from '@/types/homePageTours';
-
+import { useRouter } from 'next/navigation';
 
 interface TourClientProps {
     id: string;
+}
+
+interface BookingOption {
+    id: string;
+    number: string;
+}
+
+interface BookingData {
+    adultPricing: string | null;
+    childrenPricing: string | null;
+    time: string;
+    date: string;
+    day: string;
+    options: BookingOption[] | null;
 }
 
 interface FormValues {
@@ -25,8 +39,9 @@ interface FormValues {
     adults: number;
     children: number;
     selectedOptions: string[];
-    startTime: string;
-    startDay: string;
+    repeatTime: string;
+    day: string;
+    repeatDays: string;
 }
 
 interface Values {
@@ -37,13 +52,16 @@ interface Values {
 
 const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const { tour } = useTourById(id)
+    const router = useRouter()
     const initialValues: FormValues = {
         date: new Date(),
         adults: 1,
         children: 0,
         selectedOptions: [],
-        startTime: "",
-        startDay: "",
+        repeatTime: '',
+        day: '',
+        repeatDays: '',
+
     };
 
     const cleanGoogleMapLink = (mapDetails: string) => {
@@ -51,16 +69,48 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
         return cleanedLink;
     };
 
+
     const handleSubmit = async (values: FormValues) => {
+        const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : ""; // Ensuring date is in ISO format
+
+        const adultPricing = tour?.adultPricing.find(pricing => pricing.adults <= values.adults)?._id;
+        const childrenPricing = tour?.childrenPricing.find(pricing => pricing.children <= values.children)?._id;
+
+        const optionsWithCounts = (tour?.options ?? []).reduce((acc: BookingOption[], option) => {
+            if (values.selectedOptions.includes(option.name)) {
+                acc.push({
+                    id: option._id, // This assumes _id is always defined in your tour.options
+                    number: values.adults.toString(), // Convert number of adults to string
+                    // Since you've mentioned needing numberOfChildren in the previous structure,
+                    // add it here if it's required and adjust the BookingOption interface accordingly.
+                });
+            }
+            return acc;
+        }, []);
+    
+        const bookingData: BookingData = {
+            adultPricing: adultPricing ?? null,
+            childrenPricing: childrenPricing ?? null,
+            time: values.repeatTime,
+            date: formattedDate,
+            day: values.repeatDays,
+            options: optionsWithCounts, 
+        };
+
+        console.log(adultPricing, childrenPricing, bookingData)
+
         try {
-            const response = await axios.post('/api/booking', {
-                tourId: id,
-                date: values.date,
-                adults: values.adults,
-                children: values.children,
-                options: values.selectedOptions,
-            });
-            console.log(response.data); // Handle success response
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/subscription/${tour?._id}`, bookingData,
+                { headers: { token: localStorage.getItem('token') } }
+            );
+            if (response.data.paymentUrl) {
+                router.push(response.data.paymentUrl); // Redirecting to the payment URL
+            } else {
+                console.error('Payment URL not provided.');
+            }
+
+            console.log(response.data);
         } catch (error) {
             console.error(error); // Handle error response
         }
@@ -105,6 +155,8 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
         return total;
     }
+
+
 
 
     return (
@@ -157,12 +209,12 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     <h2>Tour Available in</h2>
                                     <div className={styles.group}>
                                         <div className={styles.group}>
-                                            <Field as="select" name="startTime" className={styles.Field}>
+                                            <Field as="select" name="repeatTime" className={styles.Field}>
                                                 {tour?.repeatTime.map((time, index) => (
                                                     <option key={index} value={time}>{time}:00</option>
                                                 ))}
                                             </Field>
-                                            <Field as="select" name="startDay" className={styles.Field}>
+                                            <Field as="select" name="repeatDays" className={styles.Field}>
                                                 {tour?.repeatDays.map((day, index) => (
                                                     <option key={index} value={day}>{day}</option>
                                                 ))}

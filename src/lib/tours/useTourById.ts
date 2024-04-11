@@ -3,7 +3,7 @@ import axios from "axios";
 import { TourType } from "@/types/homePageTours";
 
 export const useTourById = (id: string) => {
-    const [tour, setTour] = useState<TourType | null>(null); 
+    const [tour, setTour] = useState<TourType | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -15,6 +15,7 @@ export const useTourById = (id: string) => {
                 );
                 if (response.status === 200 && response.data) {
                     setTour(response.data.data);
+                    console.log("Tour", response.data.data)
                 } else {
                     throw new Error("Failed to fetch event");
                 }
