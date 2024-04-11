@@ -91,7 +91,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
             childrenPricing: childrenPricing ?? null,
-            time: values.repeatTime,
+            time: values.repeatTime + ':00',
             date: formattedDate,
             day: values.repeatDays,
             options: optionsWithCounts, 

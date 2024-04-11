@@ -22,6 +22,7 @@ const NavbarData = [
     {
         id: 1,
         title: "Tours",
+        href: "/tours",
         expandable: true,
         subMenu: [
             { title: "Cairo Day Tours", href: "/cairo-day-tours" },
@@ -47,6 +48,7 @@ const NavbarData = [
     {
         id: 2,
         title: "Packages",
+        href: "/packages",
         expandable: true,
         subMenu: [
             { title: "2 Days 1 Night", href: "/2-days-1-night" },
@@ -156,7 +158,7 @@ const Navbar = () => {
                                 <li key={item.id}
                                     onMouseEnter={() => handleDropdown(item.id)}
                                     onMouseLeave={() => handleDropdownDelayedClose(item.id)}>
-                                    <Link href="#">
+                                    <Link href={item.href || "#"}>
                                         {item.title}
                                         <GoChevronDown />
                                     </Link>

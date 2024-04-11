@@ -22,9 +22,8 @@ SwiperCore.use([Navigation, Pagination]);
 
 
 
-const Testimonials: React.FC = () => {
+const ToursHomePage: React.FC = () => {
     const { tours, loading } = useAllTours();
-    const swiperRef = useRef<SwiperRef | null>(null);
     const swiperRefs = useRef<SwiperCore[]>([]);
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth ? windowWidth < 555 : false;
@@ -89,6 +88,6 @@ const Testimonials: React.FC = () => {
     );
 };
 
-export default Testimonials;
+export default ToursHomePage;
 
 
