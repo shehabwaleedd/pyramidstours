@@ -1,14 +1,12 @@
 'use client'
 import React from 'react'
 import useUserSubscriptions from '@/lib/tours/useUserSubscriptions'
-import { useAuth } from '@/context/AuthContext'
 import styles from './style.module.scss'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 
 const UserSubscriptions = () => {
-    const { userId } = useAuth();
-    const { subscriptions, loading, error } = useUserSubscriptions(userId);
+    const { subscriptions, loading, error } = useUserSubscriptions();
     const [userOpen, setUserOpen] = React.useState<string | null>(null);
 
     const handleUserOpen = (userId: string) => {
@@ -21,25 +19,25 @@ const UserSubscriptions = () => {
         <section className={styles.subscriptions}>
             <div className={styles.subscriptions__container}>
                 {subscriptions.map(subscription => (
-                    <div key={subscription._id} className={styles.subscriptions__container__user} onClick={() => handleUserOpen(user._id)}>
+                    <div key={subscription.data._id} className={styles.subscriptions__container__user}>
                         <div className={styles.subscriptions__container__user_top}>
                             <Image
-                                src={subscription.userDetails?.avatar?.url || '/user.png'}
-                                alt={subscription.userDetails?.name || 'user'}
+                                src={subscription.data.userDetails?.avatar?.url || '/user.png'}
+                                alt={subscription.data.userDetails?.name || 'user'}
                                 width={100}
                                 height={100}
                             />
-                            <h3>{subscription.userDetails?.name}</h3>
+                            <h3>{subscription.data.userDetails?.name}</h3>
                         </div>
 
                         <div>
                             <p>
-                                {subscription.tourDetails?.title.slice(0,20)}...
+                                {subscription.data.tourDetails?.title.slice(0,20)}...
                             </p>
                         </div>
                         <div>
-                            {subscription?.payment === "pending" ? <p style={{ color: 'var(--accent-color)' }}>Pending</p> : <p style={{ color: 'var(--success-color)' }}>Paid</p>}
-                            <p>{formatDistanceToNow(new Date(subscription?.createdAt), { addSuffix: true })}</p>
+                            {subscription?.data.payment === "pending" ? <p style={{ color: 'var(--accent-color)' }}>Pending</p> : <p style={{ color: 'var(--success-color)' }}>Paid</p>}
+                            <p>{formatDistanceToNow(new Date(subscription?.data.createdAt), { addSuffix: true })}</p>
                         </div>
                     </div>
                 ))}
