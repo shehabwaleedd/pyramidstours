@@ -108,7 +108,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
             );
             if (response.data.message === "Subscription created successfully") {
                 console.log(response.data, "respo")
-                setSubscriptionData(response.data);
+                setSubscriptionData(response.data.data);
                 setSubscriptionOpen(true);
             } else {
                 console.error('Error Occured.');

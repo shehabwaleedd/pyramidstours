@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import { SubscriptionData } from '@/types/common';
 
 interface ApiResponse {
     message: string;
-    page: number;
-    result: SubscriptionData[];
+    data: {
+        page: number;
+        result: SubscriptionData[];
+    };
 }
 
 const useUserSubscriptions = () => {
@@ -18,12 +19,12 @@ const useUserSubscriptions = () => {
         setLoading(true);
         try {
             const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription`, {
-                headers: { token: localStorage.getItem('token') },
+                headers: {token: localStorage.getItem('token')},
             });
-            setSubscriptions(response.data.result);
+            setSubscriptions(response.data.data.result);
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                setError(err);
+                setError(err); 
             } else if (err instanceof Error) {
                 setError(err);
             }

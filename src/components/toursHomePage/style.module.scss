@@ -29,6 +29,9 @@
         width: 100%;
 
         @media (max-width: 768px) {
+            font-size: 3.5rem;
+        }
+        @media (max-width: 558px) {
             font-size: var(--bigger-font-size);
         }
 
@@ -139,4 +142,3 @@
         height: 100%;
     }
 }
-

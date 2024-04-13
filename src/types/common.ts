@@ -39,20 +39,19 @@ interface Pricing {
 
 export interface SubscriptionData {
     message: string;
-    data: {
-        tourDetails: TourType;
-        userDetails: UserDetails;
-        time: string;
-        date: string;
-        day: string;
-        adultPricing: Pricing;
-        childrenPricing: Pricing;
-        options: Option[];
-        totalPrice: number;
-        payment: string;
-        _id: string;
-        createdAt: string;
-        updatedAt: string;
-        __v: number;
-    };
+    tourDetails: TourType;
+    userDetails: UserDetails;
+    time: string;
+    date: string;
+    day: string;
+    adultPricing: Pricing;
+    childrenPricing: Pricing;
+    options: Option[];
+    totalPrice: number;
+    payment: string;
+    _id: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+
 }

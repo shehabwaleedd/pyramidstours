@@ -19,25 +19,25 @@ const UserSubscriptions = () => {
         <section className={styles.subscriptions}>
             <div className={styles.subscriptions__container}>
                 {subscriptions.map(subscription => (
-                    <div key={subscription.data._id} className={styles.subscriptions__container__user}>
+                    <div key={subscription._id} className={styles.subscriptions__container__user}>
                         <div className={styles.subscriptions__container__user_top}>
                             <Image
-                                src={subscription.data.userDetails?.avatar?.url || '/user.png'}
-                                alt={subscription.data.userDetails?.name || 'user'}
+                                src={subscription.userDetails?.avatar?.url || '/user.png'}
+                                alt={subscription.userDetails?.name || 'user'}
                                 width={100}
                                 height={100}
                             />
-                            <h3>{subscription.data.userDetails?.name}</h3>
+                            <h3>{subscription.userDetails?.name}</h3>
                         </div>
 
                         <div>
                             <p>
-                                {subscription.data.tourDetails?.title.slice(0,20)}...
+                                {subscription.tourDetails?.title.slice(0,20)}...
                             </p>
                         </div>
                         <div>
-                            {subscription?.data.payment === "pending" ? <p style={{ color: 'var(--accent-color)' }}>Pending</p> : <p style={{ color: 'var(--success-color)' }}>Paid</p>}
-                            <p>{formatDistanceToNow(new Date(subscription?.data.createdAt), { addSuffix: true })}</p>
+                            {subscription?.payment === "pending" ? <p style={{ color: 'var(--accent-color)' }}>Pending</p> : <p style={{ color: 'var(--success-color)' }}>Paid</p>}
+                            <p>{formatDistanceToNow(new Date(subscription?.createdAt), { addSuffix: true })}</p>
                         </div>
                     </div>
                 ))}

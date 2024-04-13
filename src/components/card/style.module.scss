@@ -82,20 +82,21 @@
         justify-content: space-between;
 
         span {
-            font-size: var(--normal-font-size);
-            color: var(--title-color);
+            font-size: var(--body-font-size);
+            color: var(--accent-color);
             font-family: var(--body-font);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             text-align: left;
         }
+
+        h3 {
+            font-size: var(--semi-big-font-size);
+            font-family: var(--semi-bold-font);
+            color: var(--title-color);
+            text-align: left;
+        }
     }
 
-    h3 {
-        font-size: var(--medium-font-size);
-        font-family: var(--semi-bold-font);
-        color: var(--title-color);
-        text-align: left;
-    }
 
     p {
         font-size: var(--normal-font-size);

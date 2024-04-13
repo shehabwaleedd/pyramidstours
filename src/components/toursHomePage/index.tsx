@@ -28,7 +28,7 @@ const ToursHomePage: React.FC = () => {
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth ? windowWidth < 555 : false;
     const isTablet = windowWidth ? windowWidth < 777 : false;
-    const isBigScreen = windowWidth ? windowWidth < 1900 : false;
+    const isBigScreen = windowWidth ? windowWidth < 1300 : false;
     const locationOrder: { [key: string]: string } = {
         "Cairo": "Cairo Tours",
         "Giza": "Giza Tours",
