@@ -15,6 +15,7 @@ import PersonalInfo from '@/components/accountComponents/personalInfo/index'
 import ChangePassword from "@/components/accountComponents/changePassword"
 import CreateTour from './tours/createTour/page'
 import { AnimatePresence, motion } from 'framer-motion'
+import UserSubscriptions from '@/components/accountComponents/userSubscriptions'
 const Account = () => {
     const { user, loading, error, setUser, handleLogout, isLoggedIn } = useAuth();
     const [activeSection, setActiveSection] = useState<string>('');
@@ -104,6 +105,7 @@ const Account = () => {
                     <AnimatePresence mode='wait'>
                         {activeSection === 'personalInfo' && <PersonalInfo user={user} />}
                         {activeSection === 'changePassword' && <ChangePassword />}
+                        {activeSection === 'subscriptions' && <UserSubscriptions />}
                         {activeSection === 'createTour' && <CreateTour />}
                         {activeSection === 'tours' && <AllTours />}
                         {activeSection === 'users' && <AllUsers />}

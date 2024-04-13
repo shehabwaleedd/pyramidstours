@@ -15,6 +15,8 @@ import ImageSlider from '@/components/imageSlider/ImageSlider'
 import Image from 'next/image'
 import { TourType } from '@/types/homePageTours';
 import { useRouter } from 'next/navigation';
+import { SubscriptionData } from '@/types/common';
+import Proceed from '@/components/proceed';
 
 interface TourClientProps {
     id: string;
@@ -52,6 +54,9 @@ interface Values {
 
 const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const { tour } = useTourById(id)
+    const [subscriptionData, setSubscriptionData] = useState<SubscriptionData | null>(null)
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+    const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
     const router = useRouter()
     const initialValues: FormValues = {
         date: new Date(),
@@ -79,24 +84,21 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
         const optionsWithCounts = (tour?.options ?? []).reduce((acc: BookingOption[], option) => {
             if (values.selectedOptions.includes(option.name)) {
                 acc.push({
-                    id: option._id, // This assumes _id is always defined in your tour.options
-                    number: values.adults.toString(), // Convert number of adults to string
-                    // Since you've mentioned needing numberOfChildren in the previous structure,
-                    // add it here if it's required and adjust the BookingOption interface accordingly.
+                    id: option._id,
+                    number: values.adults.toString(),
                 });
             }
-            return acc;
+            return acc
         }, []);
-    
+
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
             childrenPricing: childrenPricing ?? null,
             time: values.repeatTime + ':00',
             date: formattedDate,
             day: values.repeatDays,
-            options: optionsWithCounts, 
+            options: optionsWithCounts,
         };
-
         console.log(adultPricing, childrenPricing, bookingData)
 
         try {
@@ -104,15 +106,17 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                 `${process.env.NEXT_PUBLIC_BASE_URL}/subscription/${tour?._id}`, bookingData,
                 { headers: { token: localStorage.getItem('token') } }
             );
-            if (response.data.paymentUrl) {
-                router.push(response.data.paymentUrl); // Redirecting to the payment URL
+            if (response.data.message === "Subscription created successfully") {
+                console.log(response.data, "respo")
+                setSubscriptionData(response.data);
+                setSubscriptionOpen(true);
             } else {
-                console.error('Payment URL not provided.');
+                console.error('Error Occured.');
             }
 
             console.log(response.data);
         } catch (error) {
-            console.error(error); // Handle error response
+            console.error(error);
         }
     };
 
@@ -186,7 +190,15 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                 </div>
             </div>
             <aside className={styles.eventDetails__lower}>
-                <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                <Formik initialValues={initialValues}
+                onSubmit={(values, { setSubmitting }) => {
+                    setIsSubmitting(true);
+                    handleSubmit(values).finally(() => {
+                        setIsSubmitting(false);
+                        setSubmitting(false);
+                    });
+                }}
+                >
                     {({ setFieldValue, values }) => {
                         const handleOptionChange = (optionName: string) => {
                             if (values.selectedOptions.includes(optionName)) {
@@ -259,7 +271,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
                                     </div>
                                 </div>
-                                <button type="submit" className={styles.submitButton}>Add To Cart</button>
+                                <button type="submit" className={styles.submitButton}  disabled={isSubmitting}> {isSubmitting ? 'Submitting...' : 'Book Now'}</button>
                                 <p>Note: The total price you see combines the basic tour costs plus any extras you pick, like special activities. Adults pay full price for these extras, but for kids, we only add half the price of these extras. So, the more you add, the more you save for your kids!</p>
                             </Form>
                         )
@@ -327,6 +339,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                 </div>
             </aside>
             <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />
+            {subscriptionOpen && subscriptionData && ( <Proceed data={subscriptionData} setSubscriptionOpen={setSubscriptionOpen}/>)}
         </section>
     )
 }

@@ -36,6 +36,11 @@
 
 
         .formField {
+            @media (max-width: 555px) {
+                width: 100%;
+                margin: 0 auto;
+                max-width: 70%;
+            }
 
             label {
                 display: none;
@@ -61,6 +66,7 @@
                 @media (max-width: 555px) {
                     width: 100%;
                     margin: 0 auto;
+                    max-width: 70%;
                 }
             }
         }
@@ -76,11 +82,6 @@
             color: var(--container-color);
             border-radius: 2rem;
             z-index: 99;
-
-            @media (max-width: 555px) {
-                padding: 0.5rem;
-                font-size: 2rem;
-            }
         }
     }
 }
