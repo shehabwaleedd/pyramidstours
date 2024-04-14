@@ -7,7 +7,7 @@ interface Image {
     _id: string;
 }
 
-interface Option {
+export interface Option {
     name: string;
     _id: string;
     price: number;

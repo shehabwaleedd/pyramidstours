@@ -12,7 +12,7 @@ export const useGetAllUsers = () => {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, {
                     headers: { token },
                 });
-                const filteredUsers: User[] = response.data.data.result.filter((user: User) => user.role !== "admin");
+                const filteredUsers: User[] = response.data.data.filter((user: User) => user.role !== "admin");
                 setUsers(filteredUsers);
                 return filteredUsers; 
             } catch (err) {

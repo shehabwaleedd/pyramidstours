@@ -3,16 +3,15 @@ import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
 import styles from "./style.module.scss";
 
 const ForgotPassword = () => {
     const { user } = useAuth();
     const userRegisteredEmail = user?.email;
     const [step, setStep] = useState(1); 
-    const [verificationCode, setVerificationCode] = useState(''); 
     const [emailForReset, setEmailForReset] = useState(''); 
-
+    const [verificationCode, setVerificationCode] = useState('');
     const getInitialValues = () => {
         switch (step) {
             case 1: return { email: '' };
@@ -44,50 +43,57 @@ const ForgotPassword = () => {
     };
 
     // Handle submit based on the current step
+
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
             switch (step) {
                 case 1:
-                    if (values.email !== userRegisteredEmail) {
+                    // Check if the entered email matches the user's registered email
+                    if (values.email !== user?.email) {
                         alert('The provided email does not match the registered email.');
                         break;
                     }
-                    const { data } = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/user/sendCode`, {
-                        email: values.email,
-                    });
-                    setVerificationCode(data.code);
-                    setEmailForReset(values.email);
-                    setStep(2); // Move to the next step
+                    // If email matches, proceed with sending the verification code
+                    await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/user/sendCode`, { email: values.email });
+                    setEmailForReset(values.email); // Store the email for later use
+                    setStep(2);
                     break;
                 case 2:
-                    // Check the entered code matches the sent code
-                    if (values.code !== verificationCode) {
+                    // Store the entered code for sending in the next step
+                    setVerificationCode(values.code);
+                    const response = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/user/checkCode`, {
+                        email: emailForReset,
+                        code: values.code,
+                    });
+
+                    if (response.data.message === 'success' && response.data.data === 'correct code') {
+                        setStep(3); // If verification successful, proceed to password reset
+                    } else {
                         alert('Verification code is incorrect.');
-                        break;
                     }
-                    setStep(3); // Move to the next step
                     break;
                 case 3:
-
+                    // Send email, newPassword, and stored code for the final password reset
                     await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/forgetPassword`, {
                         email: emailForReset,
                         newPassword: values.newPassword,
+                        code: verificationCode, // Include the code from step 2
                     });
                     alert('Your password has been updated successfully!');
                     resetForm();
-                    setStep(1); 
+                    setStep(1); // Reset to the initial step
                     break;
                 default:
                     break;
             }
         } catch (error) {
-            console.error('An error occurred:', error);
-            alert('An error occurred. Please try again later.');
+            console.error('An error occurred:', error.response?.data?.err || 'Please try again later.');
+            alert(error.response?.data?.err || 'An error occurred. Please try again later.');
         } finally {
             setSubmitting(false);
         }
     };
-
+    
     return (
         <section className={styles.forgotPassword}>
             <h2>Forgot Password</h2>
@@ -97,12 +103,7 @@ const ForgotPassword = () => {
                 onSubmit={handleSubmit}
             >
                 {({ isSubmitting }) => (
-                    <motion.div
-                        initial={{ x: '-100vw' }}
-                        animate={{ x: 0 }}
-                        exit={{ x: '100vw' }}
-                        transition={{ type: 'spring', stiffness: 150 }}
-                    >
+                    <motion.div>
                         <Form>
                             {step === 1 && (
                                 <>
@@ -145,9 +146,12 @@ const ForgotPassword = () => {
                                     </button>
                                 </>
                             )}
+                            
                         </Form>
+                        
                     </motion.div>
                 )}
+                {}
             </Formik>
         </section>
     );

@@ -1,44 +1,17 @@
-import React from 'react'
-import { motion } from 'framer-motion'
-import styles from "./style.module.scss"
+import React from 'react';
+import { motion } from 'framer-motion';
+import styles from "./style.module.scss";
 import Image from 'next/image';
 import { IoLocationOutline } from "react-icons/io5";
 import { FiPhone } from "react-icons/fi";
 import { MdOutlineWorkOutline } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import useGetAllUsers from '@/lib/user/useGetAllUsers';
-
-
 import axios from 'axios';
 
-const ViewUserDetailsAdmin = ({ users, userOpened, setUserOpened }) => {
-    const { getAllUsers } = useGetAllUsers();
-
-    const convertUserRole = async (id, newRole) => {
-        const roleConfirmationMessage = `Are you sure you want to convert this ${newRole === "admin" ? "user to admin" : "admin to user"}?`;
-        const isConfirmed = window.confirm(roleConfirmationMessage);
-        if (isConfirmed) {
-            try {
-                // send data as raw in body and send token in headers
-                const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/convertUserRole/${id}`, { role: newRole }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'token': localStorage.getItem('token'),
-                    },
-                });
-
-
-                if (response.status === 200) {
-                    alert(`User has been converted to ${newRole}.`);
-                    setUserOpened(null);
-                    getAllUsers();
-                }
-            } catch (error) {
-                console.error(error);
-                alert(`Failed to convert to ${newRole}, please try again later.`);
-            }
-        }
-    };
+const ViewUserDetailsAdmin = ({ userOpen, setUserOpen }) => {
+    const { users, loading } = useGetAllUsers();
+    const currentUser = users.find(user => user._id === userOpen);
 
     const deleteUser = async (id) => {
         const isConfirmed = window.confirm("Are you sure you want to delete this user?");
@@ -51,18 +24,21 @@ const ViewUserDetailsAdmin = ({ users, userOpened, setUserOpened }) => {
                     },
                 });
                 if (response.status === 200) {
-                    Alert("User has been deleted");
-                    setUserOpened(null);
+                    alert("User has been deleted");
+                    setUserOpen(null);
                 }
             }
             catch (error) {
                 console.log(error);
-                Alert("Failed to delete user, please try again later");
+                alert("Failed to delete user, please try again later");
             }
         }
     }
 
 
+    if (!currentUser) return <p>User not found.</p>;
+    if (loading) return <p>Loading...</p>;
+    if (!users) return <p>No users available.</p>;
 
     return (
         <motion.section
@@ -74,35 +50,30 @@ const ViewUserDetailsAdmin = ({ users, userOpened, setUserOpened }) => {
         >
             <div className={styles.viewUserDetailsAdmin__container}>
                 <div className={styles.viewUserDetailsAdmin__container__close}>
-                    <button onClick={() => setUserOpened(null)}>X</button>
+                    <button onClick={() => setUserOpen(null)}>X</button>
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__top}>
                     <Image
-                        src={users.find(user => user._id === userOpened).avatar?.url || '/user.png'}
-                        alt={users.find(user => user._id === userOpened).name}
+                        src={currentUser.avatar?.url || '/user.png'}
+                        alt={currentUser.name || 'User'}
                         width={100}
                         height={100}
                     />
-                    <h3>{users.find(user => user._id === userOpened).name}</h3>
+                    <h3>{currentUser.name}</h3>
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__bottom}>
-                    <p>{users.find(user => user._id === userOpened).email}</p>
-                    <p><FiPhone /> {users.find(user => user._id === userOpened).phone}</p>
-                    <p><IoLocationOutline /> {users.find(user => user._id === userOpened).country}, {users.find(user => user._id === userOpened).region}</p>
-                    <p><MdOutlineWorkOutline /> {users.find(user => user._id === userOpened).company}</p>
-                    <p><FiUser /> {users.find(user => user._id === userOpened).gender},{users.find(user => user._id === userOpened).age} yo</p>
+                    <p>{currentUser.email}</p>
+                    <p><FiPhone /> {currentUser.phone}</p>
+                    <p><IoLocationOutline /> {currentUser.country}, {currentUser.region}</p>
+                    <p><MdOutlineWorkOutline /> {currentUser.company}</p>
+                    <p><FiUser /> {currentUser.gender}, {currentUser.age} yo</p>
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__lower}>
-                    {users.find(user => user._id === userOpened).role === "user" ? (
-                        <button onClick={() => convertUserRole(userOpened, "admin")}>Convert to Admin</button>
-                    ) : (
-                        <button onClick={() => convertUserRole(userOpened, "user")}>Convert to User</button>
-                    )}
-                    <button style={{color: "#c92a2a"}} onClick={() => deleteUser(userOpened)}>Delete User</button>
+                    <button style={{ color: "#c92a2a" }} onClick={() => deleteUser(currentUser._id)}>Delete User</button>
                 </div>
             </div>
         </motion.section>
-    )
+    );
 }
 
-export default ViewUserDetailsAdmin
+export default ViewUserDetailsAdmin;
