@@ -2,8 +2,10 @@
 import { SubscriptionData } from '@/types/common'
 import React, { useState } from 'react'
 import styles from "./style.module.scss"
+import globalStyles from "../../app/page.module.scss"
 import axios from 'axios'
 import Image from 'next/image'
+
 const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSubscriptionOpen: (value: boolean) => void }) => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const handlePaymentClick = async () => {
@@ -29,10 +31,10 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
 
 
     return (
-        <section className={styles.proceed}>
-            <div>
+        <section className={`${styles.proceed} ${globalStyles.bottomGlass}`}>
+            <div className={styles.proceed__upper}>
                 <h2>Your Order</h2>
-                <button onClick={handleClose} className={styles.close_button}>X</button>
+                <button onClick={handleClose} className={styles.close_button}>close</button>
             </div>
             <div className={styles.group}>
                 <Image src={data.tourDetails.mainImg.url} alt="tour image" width={200} height={200} />

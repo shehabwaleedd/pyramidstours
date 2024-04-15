@@ -18,7 +18,7 @@
 .image-slider-dots {
     display: flex;
     position: absolute;
-    bottom: 0.5rem;
+    bottom: 1rem;
     left: 50%;
     gap: 0.25rem;
     translate: -50%;
@@ -30,7 +30,7 @@
     height: 50vh;
     flex-shrink: 0;
     flex-grow: 0;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
 
 }
 
@@ -46,11 +46,7 @@
     border-radius: 0.6rem;
 }
 
-.img-slider-btn:hover,
-.img-slider-btn:focus-visible {
-    background-color: rgb(0, 0, 0, 0.2);
-    border-radius: 1rem;
-}
+
 
 .img-slider-btn>* {
     stroke: white;

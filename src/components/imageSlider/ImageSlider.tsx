@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
-import { FaRegDotCircle } from "react-icons/fa";
-import { FaRegCircle } from "react-icons/fa";
+import { FaRegCircle, FaCircle } from "react-icons/fa";
 
 
 import "./ImageSlider.css";
@@ -27,26 +26,7 @@ export function ImageSlider({ images }: ImageSliderProps) {
     const showPrevImage = () => {
         setImageIndex((currentIndex) => (currentIndex - 1 + images.length) % images.length);
     };
-    const sliderVariants = {
-        enter: (direction: number) => {
-            return {
-                x: direction > 0 ? 1000 : -1000,
-                opacity: 0
-            };
-        },
-        center: {
-            zIndex: 1,
-            x: 0,
-            opacity: 1
-        },
-        exit: (direction: number) => {
-            return {
-                zIndex: 0,
-                x: direction < 0 ? 1000 : -1000,
-                opacity: 0
-            };
-        }
-    };
+
     return (
         <section aria-label="Image Slider" className="image-slider">
             <a href="#after-image-slider-controls" className="skip-link"> Skip Image Slider Controls </a>
@@ -57,7 +37,7 @@ export function ImageSlider({ images }: ImageSliderProps) {
                         height={500}
                         key={`${image.image}-${index}`}
                         src={image.url}
-                        alt={image.name || 'image'} 
+                        alt={image.name || 'image'}
                         aria-hidden={imageIndex !== index}
                         className="img-slider-img"
                         style={{ transform: `translateX(${-100 * imageIndex}%)` }}
@@ -78,7 +58,7 @@ export function ImageSlider({ images }: ImageSliderProps) {
                         aria-label={`View Image ${index + 1}`}
                         onClick={() => setImageIndex(index)}
                     >
-                        {index === imageIndex ? <FaRegDotCircle aria-hidden /> : <FaRegCircle aria-hidden />}
+                        {index === imageIndex ? <FaCircle aria-hidden /> : <FaRegCircle aria-hidden />}
                     </button>
                 ))}
             </div>

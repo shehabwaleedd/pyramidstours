@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useTourById } from '@/lib/tours/useTourById'
 import axios from 'axios'
 import { Formik, Form, Field, } from 'formik';
@@ -14,7 +14,6 @@ import 'react-calendar/dist/Calendar.css';
 import ImageSlider from '@/components/imageSlider/ImageSlider'
 import Image from 'next/image'
 import { TourType } from '@/types/homePageTours';
-import { useRouter } from 'next/navigation';
 import { SubscriptionData } from '@/types/common';
 import Proceed from '@/components/proceed';
 
@@ -57,14 +56,13 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const [subscriptionData, setSubscriptionData] = useState<SubscriptionData | null>(null)
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
-    const router = useRouter()
     const initialValues: FormValues = {
         date: new Date(),
         adults: 1,
         children: 0,
         selectedOptions: [],
-        repeatTime: '',
-        day: '',
+        repeatTime: '8',
+        day: 'Sunday',
         repeatDays: '',
 
     };
@@ -79,7 +77,9 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
         const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : ""; // Ensuring date is in ISO format
 
         const adultPricing = tour?.adultPricing.find(pricing => pricing.adults <= values.adults)?._id;
-        const childrenPricing = tour?.childrenPricing.find(pricing => pricing.children <= values.children)?._id;
+        const childrenPricing = values.children > 0
+            ? tour?.childrenPricing.find(pricing => pricing.children <= values.children)?._id
+            : ''; // 
 
         const optionsWithCounts = (tour?.options ?? []).reduce((acc: BookingOption[], option) => {
             if (values.selectedOptions.includes(option.name)) {
@@ -93,10 +93,10 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
-            childrenPricing: childrenPricing ?? null,
-            time: values.repeatTime + ':00',
+            childrenPricing: childrenPricing || "",
+            time: values.repeatTime + ':00' || "8:00",
             date: formattedDate,
-            day: values.repeatDays,
+            day: values.repeatDays || "Sunday",
             options: optionsWithCounts,
         };
         console.log(adultPricing, childrenPricing, bookingData)
@@ -191,13 +191,13 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
             </div>
             <aside className={styles.eventDetails__lower}>
                 <Formik initialValues={initialValues}
-                onSubmit={(values, { setSubmitting }) => {
-                    setIsSubmitting(true);
-                    handleSubmit(values).finally(() => {
-                        setIsSubmitting(false);
-                        setSubmitting(false);
-                    });
-                }}
+                    onSubmit={(values, { setSubmitting }) => {
+                        setIsSubmitting(true);
+                        handleSubmit(values).finally(() => {
+                            setIsSubmitting(false);
+                            setSubmitting(false);
+                        });
+                    }}
                 >
                     {({ setFieldValue, values }) => {
                         const handleOptionChange = (optionName: string) => {
@@ -249,18 +249,22 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     <div className={styles.eventDetails__lower_left_options__header}>
                                         <h2>Options</h2>
                                     </div>
-                                    <div className={styles.eventDetails__lower_left_options__options}>
+                                    <div className={styles.optionss}>
                                         {tour?.options.map((option, index) => (
-                                            <label key={index}>
+                                            <div key={index} className={`${styles.eventDetails__lower_left_options__options_option} ${values.selectedOptions.includes(option.name) ? styles.selected : ''}`}
+                                                onClick={() => handleOptionChange(option.name)}>
+                                                <label>
+                                                    {`${option.name} - $${option.price}`}
+                                                </label>
                                                 <Field
                                                     type="checkbox"
                                                     name="selectedOptions"
+                                                    style={{ display: 'none' }}
                                                     value={option.name}
                                                     checked={values.selectedOptions.includes(option.name)}
                                                     onChange={() => handleOptionChange(option.name)}
                                                 />
-                                                {`${option.name} - $${option.price}`}
-                                            </label>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
@@ -271,7 +275,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
                                     </div>
                                 </div>
-                                <button type="submit" className={styles.submitButton}  disabled={isSubmitting}> {isSubmitting ? 'Submitting...' : 'Book Now'}</button>
+                                <button type="submit" className={styles.submitButton} disabled={isSubmitting}> {isSubmitting ? 'Booking...' : 'Book Now'}</button>
                                 <p>Note: The total price you see combines the basic tour costs plus any extras you pick, like special activities. Adults pay full price for these extras, but for kids, we only add half the price of these extras. So, the more you add, the more you save for your kids!</p>
                             </Form>
                         )
@@ -296,11 +300,11 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                             </ul>
                         </div>
                         <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__inclusions}>
-                            <h2 style={{ color: "var(--second-accent-color" }}>Inclusions</h2>
+                            <h2 style={{ color: "var(--success-color" }}>Inclusions</h2>
                             <ul>
                                 {tour?.inclusions.map((inclusion, index) => (
                                     <li key={index}>
-                                        <FaCheck style={{ fill: "var(--second-accent-color" }} /> {inclusion}
+                                        <FaCheck style={{ fill: "var(--success-color" }} /> {inclusion}
                                     </li>
                                 ))}
                             </ul>
@@ -339,7 +343,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                 </div>
             </aside>
             <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />
-            {subscriptionOpen && subscriptionData && ( <Proceed data={subscriptionData} setSubscriptionOpen={setSubscriptionOpen}/>)}
+            {subscriptionOpen && subscriptionData && (<Proceed data={subscriptionData} setSubscriptionOpen={setSubscriptionOpen} />)}
         </section>
     )
 }

@@ -1,23 +1,4 @@
 .viewUserDetailsAdmin {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    max-width: fit-content;
-    transform: translate(-50%, -50%);
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f5ec0a;
-    box-shadow: 0 4px 30px rgba(96, 65, 58, 0.1);
-    border-radius: 2rem;
-    backdrop-filter: blur(5px);
-    border: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    z-index: 100;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
     &__container {
         width: 100%;
@@ -34,7 +15,8 @@
                 position: absolute;
                 top: 1rem;
                 right: 1rem;
-                font-size: 2rem;
+                font-size: 1rem;
+                font-family: var(--body-font);
                 color: var(--title-color);
                 cursor: pointer;
                 transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);

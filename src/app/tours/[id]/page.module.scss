@@ -168,38 +168,46 @@
                 border: 1px solid var(--border-color);
                 border-radius: 2rem;
 
-                h2 {
-                    padding-left: 1rem;
+                @media (max-width: 555px) {
+                    gap: 1.5rem;
                 }
+
 
                 &__options {
                     display: flex;
                     flex-wrap: wrap;
                     height: 100%;
                     gap: 0.5rem;
-                    padding: 1rem;
                     width: 100%;
-                    display: flex;
-                    transition: var(--animation-primary);
 
-                    &_options {
+
+
+                    &_option {
                         display: flex;
-                        width: 100%;
+                        width: fit-content;
                         height: 100%;
+                        padding: 0.5rem 1rem;
+                        cursor: pointer;
+                        transition: var(--animation-primary);
+                        border-radius: 1rem;
 
+                        label {
+                            cursor: pointer;
+                        }
+
+                        &.selected {
+                            transition: var(--animation-primary);
+                            background-color: var(--title-color);
+                            border-radius: 1rem;
+
+                            label {
+                                color: var(--background-color);
+                            }
+                        }
                     }
                 }
             }
 
-            &.selected {
-                transition: var(--animation-primary);
-                background-color: var(--title-color);
-                border-radius: 1rem;
-
-                label {
-                    color: var(--background-color);
-                }
-            }
 
             Field {
                 width: 100%;
@@ -251,6 +259,7 @@
                 gap: 1rem;
                 line-break: anywhere;
                 width: 100%;
+
                 p {
                     color: var(--text-color);
                     font-family: var(--body-font);
@@ -362,10 +371,11 @@
 .submitButton {
     width: 100%;
     padding: 0.5rem;
-    border: 2px solid var(--title-color);
+    border: 2px solid var(--background-color);
     border-radius: 2rem;
     font-size: 1.5rem;
-    background-color: var(--title-color);
+    background-color: var(--accent-color);
+    font-family: var(--body-font);
     color: var(--background-color);
     cursor: pointer;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -377,4 +387,17 @@
     width: 100%;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.optionss {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.5rem;
+
+    @media (max-width: 555px) {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }

@@ -1,10 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import axios from 'axios';
 import { User } from '@/types/hooks';
 
 export const useGetAllUsers = () => {
     const [users, setUsers] = useState < User[] > ([]);
-
     const getAllUsers = useCallback(async (): Promise<User[] | undefined> => {
         const token = localStorage.getItem('token');
         if (token) {

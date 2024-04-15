@@ -1,21 +1,17 @@
 'use client'
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
 import styles from './style.module.scss';
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
-import { useRouter } from 'next/navigation';
-import { Swiper, SwiperSlide, SwiperRef } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import useWindowWidth from '@/hooks/useWindowWidth';
 import SwiperCore from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
 import { useAllTours } from '@/lib/tours/useAllTours';
 import { TourGroup, TourType } from '@/types/homePageTours';
-import { useAuth } from '@/context/AuthContext';
 import "swiper/css";
 import "swiper/css/pagination";
 import 'swiper/css/navigation';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { FiHeart } from "react-icons/fi";
 import TourCard from '../card';
 
 SwiperCore.use([Navigation, Pagination]);

@@ -6,14 +6,20 @@ import { IoLocationOutline } from "react-icons/io5";
 import { FiPhone } from "react-icons/fi";
 import { MdOutlineWorkOutline } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
-import useGetAllUsers from '@/lib/user/useGetAllUsers';
 import axios from 'axios';
+import { useUserById } from '@/lib/user/useUserById';
+import global from "../../../../app/page.module.scss"
 
-const ViewUserDetailsAdmin = ({ userOpen, setUserOpen }) => {
-    const { users, loading } = useGetAllUsers();
-    const currentUser = users.find(user => user._id === userOpen);
+interface ViewUserDetailsAdminProps {
+    userOpen: string;
+    setUserOpen: (id: string | null) => void;
+}
 
-    const deleteUser = async (id) => {
+const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, setUserOpen }) => {
+    const { user, loading } = useUserById(userOpen);
+
+
+    const deleteUser = async (id: string) => {
         const isConfirmed = window.confirm("Are you sure you want to delete this user?");
         if (isConfirmed) {
             try {
@@ -36,9 +42,7 @@ const ViewUserDetailsAdmin = ({ userOpen, setUserOpen }) => {
     }
 
 
-    if (!currentUser) return <p>User not found.</p>;
     if (loading) return <p>Loading...</p>;
-    if (!users) return <p>No users available.</p>;
 
     return (
         <motion.section
@@ -46,30 +50,30 @@ const ViewUserDetailsAdmin = ({ userOpen, setUserOpen }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className={styles.viewUserDetailsAdmin}
-        >
+            className={`${styles.viewUserDetailsAdmin} ${global.centeredGlass}`}>
             <div className={styles.viewUserDetailsAdmin__container}>
                 <div className={styles.viewUserDetailsAdmin__container__close}>
-                    <button onClick={() => setUserOpen(null)}>X</button>
+                    <button onClick={() => setUserOpen(null)}>close</button>
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__top}>
                     <Image
-                        src={currentUser.avatar?.url || '/user.png'}
-                        alt={currentUser.name || 'User'}
+                        src={user?.avatar?.url || '/user.png'}
+                        alt={user?.name || 'User'}
                         width={100}
                         height={100}
                     />
-                    <h3>{currentUser.name}</h3>
+                    <h3>{user?.name}</h3>
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__bottom}>
-                    <p>{currentUser.email}</p>
-                    <p><FiPhone /> {currentUser.phone}</p>
-                    <p><IoLocationOutline /> {currentUser.country}, {currentUser.region}</p>
-                    <p><MdOutlineWorkOutline /> {currentUser.company}</p>
-                    <p><FiUser /> {currentUser.gender}, {currentUser.age} yo</p>
+                    <p>{user?.email}</p>
+                    <p><FiPhone /> {user?.phone}</p>
+                    <p><IoLocationOutline /> {user?.country}, {user?.region}</p>
+                    <p><MdOutlineWorkOutline /> {user?.company}</p>
+                    <p><FiUser /> {user?.gender}, {user?.age} yo</p>
+
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__lower}>
-                    <button style={{ color: "#c92a2a" }} onClick={() => deleteUser(currentUser._id)}>Delete User</button>
+                    <button style={{ color: "#c92a2a" }} onClick={() => deleteUser(user?._id ?? '')}>Delete User</button>
                 </div>
             </div>
         </motion.section>

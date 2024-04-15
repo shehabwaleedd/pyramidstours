@@ -23,10 +23,6 @@ const UserSubscriptions = () => {
         setUserOpen(null);
     };
 
-    const handleTourOpen = (tourId: string) => {
-        setTourOpen(tourId);
-    };
-
 
     if (loading) return <p>Loading...</p>
 
