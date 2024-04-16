@@ -4,12 +4,12 @@ import { useFormik } from 'formik';
 import * as yup from 'yup'
 import axios from 'axios';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import styles from "./style.module.scss"
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
 import global from "../../app/page.module.scss"
 import { CountryDropdown } from 'react-country-region-selector';
+
 
 interface FormValues {
     email: string;
@@ -31,8 +31,6 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
     const [mode, setMode] = useState<'login' | 'register'>('login');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { handleLoginSuccess, setUser } = useAuth();
-
-    const router = useRouter();
 
     const validationSchema = yup.object().shape({
         email: yup.string().email("Invalid email format").required("Email is required"),
@@ -62,20 +60,22 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
             const dataToSend = mode === 'login' ? { email: values.email, password: values.password } : values;
 
             try {
-                const response = await axios.post(url, dataToSend, {});
-
-                if (response.data.success) {
-                    setUser(response.data.user);
-                    handleLoginSuccess(response.data.token);
-                    router.push('/dashboard');
-                    setIsLoading(false);
+                const response = await axios.post(url, dataToSend);
+                if (response.data.message === 'success') {
+                    console.log("Setting user data");
+                    setUser(response.data.data);
+                    console.log("Handling login success");
+                    handleLoginSuccess(response.data.token, response.data.data); 
+                    console.log("Closing login form");
+                    setIsLoginOpen(false);
                 } else {
-                    setErrorFromDataBase(response.data.err);
-                    setIsLoading(false);
+                    console.log("Fail")
+                    setErrorFromDataBase(response.data.message || 'An unexpected error occurred.');
                 }
+
             } catch (error: any) {
-                const errorMessage = error.response?.data?.err || "An unexpected error occurred.";
-                setErrorFromDataBase(errorMessage);
+                setErrorFromDataBase(error.response.err || "An unexpected error occurred.");
+            } finally {
                 setIsLoading(false);
             }
         },

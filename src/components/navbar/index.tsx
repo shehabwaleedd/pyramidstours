@@ -205,7 +205,7 @@ const Navbar = () => {
                             <button onClick={toggleWishlistOpen}>
                                 <FiHeart />
                             </button>
-                            <span>{user?.wishList?.length | 0}</span>
+                            <span>{user?.wishList?.length ?? 0}</span>
                         </li>
                         <div className={styles.desktop_menu}>
                             <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
@@ -229,7 +229,7 @@ const Navbar = () => {
                             <button onClick={toggleWishlistOpen}>
                                 <FiHeart />
                             </button>
-                            <span>{user?.wishList?.length | 0}</span>
+                            <span>{user?.wishList?.length ?? 0}</span>
                         </li>
                     </ul>
                     <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>

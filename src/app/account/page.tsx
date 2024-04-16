@@ -44,7 +44,7 @@ const Account = () => {
     const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const token = localStorage.getItem('token');
         if (!token) return;
-        const avatar = user.data.avatar;
+        const avatar = user?.avatar;
         console.log(avatar);
         const formData = new FormData();
         if (avatar) formData.append('avatar', avatar.url);
@@ -60,7 +60,12 @@ const Account = () => {
                 }
             });
             console.log(response.data);
-            setUser({ ...user, data: { ...user.data, avatar: response.data.avatar } });
+            setUser((prevUser) => {
+                if (prevUser) {
+                    return { ...prevUser, data: { ...prevUser.data, avatar: response.data.avatar } };
+                }
+                return prevUser;
+            });
         }
         catch (err) {
             console.error(err);
@@ -68,7 +73,7 @@ const Account = () => {
     };
 
     if (loading) return <Loading height={100} />;
-    if (error) return <div >Error: {error.message}</div>;
+    if (typeof error === 'string') return <div>Error: {error}</div>;
     if (!user || !isLoggedIn) return <div>loading...</div>
 
     return (

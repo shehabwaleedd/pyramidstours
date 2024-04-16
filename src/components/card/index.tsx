@@ -15,7 +15,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
     const router = useRouter();
     const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
     const isTourInWishlist = (tourId: string) => {
-        return (wishlist as { _id: string }[]).some(tour => tour._id === tourId);
+        return (wishlist as unknown as { _id: string }[]).some(tour => tour._id === tourId);
     };
 
     const handleWishlistClick = (event: React.MouseEvent, tourId: string) => {

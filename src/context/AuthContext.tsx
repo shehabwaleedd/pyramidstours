@@ -1,22 +1,56 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { User } from '@/types/hooks';
+import { TourType } from '@/types/homePageTours';
 
-const AuthContext = createContext();
+interface AuthContextType {
+    user: User | null;
+    error: string;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    userId: string | null;
+    isLoggedIn: boolean;
+    loading: boolean;
+    handleLoginSuccess: (token: string, userData: User) => void;
+    handleLogout: () => void;
+    hasAnimationShown: boolean;
+    setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>;
+    addToWishlist: (tourId: string) => Promise<void>;
+    removeFromWishlist: (tourId: string) => Promise<void>;
+    wishlist: TourType[];
+    isLoginOpen: boolean;
+    setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    
+}
 
-export const useAuth = () => useContext(AuthContext);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState([]);
-    const userId = typeof window !== 'undefined' ? window.localStorage.getItem('userId') : null;
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [hasAnimationShown, setHasAnimationShown] = useState(false);
-    const [wishlist, setWishlist] = useState(
-        user?.wishList || []
-    );
+
+export const useAuth = (): AuthContextType => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within a AuthProvider');
+    }
+    return context;
+};
+interface AuthProviderProps {
+    children: ReactNode;
+}
+
+
+
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [user, setUser] = useState<User | null>(null);
+    const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [hasAnimationShown, setHasAnimationShown] = useState<boolean>(false);
+    const [wishlist, setWishlist] = useState<TourType[]>([]);
+    const [isLoginOpen, setIsLoginOpen]= useState<boolean>(false);
+    const [error, setError] = useState<string>('');
     const router = useRouter();
 
     useEffect(() => {
@@ -59,14 +93,14 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
 
-    const addToWishlist = async (tourId) => {
+    const addToWishlist = async (tourId: string) => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
                 await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/addToWishlist/${tourId}`, {}, {
-                    headers: { token },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                setWishlist((currentWishlist) => [...currentWishlist, tourId]);
+                setWishlist(currentWishlist => [...currentWishlist, tourId] as TourType[]);
             } catch (error) {
                 console.error('Error adding to wishlist:', error);
             }
@@ -75,14 +109,14 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const removeFromWishlist = async (tourId) => {
+    const removeFromWishlist = async (tourId: string) => {
         const token = localStorage.getItem('token');
         if (token) {
             try {
                 await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/removeWishlist/${tourId}`, {}, {
-                    headers: { token },
+                    headers: { Authorization: `Bearer ${token}` },
                 });
-                setWishlist((currentWishlist) => currentWishlist.filter((id) => id !== tourId));
+                setWishlist(currentWishlist => currentWishlist.filter(tour => tour._id !== tourId));
             } catch (error) {
                 console.error('Error removing from wishlist:', error);
             }
@@ -91,17 +125,14 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-
-
-    const handleLoginSuccess = (token, userData) => {
+    const handleLoginSuccess = (token: string, userData: User) => {
         localStorage.setItem('token', token);
-        localStorage.setItem('hasAnimationShown', JSON.stringify(true));
+        localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
         setUser(userData);
         setIsLoggedIn(true);
         router.push('/account');
     };
-
 
     const handleLogout = () => {
         const clearLocalStorageItems = () => {
@@ -120,7 +151,7 @@ export const AuthProvider = ({ children }) => {
 
 
 
-    const authValue = {
+const authValue: AuthContextType = {
         user,
         setUser,
         userId,
@@ -133,7 +164,11 @@ export const AuthProvider = ({ children }) => {
         addToWishlist,
         removeFromWishlist,
         wishlist,
+        isLoginOpen,
+        setIsLoginOpen,
+        error
     };
+
 
     return (
         <AuthContext.Provider value={authValue}>

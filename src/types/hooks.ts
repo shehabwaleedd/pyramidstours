@@ -1,3 +1,5 @@
+import { TourType } from "./homePageTours";
+
 export interface User {
     id: string;
     _id: string;
@@ -11,4 +13,6 @@ export interface User {
     gender: string;
     role: string;
     age: number;
+    wishList: string[];
+    data: TourType[]
 }

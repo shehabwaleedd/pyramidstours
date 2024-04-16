@@ -23,20 +23,22 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
                     </div>
                     <div className={styles.wishlistHeader__lower}>
                         {wishlist.length > 0 ? (
-                            wishlist.map((tour: TourType) => (
-                                <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${tour._id}`}>
-                                    <Image src={tour.mainImg.url} alt="Tour" width={50} height={50} objectFit="cover" />
-                                    <div className={styles.cardContent}>
-                                        <div>
-                                            <h4>{tour.title.slice(0, 25)}...</h4>
-                                            <p>{tour.description.slice(0, 40)}...</p>
+                            <>
+                                {wishlist.map((tour: TourType) => (
+                                    <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${tour._id}`}>
+                                        <Image src={tour.mainImg.url} alt="Tour" width={50} height={50} objectFit="cover" />
+                                        <div className={styles.cardContent}>
+                                            <div>
+                                                <h4>{tour.title.slice(0, 25)}...</h4>
+                                                <p>{tour.description.slice(0, 40)}...</p>
+                                            </div>
+                                            <div>
+                                                <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))
+                                    </Link>
+                                ))}
+                            </>
                         ) : (
                             <p>No tours are being added in wishlist.</p>
                         )}

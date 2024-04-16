@@ -78,11 +78,11 @@ const TestimonialsCards: FC = () => {
                 breakpoints={{
                     380: {
                         slidesPerView: 1,
-                        spaceBetween: 20,
+                        spaceBetween: 40,
                     },
                     768: {
                         slidesPerView: 2,
-                        spaceBetween: 20,
+                        spaceBetween: 40,
 
                     },
                     1024: {

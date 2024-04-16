@@ -1,13 +1,13 @@
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider } from "@/context/AuthContext";
 
 interface OpenGraph {
   type: string;
   title: string;
   description: string;
-  images: string; // Note the singular 'image' if only one image is used
+  images: string; 
   url: string;
   site_name: string;
 }
@@ -17,7 +17,7 @@ interface Metadata {
   description: string;
   keywords: string;
   author: string;
-  openGraph: OpenGraph; // Use OpenGraph type here
+  openGraph: OpenGraph; 
 }
 
 
@@ -49,11 +49,7 @@ export const viewport = {
 
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
   return (
     <html lang="en">
       <body>

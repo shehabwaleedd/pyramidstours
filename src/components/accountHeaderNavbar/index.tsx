@@ -3,12 +3,12 @@ import styles from './style.module.scss';
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 
 const AccountHeaderNavbar = ({ profileOpen }: { profileOpen: boolean }) => {
     const { user, handleLogout } = useAuth();
-    const userAvatar = user?.avatar || "/user.png";
+    const userAvatar = user?.avatar?.url || "/user.png";
 
     return (
         <div className={styles.accountHeader}>
@@ -22,7 +22,7 @@ const AccountHeaderNavbar = ({ profileOpen }: { profileOpen: boolean }) => {
                     <div className={styles.accountHeader__profile_upper}>
                         <div>
                             <Image
-                                src={userAvatar.url ?? "/user.png"}
+                                src={userAvatar ?? "/user.png"}
                                 alt="User Avatar"
                                 width={50}
                                 height={50}
