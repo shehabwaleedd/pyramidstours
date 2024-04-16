@@ -67,7 +67,7 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
                 if (response.data.success) {
                     setUser(response.data.user);
                     handleLoginSuccess(response.data.token);
-                    router.push('/dashboard'); 
+                    router.push('/dashboard');
                     setIsLoading(false);
                 } else {
                     setErrorFromDataBase(response.data.err);
@@ -187,7 +187,7 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
                         {errorFromDataBase && <div className={styles.error}>{errorFromDataBase}</div>}
                         <div className={styles.link}>
                             {mode === 'login' ? (
-                                <button onClick={() => setMode('register')}>Don't have an account? Sign up</button>
+                                <button onClick={() => setMode('register')}>Don&apos;t have an account? Sign up</button>
                             ) : (
                                 <button onClick={() => setMode('login')}>Already have an account? Login</button>
                             )}
