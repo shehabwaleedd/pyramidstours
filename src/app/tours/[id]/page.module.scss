@@ -182,29 +182,7 @@
 
 
 
-                    &_option {
-                        display: flex;
-                        width: fit-content;
-                        height: 100%;
-                        padding: 0.5rem 1rem;
-                        cursor: pointer;
-                        transition: var(--animation-primary);
-                        border-radius: 1rem;
 
-                        label {
-                            cursor: pointer;
-                        }
-
-                        &.selected {
-                            transition: var(--animation-primary);
-                            background-color: var(--title-color);
-                            border-radius: 1rem;
-
-                            label {
-                                color: var(--background-color);
-                            }
-                        }
-                    }
                 }
             }
 
@@ -399,5 +377,36 @@
     @media (max-width: 555px) {
         flex-direction: row;
         flex-wrap: wrap;
+    }
+
+    .option {
+        display: flex;
+        width: fit-content;
+        align-items: center;
+        height: 100%;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: var(--animation-primary);
+        border-radius: 1rem;
+
+        label {
+            cursor: pointer;
+        }
+
+        input {
+            height: fit-content;
+            width: fit-content;
+
+        }
+
+        &.selected {
+            transition: var(--animation-primary);
+            background-color: var(--title-color);
+            border-radius: 1rem;
+
+            label {
+                color: var(--background-color);
+            }
+        }
     }
 }

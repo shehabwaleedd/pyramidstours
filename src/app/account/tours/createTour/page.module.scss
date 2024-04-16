@@ -73,11 +73,14 @@
         top: -15rem;
 
         @media (max-width: 777px) {
-
+            
             padding: 1rem;
             padding-top: 4vh;
         }
 
+        @media (max-width: 555px) {
+            max-width: 100%;
+        }
         &_content {
             display: flex;
             flex-direction: column;

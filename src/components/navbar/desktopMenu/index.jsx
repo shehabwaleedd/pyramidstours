@@ -6,6 +6,8 @@ import { height } from '../anim';
 import Body from './Body';
 import Footer from './Footer';
 import Image from './Image';
+import MobileNav from "../nav"
+import useWindowWidth from '@/hooks/useWindowWidth';
 
 const links = [
   {
@@ -36,21 +38,26 @@ const links = [
 ]
 
 export default function Index() {
-
+  const width = useWindowWidth();
+  const mobile = width < 1024;
   const [selectedLink, setSelectedLink] = useState({ isActive: false, index: 0 });
 
   return (
     <motion.div variants={height} initial="initial" animate="enter" exit="exit" className={styles.nav}>
       <div className={styles.wrapper}>
         <div className={styles.container}>
-          <Body links={links} selectedLink={selectedLink} setSelectedLink={setSelectedLink} />
-          <Footer />
+          {!mobile ? (
+            <>
+              <Body links={links} selectedLink={selectedLink} setSelectedLink={setSelectedLink} />
+              <Footer />
+            </>
+          ) : (
+            <MobileNav />
+          )}
         </div>
-        <Image src={links[selectedLink.index].src} isActive={selectedLink.isActive}
+        {!mobile && <Image src={links[selectedLink.index].src} isActive={selectedLink.isActive}
           width={selectedLink.isActive ? "100%" : "0"} height={selectedLink.isActive ? "100%" : "0"}
-          alt={links[selectedLink.index].title} title={links[selectedLink.index].title}
-
-        />
+          alt={links[selectedLink.index].title} title={links[selectedLink.index].title} />}
       </div>
     </motion.div>
   )

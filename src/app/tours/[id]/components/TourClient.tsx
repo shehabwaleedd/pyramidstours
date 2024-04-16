@@ -39,7 +39,7 @@ interface FormValues {
     date: Date | [Date | null, Date | null];
     adults: number;
     children: number;
-    selectedOptions: string[];
+    selectedOptions: { [optionId: string]: { id: string, number: number } };
     repeatTime: string;
     day: string;
     repeatDays: string;
@@ -55,16 +55,16 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const { tour } = useTourById(id)
     const [subscriptionData, setSubscriptionData] = useState<SubscriptionData | null>(null)
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+    const [optionCounts, setOptionCounts] = useState<{ [key: string]: number }>({});
     const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
     const initialValues: FormValues = {
         date: new Date(),
         adults: 1,
         children: 0,
-        selectedOptions: [],
+        selectedOptions: {}, // Fix: Change from [] to {}
         repeatTime: '8',
         day: 'Sunday',
         repeatDays: '',
-
     };
 
     const cleanGoogleMapLink = (mapDetails: string) => {
@@ -73,23 +73,28 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     };
 
 
+    const handleIncrement = (optionId: string) => {
+        setOptionCounts(prev => ({
+            ...prev,
+            [optionId]: (prev[optionId] || 0) + 1
+        }));
+    };
+
+    const handleDecrement = (optionId: string) => {
+        setOptionCounts(prev => ({
+            ...prev,
+            [optionId]: Math.max(0, (prev[optionId] || 0) - 1)
+        }));
+    };
+
     const handleSubmit = async (values: FormValues) => {
         const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : ""; // Ensuring date is in ISO format
 
-        const adultPricing = tour?.adultPricing.find(pricing => pricing.adults <= values.adults)?._id;
+        const adultPricing =  tour?.adultPricing.slice().reverse().find(pricing => pricing.adults <= values.adults)?._id;
         const childrenPricing = values.children > 0
-            ? tour?.childrenPricing.find(pricing => pricing.children <= values.children)?._id
-            : ''; // 
+            ? tour?.childrenPricing.slice().reverse().find(pricing => pricing.children <= values.children)?._id
+            : '';
 
-        const optionsWithCounts = (tour?.options ?? []).reduce((acc: BookingOption[], option) => {
-            if (values.selectedOptions.includes(option.name)) {
-                acc.push({
-                    id: option._id,
-                    number: values.adults.toString(),
-                });
-            }
-            return acc
-        }, []);
 
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
@@ -97,7 +102,10 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
             time: values.repeatTime + ':00' || "8:00",
             date: formattedDate,
             day: values.repeatDays || "Sunday",
-            options: optionsWithCounts,
+            options: Object.entries(optionCounts).map(([id, number]) => ({
+                id,
+                number: number.toString()
+            })),
         };
         console.log(adultPricing, childrenPricing, bookingData)
 
@@ -120,49 +128,36 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
         }
     };
 
-    function calculateTotalCost(values: Values, tour: TourType | null) {
+    function calculateTotalCost(values: FormValues, tour: TourType | null, optionCounts: { [key: string]: number }) {
         let total = 0;
-
+    
         if (tour) {
-            // Base cost for adults from the adultPricing tier.
+            // Base cost calculation for adults
             const adultPricingTier = tour.adultPricing.find(pricing => pricing.adults >= values.adults);
             if (adultPricingTier) {
-                total += adultPricingTier.totalPrice;
+                total += adultPricingTier.price * values.adults; // Base adult cost: price per adult * number of adults
             }
-
-            // Base cost for children from the childrenPricing tier, if any children are selected.
+    
+            // Base cost calculation for children
             if (values.children > 0) {
                 const childPricingTier = tour.childrenPricing.find(pricing => pricing.children >= values.children);
                 if (childPricingTier) {
-                    total += childPricingTier.totalPrice;
+                    total += childPricingTier.price * values.children; // Base child cost: price per child * number of children
                 }
             }
-
-            // Calculate total options cost for both adults and children.
-            values.selectedOptions.forEach(optionName => {
-                const option = tour.options.find(o => o.name === optionName);
+    
+            Object.entries(optionCounts).forEach(([optionId, count]) => {
+                const option = tour.options.find(o => o._id === optionId);
                 if (option) {
-                    // Add the full option price for each adult.
-                    total += parseFloat(option.price) * values.adults;
-                    // Add half the option price for each child, if children are selected.
-                    if (values.children > 0) {
-                        total += (parseFloat(option.price) / 2) * values.children;
-                    }
+                    total += parseFloat(option.price) * count; // Option cost
                 }
             });
-
-            // resetting total cost if no values being selected. 
-            if (values.adults === 0 && values.children === 0) {
-                total = 0;
-            }
         }
-
+    
         return total;
     }
-
-
-
-
+    
+    
     return (
         <section className={styles.eventDetails}>
             <div className={styles.eventDetails__mainImage}>
@@ -200,19 +195,6 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     }}
                 >
                     {({ setFieldValue, values }) => {
-                        const handleOptionChange = (optionName: string) => {
-                            if (values.selectedOptions.includes(optionName)) {
-                                setFieldValue(
-                                    'selectedOptions',
-                                    values.selectedOptions.filter(option => option !== optionName)
-                                );
-                            } else {
-                                setFieldValue(
-                                    'selectedOptions',
-                                    [...values.selectedOptions, optionName]
-                                );
-                            }
-                        };
                         return (
                             <Form className={styles.eventDetails__lower_left}>
                                 <h2> Tailor Your Tour</h2>
@@ -249,30 +231,27 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     <div className={styles.eventDetails__lower_left_options__header}>
                                         <h2>Options</h2>
                                     </div>
-                                    <div className={styles.optionss}>
-                                        {tour?.options.map((option, index) => (
-                                            <div key={index} className={`${styles.eventDetails__lower_left_options__options_option} ${values.selectedOptions.includes(option.name) ? styles.selected : ''}`}
-                                                onClick={() => handleOptionChange(option.name)}>
-                                                <label>
-                                                    {`${option.name} - $${option.price}`}
-                                                </label>
-                                                <Field
-                                                    type="checkbox"
-                                                    name="selectedOptions"
-                                                    style={{ display: 'none' }}
-                                                    value={option.name}
-                                                    checked={values.selectedOptions.includes(option.name)}
-                                                    onChange={() => handleOptionChange(option.name)}
+                                    <div className={styles.headGroup}>
+                                        {tour?.options.map(option => (
+                                            <div key={option._id} className={styles.group}>
+                                                <span>{option.name} - ${option.price}</span>
+                                                <input
+                                                    type="number"
+                                                    value={optionCounts[option._id] || 0}
+                                                    readOnly
                                                 />
+                                                <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
+                                                <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
                                             </div>
                                         ))}
                                     </div>
+
+
                                 </div>
 
                                 <div className={styles.headGroup}>
                                     <div>
-                                        <h2>Total Price: ${calculateTotalCost(values, tour)}</h2>
-
+                                        <h2>Total Price: ${calculateTotalCost(values, tour, optionCounts)}</h2>
                                     </div>
                                 </div>
                                 <button type="submit" className={styles.submitButton} disabled={isSubmitting}> {isSubmitting ? 'Booking...' : 'Book Now'}</button>

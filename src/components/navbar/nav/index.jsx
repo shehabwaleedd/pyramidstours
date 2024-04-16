@@ -1,9 +1,5 @@
-import styles from './style.module.scss';
-import { motion } from 'framer-motion';
-import { height } from '../anim';
 import Body from './Body';
 import Footer from './Footer';
-import { useEffect } from 'react';
 
 const Data = [
   { id: 0, title: "Home", href: "/", expandable: false },
@@ -46,29 +42,13 @@ const Data = [
 ];
 
 
-export default function Index({ setNavOpen, navOpen }) {
+export default function Index() {
 
-  useEffect(() => { // Corrected this line
-      
-  }, [navOpen]); // Also, added navOpen as a dependency
 
   return (
-    <motion.div
-      initial="initial"
-      animate="enter"
-      exit="exit"
-      variants={height}
-      className={styles.nav}>
-
-      <div className={styles.wrapper}>
-        <button className={styles.hamburger} onClick={() => setNavOpen(false)}>
-          X
-        </button>
-        <div className={styles.container}>
-          <Body Data={Data} />
-          <Footer />
-        </div>
-      </div>
-    </motion.div >
+    <>
+      <Body Data={Data} />
+      <Footer />
+    </ >
   )
 }

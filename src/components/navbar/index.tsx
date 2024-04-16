@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Nav from './nav/index';
 import styles from './style.module.scss'
 import { FiMenu } from "react-icons/fi";
 import { usePathname } from 'next/navigation';
@@ -233,7 +232,7 @@ const Navbar = () => {
                             <span>{user?.wishList?.length | 0}</span>
                         </li>
                     </ul>
-                    <button onClick={toggleNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
+                    <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                 </div>
                 <AnimatePresence mode="wait">
                     {desktopNavOpen && <DesktopMenu />}
@@ -241,7 +240,6 @@ const Navbar = () => {
             </motion.nav>
             <motion.div variants={background} initial="initial" animate={desktopNavOpen ? "open" : "closed"} className={styles.background}></motion.div>
             <AnimatePresence mode='wait'>
-                {navOpen && <Nav setNavOpen={setNavOpen} navOpen={navOpen} />}
                 {profileOpen && <AccountHeaderNavbar profileOpen={profileOpen} />}
                 {wishlistOpen && <WishlistHeader wishlistOpen={wishlistOpen} />}
 

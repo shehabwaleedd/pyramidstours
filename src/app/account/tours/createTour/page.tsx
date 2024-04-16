@@ -49,12 +49,38 @@ const CreateTour = () => {
     const [uploadedImages, setUploadedImages] = useState<ImageFile[]>([]);
     const [mainImg, setMainImg] = useState<File | null>(null);
     const router = useRouter();
+
+
+
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         const token = localStorage.getItem("token");
         if (!token) {
             setError("Unauthorized");
             return;
         }
+
+        const appendFormData = (key: string, value: any) => {
+            if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+                // For nested objects like location
+                Object.keys(value).forEach(subKey => {
+                    formData.append(`${key}[${subKey}]`, value[subKey]);
+                });
+            } else if (Array.isArray(value)) {
+                // For arrays like adultPricing, childrenPricing, options
+                value.forEach((item, index) => {
+                    if (typeof item === 'object') {
+                        Object.keys(item).forEach(subKey => {
+                            formData.append(`${key}[${index}][${subKey}]`, item[subKey].toString());
+                        });
+                    } else {
+                        formData.append(`${key}[${index}]`, item);
+                    }
+                });
+            } else {
+                formData.append(key, value);
+            }
+        };
+
         const formData = new FormData();
         uploadedImages.forEach((file, index) => {
             formData.append(`images`, file.file);
@@ -63,44 +89,12 @@ const CreateTour = () => {
             formData.append('mainImg', mainImg);
         }
 
-        values.adultPricing.forEach((item: { adults: { toString: () => any; }; price: { toString: () => string | Blob; }; }, index: any) => {
-            formData.append(`adultPricing[${index}][adults]`, item.adults?.toString() ?? '0');
-            formData.append(`adultPricing[${index}][price]`, item.price.toString());
-        });
-
-        values.childrenPricing.forEach((item: { children: { toString: () => any; }; price: { toString: () => string | Blob; }; }, index: any) => {
-            formData.append(`childrenPricing[${index}][children]`, item.children?.toString() ?? '0');
-            formData.append(`childrenPricing[${index}][price]`, item.price.toString());
-        });
-
 
         Object.keys(values).forEach(key => {
-            if (key !== "mainImg" && key !== "images") {
-                const value = values[key];
-                if (typeof value === "object" && !Array.isArray(value) && value !== null) {
-                    Object.entries(value).forEach(([nestedKey, nestedValue]) => {
-                        if (typeof nestedValue === "string" || nestedValue instanceof Blob) {
-                            formData.append(`${key}[${nestedKey}]`, nestedValue);
-                        }
-                    });
-                } else if (Array.isArray(value)) {
-                    value.forEach((item, index) => {
-                        if (typeof item === "object" && item !== null) {
-                            Object.entries(item).forEach(([nestedKey, nestedValue]) => {
-                                if (typeof nestedValue === "string" || nestedValue instanceof Blob) {
-                                    formData.append(`${key}[${index}][${nestedKey}]`, nestedValue.toString());
-                                }
-                            });
-                        } else {
-                            formData.append(`${key}[${index}]`, item.toString());
-                        }
-                    });
-                } else {
-                    formData.append(key, value.toString());
-                }
+            if (key !== 'mainImg' && key !== 'images') {
+                appendFormData(key, values[key]);
             }
         });
-
 
         try {
             setLoading(true);
