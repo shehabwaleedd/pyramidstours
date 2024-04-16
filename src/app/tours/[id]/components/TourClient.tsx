@@ -59,6 +59,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const [childrenPricingCounts, setChildrenPricingCounts] = useState<{ [key: string]: number }>({});
     const [optionCounts, setOptionCounts] = useState<{ [key: string]: number }>({});
     const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
+    const [errorMessage, setErrorMessage] = useState<string>('')
     const initialValues: FormValues = {
         date: new Date(),
         adults: 1,
@@ -69,9 +70,20 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
         repeatDays: '',
     };
 
+
     const cleanGoogleMapLink = (mapDetails: string) => {
         let cleanedLink = mapDetails.replace(/style="border:0;"\s?/g, '');
         return cleanedLink;
+    };
+
+
+    const handleDateChange = (date: Date | [Date | null, Date | null] | null): Date => {
+        if (date instanceof Date) {
+            return date;
+        } else if (Array.isArray(date) && date[0] instanceof Date) {
+            return date[0];
+        }
+        return new Date(); // Default to current date if the provided date is invalid
     };
 
 
@@ -92,8 +104,8 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
 
     const handleSubmit = async (values: FormValues) => {
-        const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : ""; // Ensuring date is in ISO format
-
+        setErrorMessage(''); 
+        const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : "";
         const adultPricing = tour?.adultPricing.slice().reverse().find(pricing => pricing.adults <= values.adults)?._id;
         const childrenPricing = values.children > 0
             ? tour?.childrenPricing.slice().reverse().find(pricing => pricing.children <= values.children)?._id
@@ -123,12 +135,12 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                 setSubscriptionData(response.data.data);
                 setSubscriptionOpen(true);
             } else {
-                console.error('Error Occured.');
+                setErrorMessage("Failed to create subscription: " + response.data.err);
             }
 
             console.log(response.data);
-        } catch (error) {
-            console.error(error);
+        } catch (error: any) {
+            setErrorMessage(error.response?.data?.err || error.response?.err);
         }
     };
 
@@ -202,7 +214,9 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                         return (
                             <Form className={styles.eventDetails__lower_left}>
                                 <h2> Tailor Your Tour</h2>
-                                <Calendar onChange={value => setFieldValue('date', value)} value={initialValues.date} minDate={new Date()} className={styles.calendar} />
+                                <Calendar
+                                    onChange={value => setFieldValue('date', handleDateChange(value))}
+                                    value={values.date} minDate={new Date()} className={styles.calendar} />
                                 <div className={styles.headGroup}>
                                     <h2>Tour Available in</h2>
                                     <div className={styles.group}>
@@ -268,6 +282,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                         <h2>Total Price: ${calculateTotalCost(values, tour, optionCounts)}</h2>
                                     </div>
                                 </div>
+                                {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
                                 <button type="submit" className={styles.submitButton} disabled={isSubmitting}> {isSubmitting ? 'Booking...' : 'Book Now'}</button>
                                 <p>Note: The total price you see combines the basic tour costs plus any extras you pick, like special activities. Adults pay full price for these extras, but for kids, we only add half the price of these extras. So, the more you add, the more you save for your kids!</p>
                             </Form>
