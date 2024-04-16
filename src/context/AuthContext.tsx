@@ -22,6 +22,7 @@ interface AuthContextType {
     wishlist: TourType[];
     isLoginOpen: boolean;
     setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    handleLoginSuccessForm: (token: string, userData: User) => void;
     
 }
 
@@ -134,6 +135,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         router.push('/account');
     };
 
+    const handleLoginSuccessForm = (token: string, userData: User) => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('hasAnimationShown', 'true');
+        localStorage.setItem('userId', userData._id);
+        setUser(userData);
+        setIsLoggedIn(true);
+    };
+
     const handleLogout = () => {
         const clearLocalStorageItems = () => {
             localStorage.removeItem('token');
@@ -166,7 +175,8 @@ const authValue: AuthContextType = {
         wishlist,
         isLoginOpen,
         setIsLoginOpen,
-        error
+        error,
+        handleLoginSuccessForm
     };
 
 

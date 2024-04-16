@@ -30,7 +30,7 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
     const [errorFromDataBase, setErrorFromDataBase] = useState<string>('');
     const [mode, setMode] = useState<'login' | 'register'>('login');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { handleLoginSuccess, setUser } = useAuth();
+    const { handleLoginSuccessForm, setUser } = useAuth();
 
     const validationSchema = yup.object().shape({
         email: yup.string().email("Invalid email format").required("Email is required"),
@@ -62,11 +62,8 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
             try {
                 const response = await axios.post(url, dataToSend);
                 if (response.data.message === 'success') {
-                    console.log("Setting user data");
                     setUser(response.data.data);
-                    console.log("Handling login success");
-                    handleLoginSuccess(response.data.token, response.data.data); 
-                    console.log("Closing login form");
+                    handleLoginSuccessForm(response.data.token, response.data.data); // Modify this line
                     setIsLoginOpen(false);
                 } else {
                     console.log("Fail")

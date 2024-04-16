@@ -18,6 +18,7 @@ import { SubscriptionData } from '@/types/common';
 import Proceed from '@/components/proceed';
 import LoginForm from '@/components/loginForm/loginForm';
 import { AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/context/AuthContext';
 
 interface TourClientProps {
     id: string;
@@ -57,10 +58,10 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const { tour } = useTourById(id)
     const [subscriptionData, setSubscriptionData] = useState<SubscriptionData | null>(null)
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-    const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false)
     const [optionCounts, setOptionCounts] = useState<{ [key: string]: number }>({});
     const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
+    const { isLoginOpen, setIsLoginOpen } = useAuth();
     const initialValues: FormValues = {
         date: new Date(),
         adults: 1,
