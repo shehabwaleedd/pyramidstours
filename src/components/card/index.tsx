@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { FiHeart } from "react-icons/fi";
 import { useAuth } from '@/context/AuthContext';
 import styles from "./style.module.scss"
+import Link from 'next/link';
 
 
 const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
@@ -32,7 +33,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
 
     return (
-        <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
+        <Link className={styles.tours__container_card} href={`/tours/${tour._id}`}>
             <div className={styles.image}>
                 <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
                 <div style={{ zIndex: 99 }}>
@@ -51,7 +52,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
                 <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
             </div>
-        </div>
+        </Link>
     )
 }
 

@@ -243,6 +243,10 @@
                     font-family: var(--body-font);
                     font-size: 1rem;
                     line-break: anywhere;
+
+                    @media (max-width: 555px) {
+                        font-size: 0.9rem;
+                    }
                 }
             }
 
@@ -283,6 +287,10 @@
 
                         li {
                             color: var(--text-color);
+
+                            @media (max-width: 555px) {
+                                font-size: 0.9rem;
+                            }
                         }
                     }
                 }
@@ -431,6 +439,11 @@
         border: 1px solid rgba(50, 50, 50, 0.236);
         padding: 0.3rem;
         border-radius: 1rem;
+        text-align: center;
+        width: fit-content;
+        @media (max-width: 555px) {
+            width: 20%;
+        }
     }
 }
 

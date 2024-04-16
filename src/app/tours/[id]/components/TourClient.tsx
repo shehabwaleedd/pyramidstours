@@ -55,6 +55,8 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const { tour } = useTourById(id)
     const [subscriptionData, setSubscriptionData] = useState<SubscriptionData | null>(null)
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+    const [adultPricingCounts, setAdultPricingCounts] = useState<{ [key: string]: number }>({});
+    const [childrenPricingCounts, setChildrenPricingCounts] = useState<{ [key: string]: number }>({});
     const [optionCounts, setOptionCounts] = useState<{ [key: string]: number }>({});
     const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
     const initialValues: FormValues = {
@@ -86,6 +88,8 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
             [optionId]: Math.max(0, (prev[optionId] || 0) - 1)
         }));
     };
+
+
 
     const handleSubmit = async (values: FormValues) => {
         const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : ""; // Ensuring date is in ISO format
@@ -218,11 +222,20 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     <div className={styles.headGroup}>
                                         <div className={styles.group}>
                                             <label>Number of Adults</label>
-                                            <Field type="number" name="adults" min={1} max={tour?.adultPricing.length} />
+                                            <Field type="number" name="adults" min={1} max={tour?.adultPricing.length} readOnly />
+                                            <div className={styles.incrementBtns}>
+                                                {/* Incrementing the adult pricing */}
+                                                <button type="button" onClick={() => setFieldValue('adults', values.adults + 1)}>+</button>
+                                                <button type="button" onClick={() => setFieldValue('adults', Math.max(1, values.adults - 1))}>-</button>
+                                            </div>
                                         </div>
                                         <div className={styles.group}>
                                             <label>Number of Children</label>
-                                            <Field type="number" name="children" min={0} max={tour?.childrenPricing.length} />
+                                            <Field type="number" name="children" min={0} max={tour?.childrenPricing.length} readOnly />
+                                            <div className={styles.incrementBtns}>
+                                                <button type="button" onClick={() => setFieldValue('children', values.children + 1)}>+</button>
+                                                <button type="button" onClick={() => setFieldValue('children', Math.max(0, values.children - 1))}>-</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -232,18 +245,16 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     </div>
                                     <div className={styles.headGroup}>
                                         {tour?.options.map(option => (
-                                            <div key={option._id} className={styles.optionss}>
+                                            <div key={option._id} className={styles.incrementBtns_group}>
                                                 <span>{option.name} - ${option.price}</span>
-                                                <div className={styles.incrementBtns_group}>
-                                                    <input
-                                                        type="number"
-                                                        value={optionCounts[option._id] || 0}
-                                                        readOnly
-                                                    />
-                                                    <div className={styles.incrementBtns}>
-                                                        <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
-                                                        <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
-                                                    </div>
+                                                <input
+                                                    type="number"
+                                                    value={optionCounts[option._id] || 0}
+                                                    readOnly
+                                                />
+                                                <div className={styles.incrementBtns}>
+                                                    <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
+                                                    <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
                                                 </div>
                                             </div>
                                         ))}
@@ -271,22 +282,22 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                         <p dangerouslySetInnerHTML={{ __html: tour?.description ?? '' }} />
                     </div>
                     <div className={styles.eventDetails__lower_right_exclusionsAndInclusions}>
-                        <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__exclusions}>
-                            <h2 style={{ color: "var(--accent-color" }}>Exclusions</h2>
-                            <ul>
-                                {tour?.exclusions.map((exclusion, index) => (
-                                    <li key={index}>
-                                        <FaTimes style={{ fill: "var(--accent-color" }} /> {exclusion}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
                         <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__inclusions}>
                             <h2 style={{ color: "var(--success-color" }}>Inclusions</h2>
                             <ul>
                                 {tour?.inclusions.map((inclusion, index) => (
                                     <li key={index}>
                                         <FaCheck style={{ fill: "var(--success-color" }} /> {inclusion}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__exclusions}>
+                            <h2 style={{ color: "var(--accent-color" }}>Exclusions</h2>
+                            <ul>
+                                {tour?.exclusions.map((exclusion, index) => (
+                                    <li key={index}>
+                                        <FaTimes style={{ fill: "var(--accent-color" }} /> {exclusion}
                                     </li>
                                 ))}
                             </ul>
@@ -316,7 +327,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                             <ul className={styles.group}>
                                 {tour?.childrenPricing.map((pricing, index) => (
                                     <li key={index}>
-                                        {pricing.children} { index === 0 ? 'Child' : 'Children'}: ${pricing.price}, 
+                                        {pricing.children} {index === 0 ? 'Child' : 'Children'}: ${pricing.price},
                                     </li>
                                 ))}
                             </ul>
