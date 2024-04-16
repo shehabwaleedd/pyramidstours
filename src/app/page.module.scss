@@ -48,4 +48,20 @@
   border-top-right-radius: 2rem;
   padding: 1rem;
   z-index: 9;
+
+}
+
+.h1Global {
+  font-family: var(--semi-bold-font);
+  font-size: var(--semi-big-font-size);
+  color: var(--title-color);
+  letter-spacing: normal;
+  text-transform: capitalize;
+  font-display: swap;
+  text-align: center;
+
+  @media (max-width: 777px) {
+    font-size: 8vw;
+  }
+
 }

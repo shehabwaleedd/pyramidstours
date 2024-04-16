@@ -16,6 +16,8 @@ import Image from 'next/image'
 import { TourType } from '@/types/homePageTours';
 import { SubscriptionData } from '@/types/common';
 import Proceed from '@/components/proceed';
+import LoginForm from '@/components/loginForm/loginForm';
+import { AnimatePresence } from 'framer-motion';
 
 interface TourClientProps {
     id: string;
@@ -55,8 +57,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const { tour } = useTourById(id)
     const [subscriptionData, setSubscriptionData] = useState<SubscriptionData | null>(null)
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
-    const [adultPricingCounts, setAdultPricingCounts] = useState<{ [key: string]: number }>({});
-    const [childrenPricingCounts, setChildrenPricingCounts] = useState<{ [key: string]: number }>({});
+    const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false)
     const [optionCounts, setOptionCounts] = useState<{ [key: string]: number }>({});
     const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -104,7 +105,15 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
 
     const handleSubmit = async (values: FormValues) => {
-        setErrorMessage(''); 
+
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            setIsLoginOpen(true);
+            return;
+        }
+
+        setErrorMessage('');
         const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : "";
         const adultPricing = tour?.adultPricing.slice().reverse().find(pricing => pricing.adults <= values.adults)?._id;
         const childrenPricing = values.children > 0
@@ -352,6 +361,9 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
             </aside>
             <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />
             {subscriptionOpen && subscriptionData && (<Proceed data={subscriptionData} setSubscriptionOpen={setSubscriptionOpen} />)}
+            <AnimatePresence mode='wait'>
+                {isLoginOpen && <LoginForm setIsLoginOpen={setIsLoginOpen} isLoginOpen={isLoginOpen} />}
+            </AnimatePresence>
         </section>
     )
 }

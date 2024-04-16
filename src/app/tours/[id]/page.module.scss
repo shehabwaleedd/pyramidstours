@@ -7,6 +7,7 @@
     gap: 1rem;
     position: relative;
     user-select: none;
+    top: 0;
 
     &__mainImage {
         display: flex;
@@ -441,6 +442,7 @@
         border-radius: 1rem;
         text-align: center;
         width: fit-content;
+
         @media (max-width: 555px) {
             width: 20%;
         }
