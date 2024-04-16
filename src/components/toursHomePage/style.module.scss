@@ -7,8 +7,9 @@
     height: 100%;
     padding-bottom: 20vh;
     position: relative;
-    z-index: 4;
+    z-index: 9999999;
     gap: 10vh;
+    user-select: none;
 
     @media (max-width: 777px) {
         padding: 0;
@@ -31,6 +32,7 @@
         @media (max-width: 768px) {
             font-size: 3.5rem;
         }
+
         @media (max-width: 558px) {
             font-size: var(--bigger-font-size);
         }
@@ -48,7 +50,6 @@
         height: 100%;
         padding: 2rem;
         position: relative;
-        z-index: 4;
 
         @media (max-width: 777px) {
             padding: 0;

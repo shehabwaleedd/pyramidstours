@@ -90,7 +90,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
     const handleSubmit = async (values: FormValues) => {
         const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : ""; // Ensuring date is in ISO format
 
-        const adultPricing =  tour?.adultPricing.slice().reverse().find(pricing => pricing.adults <= values.adults)?._id;
+        const adultPricing = tour?.adultPricing.slice().reverse().find(pricing => pricing.adults <= values.adults)?._id;
         const childrenPricing = values.children > 0
             ? tour?.childrenPricing.slice().reverse().find(pricing => pricing.children <= values.children)?._id
             : '';
@@ -130,14 +130,14 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
     function calculateTotalCost(values: FormValues, tour: TourType | null, optionCounts: { [key: string]: number }) {
         let total = 0;
-    
+
         if (tour) {
             // Base cost calculation for adults
             const adultPricingTier = tour.adultPricing.find(pricing => pricing.adults >= values.adults);
             if (adultPricingTier) {
                 total += adultPricingTier.price * values.adults; // Base adult cost: price per adult * number of adults
             }
-    
+
             // Base cost calculation for children
             if (values.children > 0) {
                 const childPricingTier = tour.childrenPricing.find(pricing => pricing.children >= values.children);
@@ -145,7 +145,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     total += childPricingTier.price * values.children; // Base child cost: price per child * number of children
                 }
             }
-    
+
             Object.entries(optionCounts).forEach(([optionId, count]) => {
                 const option = tour.options.find(o => o._id === optionId);
                 if (option) {
@@ -153,11 +153,11 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                 }
             });
         }
-    
+
         return total;
     }
-    
-    
+
+
     return (
         <section className={styles.eventDetails}>
             <div className={styles.eventDetails__mainImage}>
@@ -218,12 +218,11 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     <div className={styles.headGroup}>
                                         <div className={styles.group}>
                                             <label>Number of Adults</label>
-                                            <Field type="number" name="adults" min={1}
-                                            />
+                                            <Field type="number" name="adults" min={1} max={tour?.adultPricing.length} />
                                         </div>
                                         <div className={styles.group}>
                                             <label>Number of Children</label>
-                                            <Field type="number" name="children" min={0} />
+                                            <Field type="number" name="children" min={0} max={tour?.childrenPricing.length} />
                                         </div>
                                     </div>
                                 </div>
@@ -233,15 +232,19 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     </div>
                                     <div className={styles.headGroup}>
                                         {tour?.options.map(option => (
-                                            <div key={option._id} className={styles.group}>
+                                            <div key={option._id} className={styles.optionss}>
                                                 <span>{option.name} - ${option.price}</span>
-                                                <input
-                                                    type="number"
-                                                    value={optionCounts[option._id] || 0}
-                                                    readOnly
-                                                />
-                                                <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
-                                                <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
+                                                <div className={styles.incrementBtns_group}>
+                                                    <input
+                                                        type="number"
+                                                        value={optionCounts[option._id] || 0}
+                                                        readOnly
+                                                    />
+                                                    <div className={styles.incrementBtns}>
+                                                        <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
+                                                        <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
@@ -313,7 +316,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                             <ul className={styles.group}>
                                 {tour?.childrenPricing.map((pricing, index) => (
                                     <li key={index}>
-                                        {pricing.children}+ Children: ${pricing.price}
+                                        {pricing.children} { index === 0 ? 'Child' : 'Children'}: ${pricing.price}, 
                                     </li>
                                 ))}
                             </ul>

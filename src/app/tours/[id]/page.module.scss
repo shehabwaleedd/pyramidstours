@@ -275,8 +275,11 @@
 
                     ul {
                         display: flex;
-                        flex-direction: column;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                        flex-wrap: wrap;
                         gap: 0.5rem;
+                        width: 100%;
 
                         li {
                             color: var(--text-color);
@@ -408,5 +411,37 @@
                 color: var(--background-color);
             }
         }
+    }
+}
+
+.incrementBtns_group {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    input {
+        height: 100%;
+        outline: none;
+        background: transparent;
+        font-family: var(--body-font);
+        font-size: 1.5vh;
+        color: var(--text-color);
+        border: 1px solid rgba(50, 50, 50, 0.236);
+        padding: 0.3rem;
+        border-radius: 1rem;
+    }
+}
+
+.incrementBtns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+
+    button {
+        font-size: 1.4rem;
+        color: var(--second-accent-color);
     }
 }

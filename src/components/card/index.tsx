@@ -46,7 +46,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
             </div>
             <div className={styles.bottom}>
-                <h3>{tour.title}</h3>
+                <h3>{tour.title.slice(0, 50)}...</h3>
                 <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
                 <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
