@@ -3,7 +3,7 @@ import { TourType } from "@/types/homePageTours";
 let cache: Record<string, TourType[]> = {};
 let cacheExpiry: number = Date.now() + 24 * 60 * 60 * 1000; // Set initial cache expiry to one day from now
 
-export async function serverUseToursByIds(query: string) {
+export async function useTourByTag(tag: string) {
     try {
         // Check cache expiry and clear cache if needed
         if (Date.now() > cacheExpiry) {
@@ -11,19 +11,19 @@ export async function serverUseToursByIds(query: string) {
             cache = {};
         }
         // Return cached data if available
-        if (cache[query]) {
-            return cache[query];
+        if (cache[tag]) {
+            return cache[tag];
         }
 
-        const questionAndQuery = query ? `?${query}` : "";
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour${questionAndQuery}`);
+        const questionAndQuery = tag ? `?${tag}` : "";
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour?tags=${tag}`);
         if (!res.ok) {
             throw new Error(`Failed to fetch tours, status: ${res.status}`);
         }
         const data = await res.json();
         // Update cache and set new expiry
-        cache[query] = data.data.result;
-        cacheExpiry = Date.now() + 24 * 60 * 60 * 1000; 
+        cache[tag] = data.data.result;
+        cacheExpiry = Date.now() + 24 * 60 * 60 * 1000;
 
         return data.data.result;
     } catch (error) {

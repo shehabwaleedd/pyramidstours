@@ -1,6 +1,4 @@
 .toursSearch {
-    position: relative;
-    z-index: 99;
     position: absolute;
     top: 90%;
     left: 50%;
@@ -13,10 +11,7 @@
     width: 100%;
     z-index: 9;
 
-    @media (max-width: 555px) {
-        width: 80%;
-        margin: 0 auto;
-    }
+    @media (max-width: 555px) {}
 
     &__middle {
         display: flex;
@@ -34,12 +29,18 @@
         gap: 1rem;
         z-index: 9;
 
+        @media (max-width: 888px) {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            width: 100%;
+        }
+
 
         .formField {
-            @media (max-width: 555px) {
+            @media (max-width: 888px) {
                 width: 100%;
                 margin: 0 auto;
-                max-width: 70%;
+
             }
 
             label {
@@ -63,10 +64,11 @@
                 color: #383838;
                 font-family: var(--body-font);
 
-                @media (max-width: 555px) {
+                @media (max-width: 888px) {
                     width: 100%;
+
                     margin: 0 auto;
-                    max-width: 70%;
+
                 }
             }
         }

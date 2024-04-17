@@ -18,6 +18,12 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
         return (wishlist as unknown as { _id: string }[]).some(tour => tour._id === tourId);
     };
 
+    if (!tour) {
+        console.error("Tour data is missing.");
+        return null;  // or some placeholder component
+    }
+    
+
     const handleWishlistClick = (event: React.MouseEvent, tourId: string) => {
         event.stopPropagation();
         if (isTourInWishlist(tourId)) {

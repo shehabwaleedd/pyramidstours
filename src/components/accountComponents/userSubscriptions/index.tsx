@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import useUserSubscriptions from '@/lib/tours/useUserSubscriptions'
+import useUserSubscriptions from '@/lib/subscriptions/useUserSubscriptions'
 import styles from './style.module.scss'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
