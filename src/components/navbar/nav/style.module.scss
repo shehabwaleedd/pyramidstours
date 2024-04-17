@@ -6,7 +6,9 @@
     background-color: var(--container-color);
     top: 0rem;
     left: 0;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Prevents horizontal scrolling */
 
     .container {
         display: flex;
@@ -15,4 +17,3 @@
         align-items: center;
     }
 }
-

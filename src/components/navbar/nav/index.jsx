@@ -3,8 +3,18 @@ import Footer from './Footer';
 
 const Data = [
   { id: 0, title: "Home", href: "/", expandable: false },
-  { id: 1, title: "About Us", href: "/about", expandable: false },
-  { id: 2, title: "Contact Us", href: "/contact", expandable: false },
+  { id: 10, title: "Top Rated Tours", href: "/tours/top-rated-tours", expandable: false },
+  { id: 5, title: "Cairo Day Tours", href: "/cairo-day-tours", expandable: false },
+  { id: 6, title: "Luxor Day Tours", href: "/luxor-day-tours", expandable: false },
+  { id: 7, title: "Aswan Day Tours", href: "/aswan-day-tours", expandable: false },
+  { id: 12, title: "Giza Day Tours", href: "/giza-day-tours", expandable: false },
+  { id: 13, title: "Alexandria Day Tours", href: "/alexandria-day-tours", expandable: false },
+  { id: 14, title: "Hurghada Tours", href: "/hurghada-tours", expandable: false },
+  { id: 15, title: "Sharm El Sheikh Tours", href: "/sharm-el-sheikh-tours", expandable: false },
+  { id: 16, title: "Dahab Tours", href: "/dahab-tours", expandable: false },
+  { id: 17, title: "Taba Tours", href: "/taba-tours", expandable: false },
+  { id: 18, title: "Nuweiba Tours", href: "/nuweiba-tours", expandable: false },
+  { id: 19, title: "El Gouna Tours", href: "/el-gouna-tours", expandable: false },
   {
     id: 3,
     title: "Egypt Travel Packages",
@@ -31,14 +41,12 @@ const Data = [
       { title: "Luxor Airport Transfers", href: "/airport-transfers/luxor-airport-transfers" },
     ]
   },
-  { id: 5, title: "Cairo Day Tours", href: "/cairo-day-tours", expandable: false },
-  { id: 6, title: "Luxor Day Tours", href: "/luxor-day-tours", expandable: false },
-  { id: 7, title: "Aswan Day Tours", href: "/aswan-day-tours", expandable: false },
+
   { id: 8, title: "Nile Cruise Trips", href: "/nile-cruises", expandable: false },
   { id: 9, title: "Shore Excursions", href: "/shore-excursions", expandable: false },
-  { id: 10, title: "Top Rated Tours", href: "/tours/top-rated-tours", expandable: false },
   { id: 11, title: "Payment Policy", href: "/policy", expandable: false },
-  // Add other sections as needed...
+  { id: 1, title: "About Us", href: "/about", expandable: false },
+  { id: 2, title: "Contact Us", href: "/contact", expandable: false },
 ];
 
 
