@@ -254,8 +254,9 @@
 
     span {
         position: absolute;
-        top: -0.75rem;
+        top: 0rem;
         color: var(--title-color);
+        font-family: var(--body-font);
         font-size: 0.8rem;
     }
 }

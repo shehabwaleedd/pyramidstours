@@ -50,7 +50,7 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
                         )}
                     </div>
                     <div className={styles.btns}>
-                        <button className={styles.wishlistHeader__lower_button} style={{ color: "var(--title-color)" }}>View Full Wishlist</button>
+                        {/* <button className={styles.wishlistHeader__lower_button} style={{ color: "var(--title-color)" }}>View Full Wishlist</button> */}
                         <button onClick={clearWishlist} className={styles.wishlistHeader__lower_button} style={{ color: "var(--accent-color)" }}>Clear Wishlist</button>
                     </div>
                 </motion.div>
