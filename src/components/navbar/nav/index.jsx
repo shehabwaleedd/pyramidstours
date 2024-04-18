@@ -3,7 +3,7 @@ import Footer from './Footer';
 
 const Data = [
   { id: 0, title: "Home", href: "/", expandable: false },
-  { id: 10, title: "Top Rated Tours", href: "/tours/top-rated-tours", expandable: false },
+  { id: 10, title: "Top Rated Tours", href: "/top-rated-tours", expandable: false },
   { id: 5, title: "Cairo Day Tours", href: "/cairo-day-tours", expandable: false },
   { id: 6, title: "Luxor Day Tours", href: "/luxor-day-tours", expandable: false },
   { id: 7, title: "Aswan Day Tours", href: "/aswan-day-tours", expandable: false },
@@ -11,7 +11,7 @@ const Data = [
   { id: 13, title: "Alexandria Day Tours", href: "/alexandria-day-tours", expandable: false },
   { id: 14, title: "Hurghada Tours", href: "/hurghada-tours", expandable: false },
   { id: 15, title: "Sharm El Sheikh Tours", href: "/sharm-el-sheikh-tours", expandable: false },
-  { id: 16, title: "Dahab Tours", href: "/Dahab Tours", expandable: false },
+  { id: 16, title: "Dahab Tours", href: "/dahab-tours", expandable: false },
   { id: 17, title: "Taba Tours", href: "/taba-tours", expandable: false },
   { id: 18, title: "Nuweiba Tours", href: "/nuweiba-tours", expandable: false },
   { id: 19, title: "El Gouna Tours", href: "/el-gouna-tours", expandable: false },
@@ -21,14 +21,14 @@ const Data = [
     href: "/packages",
     expandable: true,
     desc: [
-      { title: "3 Days 2 Nights", href: "/packages/3-days-2-nights" },
-      { title: "4 Days 3 Nights", href: "/packages/4-days-3-nights" },
-      { title: "5 Days 4 Nights", href: "/packages/5-days-4-nights" },
-      { title: "6 Days 5 Nights", href: "/packages/6-days-5-nights" },
-      { title: "7 Days 6 Nights", href: "/packages/7-days-6-nights" },
-      { title: "8 Days 7 Nights", href: "/packages/8-days-7-nights" },
-      { title: "10 Days 9 Nights", href: "/packages/10-days-9-nights" },
-      { title: "12 Days 11 Nights", href: "/packages/12-days-11-nights" },
+      { title: "3 Days 2 Nights", href: "/3-days-2-nights" },
+      { title: "4 Days 3 Nights", href: "/4-days-3-nights" },
+      { title: "5 Days 4 Nights", href: "/5-days-4-nights" },
+      { title: "6 Days 5 Nights", href: "/6-days-5-nights" },
+      { title: "7 Days 6 Nights", href: "/7-days-6-nights" },
+      { title: "8 Days 7 Nights", href: "/8-days-7-nights" },
+      { title: "10 Days 9 Nights", href: "/10-days-9-nights" },
+      { title: "12 Days 11 Nights", href: "/12-days-11-nights" },
     ]
   },
   {
@@ -37,8 +37,8 @@ const Data = [
     href: "/airport-transfers",
     expandable: true,
     desc: [
-      { title: "Cairo Airport Transfers", href: "/airport-transfers/cairo-airport-transfers" },
-      { title: "Luxor Airport Transfers", href: "/airport-transfers/luxor-airport-transfers" },
+      { title: "Cairo Airport Transfers", href: "/cairo-airport-transfers" },
+      { title: "Luxor Airport Transfers", href: "/luxor-airport-transfers" },
     ]
   },
 

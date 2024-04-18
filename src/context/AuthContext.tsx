@@ -100,23 +100,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 
     const addToWishlist = (tour: TourType) => {
-        const newWishlist = [...wishlist, tour];
-        console.log("Saving to local storage:", newWishlist);
-        localStorage.setItem('wishlist', JSON.stringify(newWishlist));
-        setWishlist(newWishlist);
+        if (!isLoggedIn) {
+            setIsLoginOpen(true);
+        } else {
+
+            const newWishlist = [...wishlist, tour];
+            console.log("Saving to local storage:", newWishlist);
+            localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+            setWishlist(newWishlist);
+        }
 
     };
 
     const removeFromWishlist = (tourId: string) => {
-        const newWishlist = wishlist.filter(tour => tour._id !== tourId);
-        console.log("Updated wishlist after removal:", newWishlist);
-        localStorage.setItem('wishlist', JSON.stringify(newWishlist));
-        setWishlist(newWishlist);
+        if (!isLoggedIn) {
+            setIsLoginOpen(true);
+        } else {
+            const newWishlist = wishlist.filter(tour => tour._id !== tourId);
+            console.log("Updated wishlist after removal:", newWishlist);
+            localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+            setWishlist(newWishlist);
+        }
     };
 
     const clearWishlist = () => {
-        localStorage.removeItem('wishlist');
-        setWishlist([]);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setIsLoggedIn(false);
+        } else {
+            localStorage.removeItem('wishlist');
+            setWishlist([]);
+        }
     }
 
 

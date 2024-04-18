@@ -84,7 +84,7 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
             {isLoginOpen &&
                 <motion.section className={`${global.bottomGlass} ${styles.container__formSection}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
                     <div className={styles.loginUpper}>
-                        <h2 className={global.h1Global}>{mode === 'login' ? 'Login To Continue Booking' : 'Register To Continue Booking'}</h2>
+                        <h2 className={global.h1Global}>{mode === 'login' ? 'Login To Continue' : 'Register To Continue'}</h2>
                         <button onClick={() => setIsLoginOpen(false)} className={styles.closeButton}>close</button>
                     </div>
                     <form onSubmit={formik.handleSubmit} className={styles.form}>
