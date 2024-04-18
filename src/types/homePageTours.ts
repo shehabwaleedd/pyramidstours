@@ -48,6 +48,8 @@ export interface TourType {
     subtitle: string;
     __v: number;
     tour?: string;
+    wishList?: string[];
+    tourId?: string;
 
 }
 

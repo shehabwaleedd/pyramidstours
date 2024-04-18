@@ -85,7 +85,7 @@ const NavbarData = [
 ];
 
 const Navbar = () => {
-    const { isLoggedIn, user } = useAuth();
+    const { isLoggedIn, user, wishlist } = useAuth();
     const router = usePathname();
     const [navOpen, setNavOpen] = useState<boolean>(false);
     const [desktopNavOpen, setDesktopNavOpen] = useState<boolean | null>(false)
@@ -93,13 +93,14 @@ const Navbar = () => {
     const [profileOpen, setProfileOpen] = useState<boolean | null>(false);
     const [wishlistOpen, setWishlistOpen] = useState<boolean | null>(false);
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const [wishlistCount, setWishlistCount] = useState<number>(0)
+
+    useEffect(() => {
+        setWishlistCount(wishlist.length)
+    }, [wishlist])
+
     const isNavbar: boolean = true
 
-    const toggleNavOpen = useCallback(() => {
-        setNavOpen(prevNavOpen => !prevNavOpen);
-        setWishlistOpen(false);
-        setProfileOpen(false);
-    }, []);
 
 
     const toggleDesktopNavOpen = useCallback(() => {
@@ -205,7 +206,7 @@ const Navbar = () => {
                             <button onClick={toggleWishlistOpen}>
                                 <FiHeart />
                             </button>
-                            <span>{user?.wishList?.length ?? 0}</span>
+                            <span>{wishlistCount ?? 0}</span>
                         </li>
                         <div className={styles.desktop_menu}>
                             <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
@@ -229,7 +230,7 @@ const Navbar = () => {
                             <button onClick={toggleWishlistOpen}>
                                 <FiHeart />
                             </button>
-                            <span>{user?.wishList?.length ?? 0}</span>
+                            <span>{wishlistCount ?? 0}</span>
                         </li>
                     </ul>
                     <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>

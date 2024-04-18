@@ -9,6 +9,8 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
 
     const { wishlist } = useAuth()
 
+    
+
     return (
         <motion.section className={styles.wishlistHeader} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             {wishlistOpen && (
@@ -30,7 +32,7 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
                                         <div className={styles.cardContent}>
                                             <div>
                                                 <h4>{tour.title.slice(0, 25)}...</h4>
-                                                <p>{tour.description.slice(0, 40)}...</p>
+                                                <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 40)}...</p>
                                             </div>
                                             <div>
                                                 <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>

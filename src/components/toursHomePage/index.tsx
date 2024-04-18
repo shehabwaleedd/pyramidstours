@@ -14,6 +14,8 @@ import 'swiper/css/navigation';
 import { motion } from 'framer-motion';
 import TourCard from '../card';
 import Skeleton from '@/animation/skeleton';
+import { useAuth } from '@/context/AuthContext';
+import LoginForm from '../loginForm/loginForm';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -26,6 +28,7 @@ const ToursHomePage: React.FC = () => {
     const isMobile = windowWidth ? windowWidth < 555 : false;
     const isTablet = windowWidth ? windowWidth < 777 : false;
     const isBigScreen = windowWidth ? windowWidth < 1500 : false;
+    const { isLoginOpen, setIsLoginOpen } = useAuth();
     const locationOrder: { [key: string]: string } = {
         "Cairo": "Cairo Tours",
         "Giza": "Giza Tours",
@@ -92,6 +95,8 @@ const ToursHomePage: React.FC = () => {
                     </div>
                 )
             ))}
+
+        {isLoginOpen && <LoginForm  setIsLoginOpen={setIsLoginOpen} isLoginOpen={isLoginOpen}/>}
         </motion.section>
     );
 };

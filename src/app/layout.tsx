@@ -7,7 +7,7 @@ interface OpenGraph {
   type: string;
   title: string;
   description: string;
-  images: string; 
+  images: string;
   url: string;
   site_name: string;
 }
@@ -17,7 +17,7 @@ interface Metadata {
   description: string;
   keywords: string;
   author: string;
-  openGraph: OpenGraph; 
+  openGraph: OpenGraph;
 }
 
 
@@ -49,15 +49,15 @@ export const viewport = {
 
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode;}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </AuthProvider>
+          <AuthProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </AuthProvider>
       </body>
     </html>
   );

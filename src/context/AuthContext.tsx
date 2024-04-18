@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useMemo, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { User } from '@/types/hooks';
@@ -17,13 +17,13 @@ interface AuthContextType {
     handleLogout: () => void;
     hasAnimationShown: boolean;
     setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>;
-    addToWishlist: (tourId: string) => Promise<void>;
-    removeFromWishlist: (tourId: string) => Promise<void>;
+    addToWishlist: (tour: TourType) => void;
+    removeFromWishlist: (tourId: string) => void;
     wishlist: TourType[];
     isLoginOpen: boolean;
     setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleLoginSuccessForm: (token: string, userData: User) => void;
-    
+
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -49,8 +49,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [hasAnimationShown, setHasAnimationShown] = useState<boolean>(false);
-    const [wishlist, setWishlist] = useState<TourType[]>([]);
-    const [isLoginOpen, setIsLoginOpen]= useState<boolean>(false);
+    const [wishlist, setWishlist] = useState<TourType[]>(() => {
+        if (typeof window !== 'undefined') {
+            const storedWishlist = localStorage.getItem('wishlist');
+            return storedWishlist ? JSON.parse(storedWishlist) : [];
+        }
+        return [];
+    });
+    const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const router = useRouter();
 
@@ -76,7 +82,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 });
                 if (response.status === 200 && response.data) {
                     setUser(response.data.data);
-                    setWishlist(response.data.data.wishList || []);
                     setIsLoggedIn(true);
                 } else {
                     console.error("Failed to fetch user data with token");
@@ -94,37 +99,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }, []);
 
 
-    const addToWishlist = async (tourId: string) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/addToWishlist/${tourId}`, {}, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                setWishlist(currentWishlist => [...currentWishlist, tourId] as TourType[]);
-            } catch (error) {
-                console.error('Error adding to wishlist:', error);
-            }
-        } else {
-            console.log('User must be logged in to add to wishlist');
-        }
+    const addToWishlist = (tour: TourType) => {
+        const newWishlist = [...wishlist, tour];
+        console.log("Saving to local storage:", newWishlist);
+        localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+        setWishlist(newWishlist);
+
     };
 
-    const removeFromWishlist = async (tourId: string) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/removeWishlist/${tourId}`, {}, {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
-                setWishlist(currentWishlist => currentWishlist.filter(tour => tour._id !== tourId));
-            } catch (error) {
-                console.error('Error removing from wishlist:', error);
-            }
-        } else {
-            console.log('User must be logged in to remove from wishlist');
-        }
+    const removeFromWishlist = (tourId: string) => {
+        const newWishlist = wishlist.filter(tour => tour._id !== tourId);
+        console.log("Updated wishlist after removal:", newWishlist);
+        localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+        setWishlist(newWishlist);
     };
+
+    useEffect(() => {
+        const storedWishlist = localStorage.getItem('wishlist');
+        console.log("Loaded from local storage on init:", storedWishlist);
+        if (storedWishlist) {
+            setWishlist(JSON.parse(storedWishlist));
+        }
+    }, []);
+
+
 
     const handleLoginSuccess = (token: string, userData: User) => {
         localStorage.setItem('token', token);
@@ -148,6 +146,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
             localStorage.removeItem('hasAnimationShown');
+            localStorage.removeItem('wishlist');
         };
         const resetAuthStates = () => {
             setUser(null);
@@ -158,9 +157,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         router.push('/login');
     };
 
-
-
-const authValue: AuthContextType = {
+    const authValue: AuthContextType = useMemo(() => ({
         user,
         setUser,
         userId,
@@ -177,8 +174,7 @@ const authValue: AuthContextType = {
         setIsLoginOpen,
         error,
         handleLoginSuccessForm
-    };
-
+    }), [user, isLoggedIn, loading, wishlist, isLoginOpen, error]);
 
     return (
         <AuthContext.Provider value={authValue}>

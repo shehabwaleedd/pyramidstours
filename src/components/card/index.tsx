@@ -1,35 +1,34 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { TourType } from '@/types/homePageTours';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FiHeart } from "react-icons/fi";
 import { useAuth } from '@/context/AuthContext';
 import styles from "./style.module.scss"
-import Link from 'next/link';
 
 
 const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
     const router = useRouter();
     const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
-    const isTourInWishlist = (tourId: string) => {
-        return (wishlist as unknown as { _id: string }[]).some(tour => tour._id === tourId);
-    };
+    const isInWishlist = useMemo(() => wishlist.some(item => item._id === tour._id), [wishlist, tour._id]);
+
+
 
     if (!tour) {
         console.error("Tour data is missing.");
-        return null;  // or some placeholder component
+        return null;
     }
-    
 
-    const handleWishlistClick = (event: React.MouseEvent, tourId: string) => {
+
+    const handleWishlistClick = async (event: React.MouseEvent, tourId: string) => {
         event.stopPropagation();
-        if (isTourInWishlist(tourId)) {
+        if (isInWishlist) {
             removeFromWishlist(tourId);
         } else {
-            addToWishlist(tourId);
+            addToWishlist(tour);
         }
     };
 
@@ -39,15 +38,16 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
 
     return (
-        <Link className={styles.tours__container_card} href={`/tours/${tour._id}`}>
+        <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
             <div className={styles.image}>
                 <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
-                <div style={{ zIndex: 99 }}>
+                <div style={{ zIndex: 99999 }}>
                     <span style={{ backgroundColor: "var(--accent-color)" }}>
                         Offer
                     </span>
-                    <button onClick={(event) => handleWishlistClick(event, tour._id)} style={{ backgroundColor: isTourInWishlist(tour._id) ? "#ffe4e4" : "var(--background-color)", }}>
-                        {isTourInWishlist(tour._id) ? <FiHeart style={{ fill: "var(--accent-color)", color: "var(--accent-color)" }} /> : <FiHeart />}
+                    <button onClick={(event) => handleWishlistClick(event, tour._id)}
+                        style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }}>
+                        <FiHeart style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
                     </button>
                 </div>
 
@@ -58,7 +58,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
                 <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
             </div>
-        </Link>
+        </div>
     )
 }
 

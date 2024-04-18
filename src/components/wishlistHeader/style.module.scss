@@ -1,7 +1,8 @@
 .wishlistHeader {
     position: fixed;
-    width: fit-content;
+    width: 30vw;
     height: fit-content;
+    max-height: 31vh;
     padding: 1rem;
     background: #F2F0EBbb;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -12,6 +13,8 @@
     z-index: 9999;
     top: 3rem;
     right: 3rem;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     @media (max-width: 555px) {
         top: auto;
@@ -41,6 +44,11 @@
         border-bottom: 1px solid var(--border-color);
         width: 100%;
         padding: 1rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+
     }
 }
 
@@ -85,6 +93,7 @@
             font-display: swap;
             letter-spacing: 0.05rem;
         }
+
         span {
             color: var(--accent-color);
         }
