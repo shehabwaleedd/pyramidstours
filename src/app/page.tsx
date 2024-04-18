@@ -4,15 +4,13 @@ import SearchForm from "@/components/landing";
 import ToursHomePage from "@/components/toursHomePage";
 
 
-
-
 export default function Home() {
-  
+
   return (
     <main className={styles.main}>
       <SearchForm />
       <ToursHomePage />
       <TestimonialsCards />
     </main>
-  );
+  ); 
 }

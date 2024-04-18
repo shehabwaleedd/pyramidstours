@@ -13,6 +13,7 @@ import "swiper/css/pagination";
 import 'swiper/css/navigation';
 import { motion } from 'framer-motion';
 import TourCard from '../card';
+import Skeleton from '@/animation/skeleton';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -54,6 +55,17 @@ const ToursHomePage: React.FC = () => {
     const handlePrevSlide = (index: number) => {
         swiperRefs.current[index]?.slidePrev();
     };
+
+
+    if (loading) {
+        return (
+            <motion.section className={styles.testimonials}>
+                <Skeleton />
+            </motion.section>
+        );
+    }
+
+
     return (
         <motion.section className={styles.testimonials}>
             {sortedAndGroupedTours?.map((group, index) => (
