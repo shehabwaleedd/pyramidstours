@@ -23,7 +23,7 @@ interface AuthContextType {
     isLoginOpen: boolean;
     setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleLoginSuccessForm: (token: string, userData: User) => void;
-
+    clearWishlist: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -114,6 +114,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setWishlist(newWishlist);
     };
 
+    const clearWishlist = () => {
+        localStorage.removeItem('wishlist');
+        setWishlist([]);
+    }
+
+
     useEffect(() => {
         const storedWishlist = localStorage.getItem('wishlist');
         console.log("Loaded from local storage on init:", storedWishlist);
@@ -173,8 +179,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isLoginOpen,
         setIsLoginOpen,
         error,
-        handleLoginSuccessForm
-    }), [user, isLoggedIn, loading, wishlist, isLoginOpen, error]);
+        handleLoginSuccessForm,
+        clearWishlist
+    }), [user, isLoggedIn, loading, wishlist, isLoginOpen, error, clearWishlist]);
 
     return (
         <AuthContext.Provider value={authValue}>
