@@ -72,9 +72,7 @@ const Account = () => {
         }
     };
 
-    if (loading) return <Loading height={100} />;
-    if (typeof error === 'string') return <div>Error: {error}</div>;
-    if (!user || !isLoggedIn) return <div>loading...</div>
+    if (loading || !user) return <Loading height={100} />;
 
     return (
         <main className={styles.account}>
@@ -98,11 +96,11 @@ const Account = () => {
                             <label htmlFor="avatar">Change Profile Picture</label>
                         </div>
                         <div className={styles.account_lower_left_upper_bottom}>
-                            <h2>{user.name}</h2>
+                            <h2>{user?.name}</h2>
                         </div>
                     </div>
                     <div className={styles.account__lower_left_lower}>
-                        {user.role === 'admin' ? <AdminView handleOpen={handleOpen} /> : <UserView handleOpen={handleOpen} />}
+                        {user?.role === 'admin' ? <AdminView handleOpen={handleOpen} /> : <UserView handleOpen={handleOpen} />}
                     </div>
                 </div>
 
