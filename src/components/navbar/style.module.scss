@@ -254,10 +254,13 @@
 
     span {
         position: absolute;
-        top: 0rem;
+        top: -0.75rem;
         color: var(--title-color);
-        font-family: var(--body-font);
         font-size: 0.8rem;
+        @media (max-width: 555px) {
+            top: 0;
+            font-family: var(--body-font);
+        }
     }
 }
 
