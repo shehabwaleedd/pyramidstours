@@ -78,7 +78,7 @@ const NavbarData = [
     {
         id: 4,
         title: "Offers",
-        href: "/offers",
+        href: "/search/hasOffer=true",
         expandable: false,
     }
 

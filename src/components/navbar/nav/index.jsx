@@ -11,7 +11,7 @@ const Data = [
   { id: 13, title: "Alexandria Day Tours", href: "/alexandria-day-tours", expandable: false },
   { id: 14, title: "Hurghada Tours", href: "/hurghada-tours", expandable: false },
   { id: 15, title: "Sharm El Sheikh Tours", href: "/sharm-el-sheikh-tours", expandable: false },
-  { id: 16, title: "Dahab Tours", href: "/dahab-tours", expandable: false },
+  { id: 16, title: "Dahab Tours", href: "/Dahab Tours", expandable: false },
   { id: 17, title: "Taba Tours", href: "/taba-tours", expandable: false },
   { id: 18, title: "Nuweiba Tours", href: "/nuweiba-tours", expandable: false },
   { id: 19, title: "El Gouna Tours", href: "/el-gouna-tours", expandable: false },

@@ -19,6 +19,7 @@ import Proceed from '@/components/proceed';
 import LoginForm from '@/components/loginForm/loginForm';
 import { AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 
 interface TourClientProps {
     id: string;
@@ -31,7 +32,7 @@ interface BookingOption {
 
 interface BookingData {
     adultPricing: string | null;
-    childrenPricing: string | null;
+    childrenPricing?: string | null;
     time: string;
     date: string;
     day: string;
@@ -106,9 +107,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
 
 
     const handleSubmit = async (values: FormValues) => {
-
         const token = localStorage.getItem('token');
-
         if (!token) {
             setIsLoginOpen(true);
             return;
@@ -121,10 +120,9 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
             ? tour?.childrenPricing.slice().reverse().find(pricing => pricing.children <= values.children)?._id
             : '';
 
-
+        // Initialize bookingData with properties that are always needed
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
-            childrenPricing: childrenPricing || "",
             time: values.repeatTime + ':00' || "8:00",
             date: formattedDate,
             day: values.repeatDays || "Sunday",
@@ -133,12 +131,18 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                 number: number.toString()
             })),
         };
+
+        // Only add childrenPricing if it exists
+        if (childrenPricing) {
+            bookingData.childrenPricing = childrenPricing;
+        }
+
         console.log(adultPricing, childrenPricing, bookingData)
 
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/subscription/${tour?._id}`, bookingData,
-                { headers: { token: localStorage.getItem('token') } }
+                { headers: { token } }
             );
             if (response.data.message === "Subscription created successfully") {
                 console.log(response.data, "respo")
@@ -153,6 +157,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
             setErrorMessage(error.response?.data?.err || error.response?.err);
         }
     };
+
 
     function calculateTotalCost(values: FormValues, tour: TourType | null, optionCounts: { [key: string]: number }) {
         let total = 0;
@@ -194,7 +199,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     </div>
                     <div className={styles.eventDetails__mainImage__upper_details} style={{ flexWrap: "wrap" }}>
                         {tour?.tags.map((tag, index) => (
-                            <span key={index}><CiHashtag />{tag}</span>
+                            <Link href={`/${tag}`} key={index}><CiHashtag />{tag}</Link>
                         ))}
                     </div>
                 </div>
@@ -207,7 +212,7 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                     <p> <IoLocationSharp /> {tour?.location?.from}, {tour?.location?.to} </p>
                     <p> <FiClock /> {tour?.duration} </p>
                     <p> <BsCurrencyDollar />   From ${tour?.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</p>
-                    <p> <IoPricetagOutline /> {tour?.category} </p>
+                    <Link href={`/search/${tour?.category}`} > <IoPricetagOutline /> {tour?.category} </Link>
                 </div>
             </div>
             <aside className={styles.eventDetails__lower}>
@@ -248,7 +253,6 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                             <label>Number of Adults</label>
                                             <Field type="number" name="adults" min={1} max={tour?.adultPricing.length} readOnly />
                                             <div className={styles.incrementBtns}>
-                                                {/* Incrementing the adult pricing */}
                                                 <button type="button" onClick={() => setFieldValue('adults', values.adults + 1)}>+</button>
                                                 <button type="button" onClick={() => setFieldValue('adults', Math.max(1, values.adults - 1))}>-</button>
                                             </div>
@@ -269,16 +273,18 @@ const TourClient: React.FC<TourClientProps> = ({ id }) => {
                                     </div>
                                     <div className={styles.headGroup}>
                                         {tour?.options.map(option => (
-                                            <div key={option._id} className={styles.incrementBtns_group}>
+                                            <div key={option._id} className={styles.column}>
                                                 <span>{option.name} - ${option.price}</span>
-                                                <input
-                                                    type="number"
-                                                    value={optionCounts[option._id] || 0}
-                                                    readOnly
-                                                />
-                                                <div className={styles.incrementBtns}>
-                                                    <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
-                                                    <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
+                                                <div className={styles.incrementBtns_group}>
+                                                    <input
+                                                        type="number"
+                                                        value={optionCounts[option._id] || 0}
+                                                        readOnly
+                                                    />
+                                                    <div className={styles.incrementBtns}>
+                                                        <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
+                                                        <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}

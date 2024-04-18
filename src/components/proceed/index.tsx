@@ -41,18 +41,22 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
                 <div className={styles.proceed_column}>
                     <h3> {data.tourDetails.title}</h3>
                     <ul className={styles.group}>
-                        <li>Time:{data.time}</li>
-                        <li>Date:{data.date}</li>
-                        <li>Day:{data.day}</li>
+                        <li>Time:{data.time},</li>
+                        <li>{data.date},</li>
+                        <li>{data.day}</li>
                     </ul>
-                    {data.options.map((option) => (
-                        <div key={option._id} className={styles.group}>
-                            <p>{option.name}</p>
-                            <p>{option.number} x {option.price}</p>
-                        </div>
-                    ))}
-                    <p style={{ color: "var(--accent-color)" }}>Total Price: {data.totalPrice}</p>
                 </div>
+            </div>
+            <div className={styles.proceed_column}>
+                {data.adultPricing && <p>Adults: {data.adultPricing.adults} x {data.adultPricing.price} = {data.adultPricing.totalPrice}</p>}
+                {data.childrenPricing && <p>Children: {data.childrenPricing.children} x {data.childrenPricing.price} = {data.childrenPricing.totalPrice}</p>}
+                {data.options.map((option) => (
+                    <div key={option._id} className={styles.group}>
+                        <p>{option.name}</p>
+                        <p>{option.number} x {option.price}</p>
+                    </div>
+                ))}
+                <p style={{ color: "var(--accent-color)" }}>Total Price: {data.totalPrice}</p>
             </div>
             <button onClick={handlePaymentClick} className={styles.proceed_button} disabled={isSubmitting}>
                 {isSubmitting ? 'Processing Payment...' : 'Proceed to Payment'}

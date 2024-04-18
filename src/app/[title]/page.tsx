@@ -7,14 +7,15 @@ import Image from 'next/image';
 
 
 export default async function MenuPage({ params }: { params: { title: string } }) {
-    const tours = useTourByTag(params.title)
-    const toursArray = await tours
+    const tours = useTourByTag({ tag: params.title });
+    const toursArray = await tours;
+    console.log(toursArray, 'toursArray')
     return (
         <main className={styles.menuPage}>
             <section className={styles.menuPage__upper}>
                 <Image src="/assets/backgrounds/1.jpg" alt="search" width={1920} height={1080} />
                 <div className={styles.menuPage__upper__text}>
-                    <h1>{params.title.replace(/-/g, ' ')}</h1>
+                    <h1>{params.title.replace(/[-%20]/g, ' ')}</h1>
                 </div>
             </section>
             <section className={styles.menuPage__lower}>
@@ -27,4 +28,6 @@ export default async function MenuPage({ params }: { params: { title: string } }
         </main>
     )
 }
+
+
 
