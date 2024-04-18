@@ -42,9 +42,15 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
             <div className={styles.image}>
                 <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
                 <div style={{ zIndex: 99999 }}>
-                    <span style={{ backgroundColor: "var(--accent-color)" }}>
-                        Offer
-                    </span>
+                    {tour.hasOffer ? (
+                        <span style={{ backgroundColor: "var(--accent-color)" }}>
+                            Offer
+                        </span>
+                    ) : (
+                        <span style={{ backgroundColor: "var(--success-color)" }}>
+                            {tour.category}
+                        </span>
+                    )}
                     <button onClick={(event) => handleWishlistClick(event, tour._id)}
                         style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }}>
                         <FiHeart style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
@@ -54,7 +60,10 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
             </div>
             <div className={styles.bottom}>
                 <h3>{tour.title.slice(0, 50)}...</h3>
-                <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'}</span>
+                <div className={styles.bottom_group}>
+                    <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'},</span>
+                    <span>{tour.location.to}</span>
+                </div>
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
                 <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
             </div>

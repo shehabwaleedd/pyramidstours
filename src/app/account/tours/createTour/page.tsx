@@ -106,7 +106,7 @@ const CreateTour = () => {
             });
             if (response.status === 200) {
                 setSuccess(true);
-                router.push('/');
+                // router.push('/');
             }
         } catch (error: any) {
             setError(error.response?.data?.message || error.response?.err);

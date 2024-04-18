@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useAuth } from '@/context/AuthContext'
 import styles from "./style.module.scss"
 import { motion, AnimatePresence } from 'framer-motion'

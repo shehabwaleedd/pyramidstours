@@ -81,6 +81,17 @@
         align-items: flex-start;
         justify-content: space-between;
 
+        &_group {
+            display: flex;
+            width: fit-content;
+            align-items: center;
+            justify-content: flex-start;
+            background-color: var(--container-color);
+            padding: 0.5rem;
+            border-radius: 2rem;
+            gap: 0.5rem;
+        }
+
         span {
             font-size: var(--normal-font-size);
             color: var(--accent-color);
@@ -121,7 +132,7 @@
         transition: background-color 0.3s;
 
         &:hover {
-            background-color: var(--second-accent-color);
+            background-color: var(--success-color);
             color: var(--background-color);
         }
     }
