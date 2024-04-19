@@ -36,6 +36,13 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
         router.push(`/tours/${id}`);
     }
 
+    const originalPrice = parseFloat(String(tour.adultPricing.find(p => p.adults === 1)?.price ?? '0'));
+    const increasedPrice = tour.hasOffer ? originalPrice * 1.15 : originalPrice;
+
+    // Round to nearest 5
+    const roundedPrice = Math.round(increasedPrice / 5) * 5;
+
+
 
     return (
         <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
@@ -61,7 +68,14 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
             <div className={styles.bottom}>
                 <h3>{tour.title.slice(0, 50)}...</h3>
                 <div className={styles.bottom_group}>
-                    <span>From ${tour.adultPricing.find(p => p.adults === 1)?.price ?? 'N/A'},</span>
+                    {tour.hasOffer ? (
+                        <>
+                            <span>From $<span style={{ textDecoration: 'line-through' }}>{roundedPrice}</span></span>
+                            <span>${originalPrice},</span>
+                        </>
+                    ) : (
+                        <span>From ${originalPrice},</span>
+                    )}
                     <span>{tour.location.to}</span>
                 </div>
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
