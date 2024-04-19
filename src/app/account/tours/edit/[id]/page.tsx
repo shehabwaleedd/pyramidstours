@@ -90,25 +90,25 @@ const EditTour = () => {
             formData.append(`childrenPricing[${index}][children]`, item.children?.toString() ?? '0');
             formData.append(`childrenPricing[${index}][price]`, item.price.toString());
         });
+
+
         Object.keys(values).forEach(key => {
             if (key !== "mainImg" && key !== "images" && key !== "adultPricing" && key !== "childrenPricing") {
                 const value = values[key];
-                if (typeof value === "object" && !Array.isArray(value) && value !== null) {
-                    Object.entries(value).forEach(([nestedKey, nestedValue]) => {
-                        if (nestedKey !== "_id" && (typeof nestedValue === "string" || nestedValue instanceof Blob)) {
-                            formData.append(`${key}[${nestedKey}]`, nestedValue);
-                        }
+                if (typeof value === 'object' && !Array.isArray(value) && value !== null) {
+                    // For nested objects like location
+                    Object.keys(value).forEach(subKey => {
+                        formData.append(`${key}[${subKey}]`, value[subKey]);
                     });
                 } else if (Array.isArray(value)) {
+                    // For arrays like adultPricing, childrenPricing, options
                     value.forEach((item, index) => {
-                        if (typeof item === "object" && item !== null) {
-                            Object.entries(item).forEach(([nestedKey, nestedValue]) => {
-                                if (nestedKey !== "_id" && (typeof nestedValue === "string" || nestedValue instanceof Blob)) {
-                                    formData.append(`${key}[${index}][${nestedKey}]`, nestedValue.toString());
-                                }
+                        if (typeof item === 'object') {
+                            Object.keys(item).forEach(subKey => {
+                                formData.append(`${key}[${index}][${subKey}]`, item[subKey].toString());
                             });
                         } else {
-                            formData.append(`${key}[${index}]`, item.toString());
+                            formData.append(`${key}[${index}]`, item);
                         }
                     });
                 } else {
@@ -116,6 +116,7 @@ const EditTour = () => {
                 }
             }
         });
+
         const token = localStorage.getItem('token');
         try {
             const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour/${id}`, formData, {
@@ -125,7 +126,7 @@ const EditTour = () => {
                 },
             });
             if (response.status === 200 && response.data.message === 'success') {
-                router.push('/account/tours');
+                router.push('/account');
             } else {
                 throw new Error(response.data.err || 'An error occurred');
             }
