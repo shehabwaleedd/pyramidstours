@@ -125,7 +125,7 @@ export const presetInclusions = [
     "Airport transfers.",
     "Welcome drink.",
     "Guided tour.",
-    "Entrance fees.",
+    "Entrance fees to all the mentioned sitesd",
     "Local transportation.",
     "Accommodation.",
     "All service charges & taxes.",
@@ -133,6 +133,8 @@ export const presetInclusions = [
     "Hotel pickup and drop-off",
     "Qualified Egyptologist guide",
     "Private tour",
+    "Egyptian Karkade (Hibiscus tea)",
+
 ];
 
 export const presetExclusions = [

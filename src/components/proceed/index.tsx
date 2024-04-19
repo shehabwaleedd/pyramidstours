@@ -5,7 +5,7 @@ import styles from "./style.module.scss"
 import globalStyles from "../../app/page.module.scss"
 import axios from 'axios'
 import Image from 'next/image'
-
+import { motion } from 'framer-motion'
 const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSubscriptionOpen: (value: boolean) => void }) => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const handlePaymentClick = async () => {
@@ -31,7 +31,7 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
 
 
     return (
-        <section className={`${styles.proceed} ${globalStyles.bottomGlass}`}>
+        <motion.section className={`${styles.proceed} ${globalStyles.bottomGlass}`}  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
             <div className={styles.proceed__upper}>
                 <h2>Your Order</h2>
                 <button onClick={handleClose} className={styles.close_button}>close</button>
@@ -61,7 +61,7 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
             <button onClick={handlePaymentClick} className={styles.proceed_button} disabled={isSubmitting}>
                 {isSubmitting ? 'Processing Payment...' : 'Proceed to Payment'}
             </button>
-        </section>
+        </motion.section>
     )
 }
 

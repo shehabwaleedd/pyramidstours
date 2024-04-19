@@ -14,7 +14,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
     const router = useRouter();
     const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
     const isInWishlist = useMemo(() => wishlist.some(item => item._id === tour._id), [wishlist, tour._id]);
-
+    const slugTitle = tour.title.replace(/ /g, '-').toLowerCase();
 
 
     if (!tour) {
@@ -32,8 +32,8 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
         }
     };
 
-    const handleTourClick = (id: string) => {
-        router.push(`/tours/${id}`);
+    const handleTourClick = (title: string) => {
+        router.push(`/tours/${title}`);
     }
 
     const originalPrice = parseFloat(String(tour.adultPricing.find(p => p.adults === 1)?.price ?? '0'));
@@ -45,7 +45,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
 
     return (
-        <div className={styles.tours__container_card} onClick={() => handleTourClick(tour._id)}>
+        <div className={styles.tours__container_card} onClick={() => handleTourClick(slugTitle)}>
             <div className={styles.image}>
                 <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
                 <div style={{ zIndex: 99999 }}>
@@ -79,7 +79,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
                     <span>{tour.location.to}</span>
                 </div>
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
-                <button onClick={() => handleTourClick(tour._id)}>Book Now</button>
+                <button onClick={() => handleTourClick(slugTitle)}>Book Now</button>
             </div>
         </div>
     )
