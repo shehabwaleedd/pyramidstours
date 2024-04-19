@@ -107,6 +107,11 @@ export const presetOptionNames = [
     { name: "Pickup & Dropoff from Hurghada Airport or Hotel" },
     { name: "Pickup & Dropoff from Sharm El Sheikh Airport or Hotel" },
     { name: "Pickup & Dropoff from Alexandria Airport or Hotel" },
+    { name: "3 Stars Hotel" },
+    { name: "4 Stars Hotel" },
+    { name: "5 Stars Hotel" },
+
+
 
 
 ];
@@ -240,6 +245,7 @@ export const duration = [
     "7 Days",
     "8 Days",
     "9 Days",
+    "10 Days",
 ]
 
 export const presetLocations = [
@@ -379,4 +385,21 @@ export const categoryOptions = [
     { label: "Aswan Airport Transfers", value: "aswan-airport-transfers" },
     { label: "Hurghada Airport Transfers", value: "hurghada-airport-transfers" },
     { label: "Sharm El Sheikh Airport Transfers", value: "sharm-el-sheikh-airport-transfers" },
+    { label: "Giza Tours", value: "giza-tours" },
+    { label: "Cairo Tours", value: "cairo-tours" },
+    { label: "Luxor Tours", value: "luxor-tours" },
+    { label: "Aswan Tours", value: "aswan-tours" },
+    { label: "Hurghada Tours", value: "hurghada-tours" },
+    { label: "Sharm El Sheikh Tours", value: "sharm-el-sheikh-tours" },
+    { label: "Alexandria Tours", value: "alexandria-tours" },
+    { label: "Fayoum Tours", value: "fayoum-tours" },
+    { label: "Siwa Tours", value: "siwa-tours" },
+    { label: "Bahariya Tours", value: "bahariya-tours" },
+    { label: "Farafra Tours", value: "farafra-tours" },
+    { label: "Dakhla Tours", value: "dakhla-tours" },
+    { label: "Kharga Tours", value: "kharga-tours" },
+    { label: "Baris Oasis Tours", value: "baris-oasis-tours" },
+    { label: "Marsa Matrouh Tours", value: "marsa-matrouh-tours" },
+    { label: "Dahab Tours", value: "dahab-tours" },
+
 ];

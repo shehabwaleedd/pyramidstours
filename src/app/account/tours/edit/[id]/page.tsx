@@ -168,7 +168,7 @@ const EditTour = () => {
                                 <ReactQuillField name="historyBrief" label="History Brief" value={values.historyBrief} onChange={setFieldValue} />
                                 <ReactQuillField name="itinerary" label="Itinerary" value={values.itinerary} onChange={setFieldValue} />
                                 <CustomField name="mapDetails" label="Google Map Link" fieldType='input' />
-                                <div className={styles.group}>
+                                <div className={styles.formField}>
                                     <CheckboxGroupFieldArray name="inclusions" options={presetInclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.inclusions} />
                                     <CheckboxGroupFieldArray name="exclusions" options={presetExclusions.map((inc) => ({ value: inc, label: inc }))} setFieldValue={setFieldValue} values={values.exclusions} />
                                     <CheckboxGroupFieldArray name="tags" options={categoryOptions.map((cat) => ({ value: cat.value, label: cat.label }))} setFieldValue={setFieldValue} values={values.tags} />
@@ -177,8 +177,10 @@ const EditTour = () => {
                                     <PricingOptions name="adultPricing" />
                                     <PricingOptions name="childrenPricing" />
                                 </div>
-                                <CustomField name="subtitle" label="Subtitle" fieldType='textarea' />
-                                <CustomField name="hasOffer" label="Is Offer" fieldType='checkbox' />
+                                <div className={styles.group}>
+                                    <CustomField name="hasOffer" label="Is Offer" fieldType='checkbox' />
+                                    <CustomField name='isRepeated' label='Is Repeated' fieldType='checkbox' />
+                                </div>
                                 <button type="submit" disabled={isSubmitting} className={styles.submitButton}>{isSubmitting ? 'Updating...' : 'Update Tour'}
                                 </button>
                             </Form>
