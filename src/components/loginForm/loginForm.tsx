@@ -11,21 +11,6 @@ import global from "../../app/page.module.scss"
 import { CountryDropdown } from 'react-country-region-selector';
 
 
-interface FormValues {
-    email: string;
-    password: string;
-    name?: string;
-    rePassword?: string;
-    nationality?: string;
-    gender?: string;
-}
-
-interface AuthFormProps {
-    initialMode?: 'login' | 'register';
-}
-
-
-
 const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const [errorFromDataBase, setErrorFromDataBase] = useState<string>('');
     const [mode, setMode] = useState<'login' | 'register'>('login');

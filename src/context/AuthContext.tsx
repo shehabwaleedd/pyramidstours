@@ -151,7 +151,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(userData);
         setIsLoggedIn(true);
         router.push('/account');
-    };
+    }; 
 
     const handleLoginSuccessForm = (token: string, userData: User) => {
         localStorage.setItem('token', token);

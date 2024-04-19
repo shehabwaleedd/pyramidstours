@@ -38,9 +38,6 @@ const AccountHeaderNavbar = ({ profileOpen }: { profileOpen: boolean }) => {
                         <Link href="/account">
                             <span>Account</span>
                         </Link>
-                        <Link href={`/account/user/${user?._id}/user-subscriptions`}>
-                            <span>My Subscriptions</span>
-                        </Link>
                         <button onClick={handleLogout} style={{ color: "red" }}>
                             Logout
                         </button>

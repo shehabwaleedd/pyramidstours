@@ -3,6 +3,7 @@ import Footer from './Footer';
 
 const Data = [
   { id: 0, title: "Home", href: "/", expandable: false },
+  { id: 32, title: "All Tours", href: "/tours", expandable: false },
   { id: 10, title: "Top Rated Tours", href: "/top-rated-tours", expandable: false },
   { id: 5, title: "Cairo Day Tours", href: "/cairo-day-tours", expandable: false },
   { id: 6, title: "Luxor Day Tours", href: "/luxor-day-tours", expandable: false },
