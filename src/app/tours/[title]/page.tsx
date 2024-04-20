@@ -4,54 +4,55 @@ import TourClient from './components/TourClient';
 import { serverUseToursByTitle } from '@/lib/tours/serverUseTourByTitle';
 import Loading from '@/animation/loading/Loading';
 
-// export async function generateMetadata({ params }: { params: any }) {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour/${params.title}`);
-//     if (!res.ok) throw new Error('Failed to fetch event');
 
-//     const jsonResponse = await res.json();
-//     const cleanDescription = jsonResponse.data.description.replace(/<[^>]*>/g, '').slice(0, 150);
+const slugToTitle = (slug: string): string => {
+    return slug.replace(/-/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+};
+export async function generateMetadata({ params }: { params: { title: string } }) {
+    const title = slugToTitle(params.title);
+    const tour = await serverUseToursByTitle(title);
 
-//     return {
-//         title: jsonResponse.data.title,
-//         description: cleanDescription,
-//         url: `https://pyramidsegypttours/tours/${params.id}`,
-//         image: jsonResponse.data.mainImg,
-//         openGraph: {
-//             type: "website",
-//             title: jsonResponse.data.title,
-//             description: cleanDescription,
-//             images: jsonResponse.data.mainImg,
-//             url: `https://pyramidsegypttours/tours/${params.id}`,
-//             site_name: "Pyramids Egypt Tours",
-//         },
-//         twitter: {
-//             title: jsonResponse.data.title,
-//             description: cleanDescription,
-//             images: jsonResponse.data.mainImg,
-//             cardType: 'summary_large_image',
-//         },
-//     }
-// }
+    const cleanDescription = tour[0]?.description?.replace(/<[^>]*>/g, '').slice(0, 150) ?? "N/A";
+
+    return {
+        title: tour[0]?.title,
+        description: cleanDescription,
+        url: `https://pyramidsegypttours/tours/${params.title}`,
+        image: tour[0]?.mainImg?.url,
+        openGraph: {
+            type: "website",
+            title: tour[0]?.title,
+            description: cleanDescription,
+            images: tour[0]?.mainImg,
+            url: `https://pyramidsegypttours/tours/${params.title}`,
+            site_name: "Pyramids Egypt Tours",
+        },
+        twitter: {
+            title: tour[0]?.title,
+            description: cleanDescription,
+            images: tour[0]?.mainImg,
+            cardType: 'summary_large_image',
+        },
+    }
+}
+
 
 
 export default async function page({ params }: { params: { title: string } }) {
-    const slugToTitle = (slug: string): string => {
-        return slug.replace(/-/g, ' ')
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
-    };
 
     const title = slugToTitle(params.title);
     const tour = await serverUseToursByTitle(title);
 
     if (!tour) {
-        return <p>Loading...</p>; 
+        return <p>Loading...</p>;
     }
 
     return (
         <main className={styles.tourDetails}>
-            <TourClient tour={tour[0]} /> // Pass the resolved value of tour to the TourClient component
+            <TourClient tour={tour[0]} />
         </main>
     )
 }
