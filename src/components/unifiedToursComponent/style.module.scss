@@ -1,0 +1,192 @@
+.recommendedTours {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+    gap: 1rem;
+    padding: 1rem;
+
+    h2 {
+        font-family: var(--title-font);
+        width: 100%;
+        font-size: var(--bigger-font-size);
+        text-transform: capitalize;
+        text-align: left;
+    }
+
+    &__container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+        gap: 1rem;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+
+
+        &_card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            padding: 0.4rem;
+            gap: 0.6rem;
+            cursor: pointer;
+
+            &_top {
+                width: 100%;
+                height: 100%;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 20rem;
+                    border-radius: 1.5rem;
+                    object-fit: cover;
+                }
+
+                &_bottom {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: space-between;
+                    padding: 1rem;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        align-content: center;
+                        align-self: center;
+                        padding: 0.3rem 0.5rem;
+                        border-radius: 1rem;
+                    }
+
+                    &_upper {
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+
+                        &_top {
+                            display: flex;
+                            width: 100%;
+                            justify-content: space-between;
+                        }
+
+                    }
+
+                    &_lower {
+                        display: flex;
+                        width: 100%;
+                        justify-content: flex-end;
+                        position: relative;
+                        bottom: 0.5rem;
+                        right: 0;
+                        gap: 0.2rem;
+
+                        span {
+                            outline: 1px solid var(--title-color);
+                            border: 1px solid var(--container-color);
+                        }
+                    }
+                }
+            }
+
+            &_bottom {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: space-between;
+                height: 100%;
+                width: 100%;
+                padding-left: 1rem;
+                gap: 0.5rem;
+                overflow-wrap: break-word;
+
+                h2 {
+                    font-family: var(--logo-font);
+                    font-size: 1.5rem;
+                    color: var(--title-color);
+                    font-display: swap;
+                    text-transform: uppercase;
+                    letter-spacing: -0.02rem;
+                    margin-top: 0;
+                    line-height: 1.2;
+
+                    @media (max-width: 456px) {
+                        letter-spacing: -0.05rem;
+                        font-size: 1.5rem;
+                    }
+                }
+
+
+
+                &_top {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: #ef6363;
+
+                    @media (max-width: 1256px) {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+
+
+                    &_right {
+                        display: flex;
+                        gap: 0.5rem;
+
+                        button {
+                            padding: 0;
+                        }
+                    }
+                }
+
+                &_lower {
+                    display: flex;
+                    width: 100%;
+                    justify-content: space-between;
+                    padding-right: 1rem;
+
+                    p {
+                        color: var(--accent-color);
+                    }
+                }
+            }
+        }
+
+        .loading {
+            position: absolute;
+            top: 20vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-family: var(--body-font);
+            font-weight: 500;
+            font-size: var(--big-font-size);
+            letter-spacing: 0.1rem;
+            text-transform: capitalize;
+            color: var(--title-color);
+
+            @media (max-width: 456px) {
+                top: 0;
+            }
+        }
+    }
+}

@@ -16,14 +16,14 @@ export async function serverUseToursByIds(query: string) {
         }
 
         const questionAndQuery = query ? `?${query}` : "";
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour${questionAndQuery}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour${questionAndQuery}`, { cache: "no-cache", });
         if (!res.ok) {
             throw new Error(`Failed to fetch tours, status: ${res.status}`);
         }
         const data = await res.json();
         // Update cache and set new expiry
         cache[query] = data.data.result;
-        cacheExpiry = Date.now() + 24 * 60 * 60 * 1000; 
+        cacheExpiry = Date.now() + 24 * 60 * 60 * 1000;
 
         return data.data.result;
     } catch (error) {
