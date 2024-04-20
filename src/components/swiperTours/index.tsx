@@ -3,10 +3,9 @@ import React, { useRef } from 'react';
 import styles from './style.module.scss';
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { Swiper, SwiperSlide } from "swiper/react";
-import useWindowWidth from '@/hooks/useWindowWidth';
 import SwiperCore from "swiper";
 import { Navigation, Pagination } from "swiper/modules";
-import { TourGroup, TourType } from '@/types/homePageTours';
+import { TourType } from '@/types/homePageTours';
 import "swiper/css";
 import "swiper/css/pagination";
 import 'swiper/css/navigation';
@@ -15,28 +14,16 @@ import TourCard from '../card';
 import { useAuth } from '@/context/AuthContext';
 import LoginForm from '../loginForm/loginForm';
 import Skeleton from '@/animation/skeleton';
-
-
 SwiperCore.use([Navigation, Pagination]);
-
-
 const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number, title: string, }) => {
     const swiperRefs = useRef<SwiperCore[]>([]);
-    const windowWidth = useWindowWidth();
-    const isMobile = windowWidth ? windowWidth < 555 : false;
-    const isTablet = windowWidth ? windowWidth < 777 : false;
-    const isBigScreen = windowWidth ? windowWidth < 1500 : false;
     const { isLoginOpen, setIsLoginOpen } = useAuth();
-
-
     const handleNextSlide = (index: number) => {
         swiperRefs.current[index]?.slideNext();
     };
-
     const handlePrevSlide = (index: number) => {
         swiperRefs.current[index]?.slidePrev();
     };
-
     if (!tours) {
         return (
             <motion.section className={styles.testimonials}>
@@ -44,8 +31,6 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
             </motion.section>
         );
     }
-
-
     return (
         <>
             {tours ? (
@@ -57,10 +42,26 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
                             <button onClick={() => handleNextSlide(index)} aria-label="Next slide"><GoArrowRight /></button>                            </div>
                     </div>
                     <Swiper
-                        slidesPerView={isMobile ? 1 : isTablet ? 2 : isBigScreen ? 3 : 4}
                         className={styles.testimonials__slide}
+                        breakpoints={{
+                            576: {
+                                slidesPerView: 1,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                            },
+                            1268: {
+                                slidesPerView: 3,
+                            },
+                            1868: {
+                                slidesPerView: 4,
+                            },
+                            2768: {
+                                slidesPerView: 5,
+                            },
+                        }}
                         onSwiper={(swiper) => swiperRefs.current[index] = swiper}
-                        spaceBetween={isMobile ? 20 : 50}
+                        spaceBetween={20}
                         navigation={{ nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }}>
                         {tours?.map((tour: TourType) => (
                             <SwiperSlide key={tour._id}>

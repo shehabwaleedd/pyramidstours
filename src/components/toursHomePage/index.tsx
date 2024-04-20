@@ -11,7 +11,7 @@ export default async function ToursHomePage() {
 
     return (
         <section className={styles.testimonials}>
-            {groupedTours && groupedTours.map((group, index) => ( <SwiperTours key={index} tours={group.tours} index={index} title={`${group.title}`} />))}
+            {groupedTours.map((group, index) => ( <SwiperTours key={index} tours={group.tours} index={index} title={`${group.title}`} />))}
         </section>
     );
 };
