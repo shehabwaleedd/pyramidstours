@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styles from "./style.module.scss"
 import Image from 'next/image'
 import { Option } from '@/types/common'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
 import useSubscriptionById from '@/lib/subscriptions/useSubscriptionById'
@@ -13,7 +14,7 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
 
 
     return (
-        <section className={styles.subscriptionDetails}>
+        <motion.section className={styles.subscriptionDetails} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             <div className={styles.subscriptionDetails__upper}>
                 <h1>Subscription Details</h1>
                 <div>
@@ -22,10 +23,10 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
                     </button>
                 </div>
             </div>
-            <div className={styles.subscriptionDetails__container}>
+            <div className={styles.subscriptionDetails__container} >
                 <div className={styles.subscriptionDetails__container__upper}>
                     <div className={styles.subscriptionDetails__container__upper_upper}>
-                        <Image src="/images/about.webp" alt="tour image" width={200} height={200} />
+                        <Image src={subscription?.tourDetails?.mainImg?.url || ""} alt="tour image" width={1080} height={900} />
                     </div>
                     <div className={styles.subscriptionDetails__container__upper_lower}>
                         <h3>Tour Name: <span>{subscription?.tourDetails?.title}</span></h3>
@@ -42,7 +43,12 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
                             </div>
                         ))}
                         <div className={styles.group}>
-                            <p style={{ color: "var(--success-color)" }}>Status: Paid</p>
+                            {subscription?.payment === "success" ? (
+                                <p style={{ color: "var(--success-color)" }}>Status: Paid</p>
+                            ) :
+                                (
+                                    <p style={{ color: "var(--accent-color)" }}>Status: Pending</p>
+                                )}
                             <Link href={`/tours/${subscription?.tourDetails?._id}`} passHref>
                                 <span>View Tour</span>
                             </Link>
@@ -62,8 +68,8 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
                     </div>
                 )}
             </div>
-            
-        </section>
+
+        </motion.section>
     )
 }
 

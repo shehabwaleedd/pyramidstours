@@ -54,7 +54,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
                             Offer
                         </span>
                     ) : (
-                        <span style={{ backgroundColor: "var(--success-color)" }}>
+                        <span style={{ backgroundColor: "var(--second-accent-color)" }}>
                             {tour.category}
                         </span>
                     )}

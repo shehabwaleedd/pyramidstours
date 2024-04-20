@@ -6,11 +6,12 @@ interface ApiResponse {
     message: string;
     data: {
         page: number;
+        totalPages: number;
         result: SubscriptionData[];
     };
 }
 
-const useUserSubscriptions = () => {
+const useUserSubscriptions = (page: number) => {
     const [subscriptions, setSubscriptions] = useState<SubscriptionData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
@@ -18,8 +19,8 @@ const useUserSubscriptions = () => {
     const fetchUserSubscriptions = async () => {
         setLoading(true);
         try {
-            const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription`, {
-                headers: {token: localStorage.getItem('token')},
+            const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription?page=${page}`, {
+                headers: { token: localStorage.getItem('token') },
             });
             setSubscriptions(response.data.data.result);
         } catch (err) {
@@ -33,11 +34,12 @@ const useUserSubscriptions = () => {
         }
     }
 
+
     useEffect(() => {
         fetchUserSubscriptions();
-    }, []);
+    }, [page]);
 
-    return { subscriptions, loading, error };
+    return { subscriptions, loading, error }; // Return totalPages in the hook's output
 }
 
 export default useUserSubscriptions;

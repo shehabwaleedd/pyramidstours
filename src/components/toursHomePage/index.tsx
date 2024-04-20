@@ -5,15 +5,13 @@ import SwiperTours from '../swiperTours';
 
 
 
-
 export default async function ToursHomePage() {
     const groupedTours = await fetchAndGroupToursByLocations();
+
+
     return (
         <section className={styles.testimonials}>
-            {groupedTours && groupedTours.map((group, index) => (
-                <SwiperTours key={index} tours={group.tours} index={index} title={`${group.title}`} 
-                />
-            ))}
+            {groupedTours && groupedTours.map((group, index) => ( <SwiperTours key={index} tours={group.tours} index={index} title={`${group.title}`} />))}
         </section>
     );
 };

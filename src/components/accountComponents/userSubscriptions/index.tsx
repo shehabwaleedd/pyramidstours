@@ -1,17 +1,20 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import useUserSubscriptions from '@/lib/subscriptions/useUserSubscriptions'
 import styles from './style.module.scss'
 import Image from 'next/image'
 import { formatDistanceToNow } from 'date-fns'
 import SubscriptionDetails from '../subscriptionDetails'
 import ViewUserDetailsAdmin from '../allUsers/viewUserDetailsAdmin'
+import { AnimatePresence } from 'framer-motion'
 
 const UserSubscriptions = () => {
-    const { subscriptions, loading } = useUserSubscriptions();
-    const [userOpen, setUserOpen] = React.useState<string | null>(null);
-    const [tourOpen, setTourOpen] = React.useState<string | null>(null);
-    const [subscriptionOpen, setSubscriptionOpen] = React.useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const { subscriptions, loading } = useUserSubscriptions(currentPage);
+    const [userOpen, setUserOpen] = useState<string | null>(null);
+    const [tourOpen, setTourOpen] = useState<string | null>(null);
+    const [subscriptionOpen, setSubscriptionOpen] = useState<string | null>(null);
+
 
     const handleUserOpen = (userId: string) => {
         setUserOpen(userId);
@@ -22,6 +25,16 @@ const UserSubscriptions = () => {
         setSubscriptionOpen(subscriptionId);
         setUserOpen(null);
     };
+
+
+    const handleNextPage = () => {
+        setCurrentPage(currentPage + 1); // Increment page
+    };
+
+    const handlePreviousPage = () => {
+        setCurrentPage(currentPage - 1); // Decrement page
+    };
+
 
 
     if (loading) return <p>Loading...</p>
@@ -56,16 +69,25 @@ const UserSubscriptions = () => {
                         </div>
                     </div>
                 ))}
+                <div className={styles.pagination}>
+                    <button onClick={handlePreviousPage} disabled={currentPage <= 1}>Previous</button>
+                    <span>Page {currentPage}</span>
+                    <button onClick={handleNextPage}>Next</button>
+                </div>
             </div>
-            {subscriptionOpen && (
-                <SubscriptionDetails setSubscriptionOpen={setSubscriptionOpen} subscriptionOpen={subscriptionOpen} handleUserOpen={handleUserOpen} />
-            )}
-            {userOpen && (
-                <ViewUserDetailsAdmin
-                    setUserOpen={setUserOpen}
-                    userOpen={userOpen}
-                />
-            )}
+            <AnimatePresence mode='wait'>
+                {subscriptionOpen && (
+                    <SubscriptionDetails setSubscriptionOpen={setSubscriptionOpen} subscriptionOpen={subscriptionOpen} handleUserOpen={handleUserOpen} />
+                )}
+            </AnimatePresence>
+            <AnimatePresence mode='wait'>
+                {userOpen && (
+                    <ViewUserDetailsAdmin
+                        setUserOpen={setUserOpen}
+                        userOpen={userOpen}
+                    />
+                )}
+            </AnimatePresence>
         </section>
     );
 }
