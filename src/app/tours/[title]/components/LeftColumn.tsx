@@ -117,14 +117,12 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                 { headers: { token } }
             );
             if (response.data.message === "Subscription created successfully") {
-                console.log(response.data, "respo")
                 setSubscriptionData(response.data.data);
                 setSubscriptionOpen(true);
             } else {
                 setErrorMessage("Failed to create subscription: " + response.data.err);
             }
 
-            console.log(response.data);
         } catch (error: any) {
             setErrorMessage(error.response?.data?.err || error.response?.err);
         }

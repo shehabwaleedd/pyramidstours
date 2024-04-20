@@ -105,7 +105,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } else {
 
             const newWishlist = [...wishlist, tour];
-            console.log("Saving to local storage:", newWishlist);
             localStorage.setItem('wishlist', JSON.stringify(newWishlist));
             setWishlist(newWishlist);
         }
@@ -136,7 +135,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     useEffect(() => {
         const storedWishlist = localStorage.getItem('wishlist');
-        console.log("Loaded from local storage on init:", storedWishlist);
         if (storedWishlist) {
             setWishlist(JSON.parse(storedWishlist));
         }

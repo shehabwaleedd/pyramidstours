@@ -246,9 +246,11 @@
                     font-family: var(--body-font);
                     font-size: 1rem;
                     line-break: anywhere;
+                    line-height: 1.5rem;
 
                     @media (max-width: 555px) {
                         font-size: 0.9rem;
+                        line-height: 1.3rem;
                     }
                 }
             }

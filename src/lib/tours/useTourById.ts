@@ -15,7 +15,6 @@ export const useTourById = (id: string) => {
                 );
                 if (response.status === 200 && response.data) {
                     setTour(response.data.data);
-                    console.log("Tour", response.data.data)
                 } else {
                     throw new Error("Failed to fetch event");
                 }
