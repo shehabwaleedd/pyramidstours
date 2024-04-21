@@ -12,10 +12,6 @@ import LoginForm from '@/components/loginForm/loginForm';
 import { AnimatePresence } from 'framer-motion';
 import 'react-calendar/dist/Calendar.css';
 
-interface BookingOption {
-    id: string;
-    number: string;
-}
 
 interface BookingData {
     adultPricing: string | null;
@@ -23,7 +19,7 @@ interface BookingData {
     time: string;
     date: string;
     day: string;
-    options: BookingOption[] | null;
+    options?: Array<{ id: string; number: string }>;
 }
 
 interface FormValues {
@@ -46,7 +42,7 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
         date: new Date(),
         adults: 1,
         children: 0,
-        selectedOptions: {}, // Fix: Change from [] to {}
+        selectedOptions: {},
         repeatTime: '8',
         day: 'Sunday',
         repeatDays: '',
@@ -92,21 +88,27 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
             ? tour?.childrenPricing.slice().reverse().find(pricing => pricing.children <= values.children)?._id
             : '';
 
+        const selectedOptions = Object.entries(optionCounts)
+            .filter(([_, count]) => count > 0)
+            .map(([id, count]) => ({
+                id,
+                number: count.toString()
+            }));
+
         // Initialize bookingData with properties that are always needed
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
             time: values.repeatTime + ':00' || "8:00",
             date: formattedDate,
             day: values.repeatDays || "Sunday",
-            options: Object.entries(optionCounts).map(([id, number]) => ({
-                id,
-                number: number.toString()
-            })),
         };
 
         // Only add childrenPricing if it exists
         if (childrenPricing) {
             bookingData.childrenPricing = childrenPricing;
+        }
+        if (selectedOptions.length > 0) {
+            bookingData.options = selectedOptions;
         }
 
         console.log(adultPricing, childrenPricing, bookingData)

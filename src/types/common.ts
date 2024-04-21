@@ -38,20 +38,27 @@ interface Pricing {
 }
 
 export interface SubscriptionData {
-    message: string;
-    tourDetails: TourType;
-    userDetails: UserDetails;
+    tourDetails: {
+        mainImg?: {
+            url?: string;
+        };
+        title?: string;
+        _id: string;
+    };
+    userDetails: {
+        name: string;
+        email: string;
+        nationality: string;
+        _id: string;
+    }
     time: string;
     date: string;
     day: string;
-    adultPricing: Pricing;
-    childrenPricing: Pricing;
+    adultPricing?: Pricing;
+    childrenPricing?: Pricing;
     options: Option[];
-    totalPrice: number;
+    totalPrice: string;
     payment: string;
     _id: string;
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
 
 }

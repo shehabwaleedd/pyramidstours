@@ -6,6 +6,8 @@ import globalStyles from "../../app/page.module.scss"
 import axios from 'axios'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+const defaultImage = '/no-image.webp';
+
 const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSubscriptionOpen: (value: boolean) => void }) => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const handlePaymentClick = async () => {
@@ -24,6 +26,10 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
         }
     }
 
+    const tourTitle = data.tourDetails?.title || 'No Title Available, Refresh the page';
+
+
+
     const handleClose = () => {
         setSubscriptionOpen(false);
     }
@@ -31,15 +37,15 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
 
 
     return (
-        <motion.section className={`${styles.proceed} ${globalStyles.bottomGlass}`}  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+        <motion.section className={`${styles.proceed} ${globalStyles.bottomGlass}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
             <div className={styles.proceed__upper}>
                 <h2>Your Order</h2>
                 <button onClick={handleClose} className={styles.close_button}>close</button>
             </div>
             <div className={styles.group}>
-                <Image src={data.tourDetails.mainImg.url} alt="tour image" width={200} height={200} />
+                <Image src={data.tourDetails?.mainImg?.url || defaultImage} alt="tour image" width={200} height={200} />
                 <div className={styles.proceed_column}>
-                    <h3> {data.tourDetails.title}</h3>
+                    <h3> {tourTitle}</h3>
                     <ul className={styles.group}>
                         <li>Time:{data.time},</li>
                         <li>{data.date},</li>
