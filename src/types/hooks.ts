@@ -16,4 +16,5 @@ export interface User {
     wishList: string[];
     data: TourType[];
     createdAt: string;
+    nationality: string;
 }

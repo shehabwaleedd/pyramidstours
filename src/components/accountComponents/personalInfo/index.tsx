@@ -3,8 +3,8 @@ import React from 'react'
 import styles from '@/app/account/page.module.scss'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-
-const index = ({ user }) => {
+import { User } from '@/types/hooks'
+const PersonalInfo = ({ user } : { user: User }) => {
     return (
         <motion.section className={styles.account__lower_right_content}
             initial={{ opacity: 0 }}
@@ -49,4 +49,4 @@ const index = ({ user }) => {
     )
 }
 
-export default index
+export default PersonalInfo

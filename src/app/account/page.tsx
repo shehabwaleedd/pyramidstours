@@ -11,7 +11,7 @@ import UserView from '@/components/accountViews/user'
 import AllUsers from '@/components/accountComponents/allUsers'
 import AllTours from '@/components/accountComponents/allTours'
 import ForgotPassword from "@/components/accountComponents/forgetPassword"
-import PersonalInfo from '@/components/accountComponents/personalInfo/index'
+import PersonalInfo from '@/components/accountComponents/personalInfo'
 import ChangePasswordForm from '@/components/accountComponents/changePassword'
 import CreateTour from './tours/createTour/page'
 import { AnimatePresence, motion } from 'framer-motion'
