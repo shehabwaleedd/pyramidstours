@@ -110,6 +110,8 @@ export const presetOptionNames = [
     { name: "3 Stars Hotel" },
     { name: "4 Stars Hotel" },
     { name: "5 Stars Hotel" },
+    { name: "Admission to go inside the Great Pyramid (King chamber room) "},
+    { name: "entry admissions inside Chephren Pyramid"},
 
 
 
@@ -139,6 +141,7 @@ export const presetInclusions = [
     "Meals start with lunch first day end with breakfast last day.",
     "3 nights on 5 stars Nile cruise board",
 
+
 ];
 
 export const presetExclusions = [
@@ -156,6 +159,9 @@ export const presetExclusions = [
     "Welcome drink not included.",
     "Airport Pickup and drop off (will be for an additional charge)",
     "Motorboat to Philae Temple.",
+    "entry admissions inside Chephren Pyramid",
+    "Admission to go inside the Great Pyramid (King chamber room)",
+
 
 
 ];
