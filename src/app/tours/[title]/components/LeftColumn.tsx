@@ -49,15 +49,11 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
     };
 
 
-    const handleDateChange = (date: Date | [Date | null, Date | null] | null): Date => {
-        if (date instanceof Date) {
-            return date;
-        } else if (Array.isArray(date) && date[0] instanceof Date) {
-            return date[0];
-        }
-        return new Date(); // Default to current date if the provided date is invalid
+    const handleDateChange = (date: Date) => {
+        const correctedDate = new Date(date);
+        correctedDate.setHours(12);
+        return correctedDate;
     };
-
 
     const handleIncrement = (optionId: string) => {
         setOptionCounts(prev => ({
@@ -82,7 +78,12 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
         }
 
         setErrorMessage('');
-        const formattedDate = values.date instanceof Date ? values.date.toISOString().split('T')[0] : "";
+
+        if (!(values.date instanceof Date)) {
+            console.error('Invalid date object');
+            return;
+        }
+        const formattedDate = values.date.toISOString().split('T')[0];
         const adultPricing = tour?.adultPricing.slice().reverse().find(pricing => pricing.adults <= values.adults)?._id;
         const childrenPricing = values.children > 0
             ? tour?.childrenPricing.slice().reverse().find(pricing => pricing.children <= values.children)?._id
@@ -174,9 +175,7 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                     return (
                         <Form className={styles.eventDetails__lower_left}>
                             <h2> Tailor Your Tour</h2>
-                            <Calendar
-                                onChange={value => setFieldValue('date', handleDateChange(value))}
-                                value={values.date} minDate={new Date()} className={styles.calendar} />
+                            <Calendar onChange={(value) => setFieldValue('date', handleDateChange(value as Date))} value={values.date} minDate={new Date()} className={styles.calendar} />
                             <div className={styles.headGroup}>
                                 <h2>Tour Available in</h2>
                                 <div className={styles.group}>
