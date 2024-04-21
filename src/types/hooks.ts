@@ -14,5 +14,6 @@ export interface User {
     role: string;
     age: number;
     wishList: string[];
-    data: TourType[]
+    data: TourType[];
+    createdAt: string;
 }

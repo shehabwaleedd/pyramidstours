@@ -9,10 +9,10 @@ import Loading from '@/animation/loading/Loading'
 import AdminView from '@/components/accountViews/admin'
 import UserView from '@/components/accountViews/user'
 import AllUsers from '@/components/accountComponents/allUsers'
-import AllTours from "@/components/accountComponents/allTours"
-import ForgotPassword from '@/components/accountComponents/forgetPassword'
+import AllTours from '@/components/accountComponents/allTours'
+import ForgotPassword from "@/components/accountComponents/forgetPassword"
 import PersonalInfo from '@/components/accountComponents/personalInfo/index'
-import ChangePassword from "@/components/accountComponents/changePassword"
+import ChangePasswordForm from '@/components/accountComponents/changePassword'
 import CreateTour from './tours/createTour/page'
 import { AnimatePresence, motion } from 'framer-motion'
 import UserSubscriptions from '@/components/accountComponents/userSubscriptions'
@@ -107,7 +107,7 @@ const Account = () => {
                 <div className={styles.account__lower_right}>
                     <AnimatePresence mode='wait'>
                         {activeSection === 'personalInfo' && <PersonalInfo user={user} />}
-                        {activeSection === 'changePassword' && <ChangePassword />}
+                        {activeSection === 'changePassword' && <ChangePasswordForm />}
                         {activeSection === 'subscriptions' && <UserSubscriptions />}
                         {activeSection === 'createTour' && <CreateTour />}
                         {activeSection === 'tours' && <AllTours />}

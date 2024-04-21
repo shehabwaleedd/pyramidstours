@@ -134,6 +134,10 @@ export const presetInclusions = [
     "Qualified Egyptologist guide",
     "Private tour",
     "Egyptian Karkade (Hibiscus tea)",
+    "Cruise cabin with all facilities",
+    "Qualified licensed drivers.",
+    "Meals start with lunch first day end with breakfast last day.",
+    "3 nights on 5 stars Nile cruise board",
 
 ];
 
@@ -151,6 +155,7 @@ export const presetExclusions = [
     "Guided tour not included.",
     "Welcome drink not included.",
     "Airport Pickup and drop off (will be for an additional charge)",
+    "Motorboat to Philae Temple.",
 
 
 ];

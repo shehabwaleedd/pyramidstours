@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useAuth } from '@/context/AuthContext'
 
 
-const DashboardTours = ({ tours, loading, title, refreshTours }) => {
+const DashboardTours = ({ tours, loading, title }) => {
     const router = useRouter();
     const { user } = useAuth();
     const handleEditClick = (eventId) => {
@@ -27,7 +27,6 @@ const DashboardTours = ({ tours, loading, title, refreshTours }) => {
 
                 if (response.status === 200) {
                     alert("Event deleted successfully.");
-                    await refreshTours();
                 } else {
                     throw new Error("Failed to delete event.");
                 }
@@ -74,11 +73,11 @@ const DashboardTours = ({ tours, loading, title, refreshTours }) => {
                         <div className={styles.userTours__container_card_bottom}>
                             <div className={styles.userTours__container_card_bottom_top}>
                                 <div>
-                                    <h2>{event.title.slice(0, 20)}...</h2>
+                                    <h3 className={styles.title}>{event.title.slice(0, 20)}...</h3>
                                 </div>
                             </div>
                             <p className={styles.p}>
-                                {event.description.slice(0, 150)}...
+                                {event.description.slice(0, 150)}..
                             </p>
                             <div className={styles.userTours__container_card_bottom_lower}>
                                 <p>{event.category}</p>

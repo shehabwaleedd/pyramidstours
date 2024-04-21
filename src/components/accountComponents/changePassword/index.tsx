@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import styles from "./style.module.scss";
+
+// TypeScript types for form values
+interface FormValues {
+    password: string;
+    newPassword: string;
+    reNewPassword: string;
+}
 
 // Validation schema
 const validationSchema = Yup.object({
     password: Yup.string().required('Current password is required'),
     newPassword: Yup.string()
         .required('New password is required')
-        .notOneOf([Yup.ref('currentPassword'), null], "New password must be different from current password")
+        .notOneOf([Yup.ref('password')], "New password must be different from current password")
         .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/, 'Password must contain at least 8 characters, one letter, and one number'),
     reNewPassword: Yup.string()
-        .oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+        .oneOf([Yup.ref('newPassword')], 'Passwords must match')
         .required('Confirming new password is required'),
 });
 
 const ChangePasswordForm = () => {
-    const [errors, setErrors] = useState(null);
+    const [errors, setErrors] = useState<string | null>(null);
 
-    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
         const payload = {
             password: values.password, 
             newPassword: values.newPassword,
@@ -28,7 +35,7 @@ const ChangePasswordForm = () => {
 
         try {
             const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/changePassword`, payload, {
-                headers: {  token: localStorage.getItem('token')},
+                headers: { token: localStorage.getItem('token') },
             });
 
             if (response.data.success) {
@@ -37,9 +44,9 @@ const ChangePasswordForm = () => {
             } else {
                 setErrors('Error changing password. Please try again.');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error changing password:', error);
-            const errorMessage = error.response?.err || 'Error changing password. Please try again.';
+            const errorMessage = error.response?.data?.err || 'Error changing password. Please try again.';
             setErrors(errorMessage);
         }
 

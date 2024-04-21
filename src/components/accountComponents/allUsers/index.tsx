@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react'; // Import useCallback
 import useGetAllUsers from '@/lib/user/useGetAllUsers';
 import styles from "./style.module.scss"
-import { formatDistanceToNow } from 'date-fns'; // Import the function
+import { formatDistanceToNow } from 'date-fns';
 import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion'
 import ViewUserDetailsAdmin from './viewUserDetailsAdmin';
@@ -12,7 +12,7 @@ import ViewUserDetailsAdmin from './viewUserDetailsAdmin';
 const AllUsers = () => {
 
     const { users, getAllUsers: fetchAllUsers } = useGetAllUsers();
-    const [userOpened, setUserOpened] = useState(null);
+    const [userOpened, setUserOpened] = useState<string | null>(null);
 
     const getAllUsers = useCallback(() => {
         fetchAllUsers();
@@ -22,7 +22,7 @@ const AllUsers = () => {
         getAllUsers();
     }, [getAllUsers]);
 
-    const handleUserOpen = (id) => {
+    const handleUserOpen = (id: string) => {
         setUserOpened(id);
     };
 
@@ -53,7 +53,7 @@ const AllUsers = () => {
                     </div>
                 </section>
                 <AnimatePresence>
-                    {userOpened && (<ViewUserDetailsAdmin users={users} userOpened={userOpened} setUserOpened={setUserOpened} />)}
+                    {userOpened && (<ViewUserDetailsAdmin userOpen={userOpened} setUserOpen={setUserOpened} />)}
                 </AnimatePresence >
             </section>
         </>

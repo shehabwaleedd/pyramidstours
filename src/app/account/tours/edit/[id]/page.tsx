@@ -140,7 +140,7 @@ const EditTour = () => {
         <main className={styles.editTour}>
             <div className={styles.editTour__container}>
                 <div className={styles.group}>
-                    <Link href="/account/tours">
+                    <Link href="/account">
                         <IoArrowBack />
                     </Link>
                     <h1>Edit Tour</h1>
