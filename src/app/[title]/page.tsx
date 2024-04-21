@@ -15,6 +15,8 @@ export default async function MenuPage({ params }: { params: { title: string } }
     const imageMap = {
         'cairo-tours': '/backgroundss/Cairo.webp',
         'cairo-day-tours': '/backgroundss/Cairo.webp',
+        'giza-day-tours': '/backgroundss/Giza.webp',
+        'gizz-tours': '/backgroundss/Giza.webp',
         'alexandria-tours': '/backgroundss/Alexandria.webp',
         'alexandria-day-tours': '/backgroundss/Alexandria.webp',
         'luxor-tours': '/backgroundss/Luxor.webp',

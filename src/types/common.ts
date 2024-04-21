@@ -50,6 +50,9 @@ export interface SubscriptionData {
         email: string;
         nationality: string;
         _id: string;
+        avatar: {
+            url: string
+        };
     }
     time: string;
     date: string;
@@ -59,6 +62,7 @@ export interface SubscriptionData {
     options: Option[];
     totalPrice: string;
     payment: string;
+    createdAt: string;
     _id: string;
 
 }

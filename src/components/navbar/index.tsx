@@ -85,7 +85,7 @@ const NavbarData = [
 ];
 
 const Navbar = () => {
-    const { isLoggedIn, user, wishlist } = useAuth();
+    const { isLoggedIn, wishlist } = useAuth();
     const router = usePathname();
     const [navOpen, setNavOpen] = useState<boolean>(false);
     const [desktopNavOpen, setDesktopNavOpen] = useState<boolean | null>(false)

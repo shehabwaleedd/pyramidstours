@@ -60,7 +60,7 @@ const UserSubscriptions = () => {
                         </div>
                         <div>
                             <p>
-                                {subscription.tourDetails?.title.slice(0, 20)}...
+                                {subscription.tourDetails?.title?.slice(0, 20)}...
                             </p>
                         </div>
                         <div>
