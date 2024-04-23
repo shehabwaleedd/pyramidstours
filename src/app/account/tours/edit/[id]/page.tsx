@@ -74,9 +74,9 @@ const EditTour = () => {
 
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         const formData = new FormData();
-        newImageFiles.forEach(imageFile => {
-            formData.append('images', imageFile.file);
-        });
+        newImageFiles.forEach((image) => {
+            formData.append('images', image.file);
+        })
 
         if (mainImg && mainImg instanceof File) {
             formData.append('mainImg', mainImg);
@@ -102,7 +102,6 @@ const EditTour = () => {
                         formData.append(`${key}[${subKey}]`, value[subKey]);
                     });
                 } else if (Array.isArray(value)) {
-                    // For arrays like adultPricing, childrenPricing, options
                     value.forEach((item, index) => {
                         if (typeof item === 'object') {
                             Object.keys(item).forEach(subKey => {
