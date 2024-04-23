@@ -110,12 +110,10 @@ export const presetOptionNames = [
     { name: "3 Stars Hotel" },
     { name: "4 Stars Hotel" },
     { name: "5 Stars Hotel" },
-    { name: "Admission to go inside the Great Pyramid (King chamber room) "},
-    { name: "entry admissions inside Chephren Pyramid"},
-
-
-
-
+    { name: "Admission to go inside the Great Pyramid (King chamber room) " },
+    { name: "entry admissions inside Chephren Pyramid" },
+    { name: "Extra Sleep Train Ticket" },
+    { name: "Extra Flight Ticket" },
 ];
 
 export const presetInclusions = [
@@ -140,7 +138,15 @@ export const presetInclusions = [
     "Qualified licensed drivers.",
     "Meals start with lunch first day end with breakfast last day.",
     "3 nights on 5 stars Nile cruise board",
-
+    "Door to door transfers from and to your hotel in Cairo or Giza",
+    "Dinner",
+    "Breakfast",
+    "Lunch",
+    "Abu Simbel trip.",
+    "West and east banks in Luxor.",
+    "Edfu temple and Kom Ombo temples",
+    "All the sites which mentioned in itinerary.",
+    "First class A/C seated train tickets(sleeping train or flight available with extra 150$ p.p)"
 
 ];
 
@@ -161,8 +167,8 @@ export const presetExclusions = [
     "Motorboat to Philae Temple.",
     "entry admissions inside Chephren Pyramid",
     "Admission to go inside the Great Pyramid (King chamber room)",
-
-
+    "Wifi on The cruise (with extra charge on the cruise)",
+    "Water or Drinks on the cruise."
 
 ];
 

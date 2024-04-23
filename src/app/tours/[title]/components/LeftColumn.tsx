@@ -241,7 +241,8 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                             </div>
                             {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
                             <button type="submit" className={styles.submitButton} disabled={isSubmitting}> {isSubmitting ? 'Booking...' : 'Book Now'}</button>
-                            <p>Note: The total price you see combines the basic tour costs plus any extras you pick, like special activities. Adults pay full price for these extras, but for kids, we only add half the price of these extras. So, the more you add, the more you save for your kids!</p>
+                            <p style={{ color: "var(--accent-color)" }}> Note: Infants under 6 years old are free of charge.</p>
+                            <p>Note:  The total cost of the tour is calculated by summing up the prices based on the number of adults and children, each multiplied by their respective pricing tiers, and adding the cost of any selected additional options.</p>
                         </Form>
                     )
                 }}

@@ -14,8 +14,8 @@ export default function Body({ Data }) {
     };
 
     const variants = {
-        open: { opacity: 1, height: "auto", display: "block" },
-        closed: { opacity: 0, height: 0, display: "none"}
+        open: { opacity: 1, height: "20vh", display: "block" },
+        closed: { opacity: 0, height: 0, display: "none" }
     };
 
     return (
@@ -31,21 +31,19 @@ export default function Body({ Data }) {
                                         <div className="icon">{activeAccordion === 0 ? 'Less -' : 'More +'}</div>
                                     </div>
                                 </div>
-                                <AnimatePresence mode='wait'>
-                                    <motion.div
-                                        initial="closed"
-                                        animate={activeAccordion === id ? "open" : "closed"}
-                                        variants={variants}
-                                        transition={{ duration: 0.5 }}
-                                        className="panel"
-                                    >
-                                        {desc.map((item, idx) => (
-                                            <div className="desc" key={idx}>
-                                                <Link href={item.href}><p>{item.title}</p></Link>
-                                            </div>
-                                        ))}
-                                    </motion.div>
-                                </AnimatePresence>
+                                <motion.div
+                                    initial="closed"
+                                    animate={activeAccordion === id ? "open" : "closed"}
+                                    variants={variants}
+                                    transition={{ duration: 0.5 }}
+                                    className="panel"
+                                >
+                                    {desc.map((item, idx) => (
+                                        <div className="desc" key={idx}>
+                                            <Link href={item.href}><p>{item.title}</p></Link>
+                                        </div>
+                                    ))}
+                                </motion.div>
                             </>
                         ) : (
                             <Link href={href}>
