@@ -48,9 +48,6 @@ const CreateTour = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const [uploadedImages, setUploadedImages] = useState<ImageFile[]>([]);
     const [mainImg, setMainImg] = useState<File | null>(null);
-    const router = useRouter();
-
-
 
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         const token = localStorage.getItem("token");

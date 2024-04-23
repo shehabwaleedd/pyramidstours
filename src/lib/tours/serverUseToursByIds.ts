@@ -18,7 +18,8 @@ export async function serverUseToursByIds(query: string) {
         const questionAndQuery = query ? `?${query}` : "";
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour${questionAndQuery}`, { cache: "no-cache", });
         if (!res.ok) {
-            throw new Error(`Failed to fetch tours, status: ${res.status}`);
+            console.error(`Failed to fetch tours, status: ${res.status}`);
+            return
         }
         const data = await res.json();
         // Update cache and set new expiry
@@ -28,7 +29,6 @@ export async function serverUseToursByIds(query: string) {
         return data.data.result;
     } catch (error) {
         console.error("Error fetching tours:", error);
-
-        throw error;
+        return null; 
     }
 }

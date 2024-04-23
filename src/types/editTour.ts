@@ -5,11 +5,15 @@ export interface Img {
 export interface ImageFile {
     previewUrl: string;
     file: File;
+    url?: string;
+    public_id?: string;
 }
 
 export interface CurrentImage {
     url: string;
-    public_id: string;
+    public_id?: string;
+    file?: File;
+
 }
 
 

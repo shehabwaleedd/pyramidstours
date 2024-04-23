@@ -74,9 +74,10 @@ const EditTour = () => {
 
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         const formData = new FormData();
-        newImageFiles.forEach((file, index) => {
-            formData.append(`images`, file.file);
+        newImageFiles.forEach(imageFile => {
+            formData.append('images', imageFile.file);
         });
+
         if (mainImg && mainImg instanceof File) {
             formData.append('mainImg', mainImg);
         }
@@ -116,6 +117,10 @@ const EditTour = () => {
                 }
             }
         });
+
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
 
         const token = localStorage.getItem('token');
         try {
@@ -161,7 +166,7 @@ const EditTour = () => {
                                     <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="select" label='Destination' options={presetLocations.map((loc) => ({ value: loc.value, label: loc.label }))} />
                                 </div>
                                 <ImageUploader mainImg={mainImg} setMainImg={setMainImg} mainImgUrl={mainImgUrl} setMainImgUrl={setMainImgUrl} />
-                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles} currentImages={currentImages} setCurrentImages={setCurrentImages} />
+                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles} />
                                 <DynamicFieldArray name="options" label="Options" fieldType="select" options={presetOptionNames.map((opt) => ({ value: opt.name, label: opt.name }))} />
                                 <CheckboxGroupFieldArray name="repeatTime" options={repeatedTimes} setFieldValue={setFieldValue} values={values.repeatTime} />
                                 <CheckboxGroupFieldArray name="repeatDays" options={presetWeekDays} setFieldValue={setFieldValue} values={values.repeatDays} />

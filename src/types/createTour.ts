@@ -3,14 +3,16 @@ export interface Img {
     public_id: string;
 }
 export interface ImageFile {
-    
     file: File;
-
+}
+export interface ImageFileEdit {
+    file: File;
 }
 
 export interface CurrentImage {
     url: string;
     public_id: string;
+    file?: File | Blob;
 }
 
 
@@ -94,6 +96,10 @@ export interface ImageUploaderProps {
 
 export interface ImagesUploaderProps {
     uploadedImages: ImageFile[];
+    setUploadedImages: (images: ImageFile[]) => void;
+}
+export interface ImagesUploaderEditProps {
+    uploadedImages: ImageFileEdit[];
     setUploadedImages: (images: ImageFile[]) => void;
 }
 

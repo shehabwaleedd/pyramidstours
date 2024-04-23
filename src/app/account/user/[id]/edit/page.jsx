@@ -30,7 +30,7 @@ const EditUser = () => {
     });
 
     const formik = useFormik({
-        enableReinitialize: true, // This will ensure formik reinitializes when initialValues change
+        enableReinitialize: true, 
         initialValues: {
             name: user?.name || '',
             email: user?.email || '',

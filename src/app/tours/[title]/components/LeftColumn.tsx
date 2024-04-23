@@ -111,9 +111,6 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
         if (selectedOptions.length > 0) {
             bookingData.options = selectedOptions;
         }
-
-        console.log(adultPricing, childrenPricing, bookingData)
-
         try {
             const response = await axios.post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/subscription/${tour?._id}`, bookingData,
