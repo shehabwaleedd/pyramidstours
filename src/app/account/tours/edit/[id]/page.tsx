@@ -19,6 +19,7 @@ import PricingOptions from '../../createTour/components/PricingOptions';
 import ImagesUploader from './components/EditImagesUploader';
 import ImageUploader from './components/EditImageUploader';
 import ReactQuillField from '../../createTour/components/ReactQuillField';
+import { set } from 'date-fns';
 
 
 const EditTour = () => {
@@ -26,18 +27,13 @@ const EditTour = () => {
     const [mainImgUrl, setMainImgUrl] = useState<string | null>(null);
     const [mainImg, setMainImg] = useState<File | null>(null);
     const [newImageFiles, setNewImageFiles] = useState<ImageFile[]>([]);
-    const [currentImages, setCurrentImages] = useState<CurrentImage[]>([])
     const { id } = useParams();
     const { tour, loading } = useTourById(id as string);
 
     useEffect(() => {
         if (tour) {
-            const mappedImages: CurrentImage[] = tour.images.map((image: Img) => ({
-                url: image.url,
-                public_id: image.public_id,
-            }));
-            setCurrentImages(mappedImages);
             setMainImgUrl(tour.mainImg.url);
+            setNewImageFiles(tour.images.map((img: CurrentImage) => ({ file: new File([], ''), previewUrl: img.url})));
         }
     }, [tour]);
 
@@ -165,7 +161,7 @@ const EditTour = () => {
                                     <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="select" label='Destination' options={presetLocations.map((loc) => ({ value: loc.value, label: loc.label }))} />
                                 </div>
                                 <ImageUploader mainImg={mainImg} setMainImg={setMainImg} mainImgUrl={mainImgUrl} setMainImgUrl={setMainImgUrl} />
-                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles} />
+                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles}/>
                                 <DynamicFieldArray name="options" label="Options" fieldType="select" options={presetOptionNames.map((opt) => ({ value: opt.name, label: opt.name }))} />
                                 <CheckboxGroupFieldArray name="repeatTime" options={repeatedTimes} setFieldValue={setFieldValue} values={values.repeatTime} />
                                 <CheckboxGroupFieldArray name="repeatDays" options={presetWeekDays} setFieldValue={setFieldValue} values={values.repeatDays} />
