@@ -4,6 +4,7 @@
     min-height: 80vh;
     justify-content: center;
     align-items: center;
+
     &__upper {
         display: flex;
         width: 100%;
@@ -12,6 +13,7 @@
         align-items: center;
         position: relative;
         z-index: 1;
+
         img {
             height: 50vh;
             object-fit: cover;
@@ -74,10 +76,10 @@
         padding: 1rem;
 
         h2 {
-            font-size: var(--title-size);
+            font-size: var(--bigger-font-size);
             font-family: var(--title-font);
             color: var(--title-color);
-            text-align: left;
+            text-align: center;
             margin: 2rem 0;
             width: 100%;
 
@@ -85,6 +87,7 @@
                 font-size: var(--bigger-font-size);
             }
         }
+
         &_tours {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));

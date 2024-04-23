@@ -4,6 +4,7 @@ import { useTourByTag } from '@/lib/useTourByTag';
 import styles from "./page.module.scss"
 import TourCard from '@/components/card';
 import Image from 'next/image';
+import UnifiedToursComponent from '@/components/unifiedToursComponent';
 
 
 export default async function MenuPage({ params }: { params: { title: string } }) {
@@ -45,11 +46,16 @@ export default async function MenuPage({ params }: { params: { title: string } }
                 </div>
             </section>
             <section className={styles.menuPage__lower}>
-                <div className={styles.menuPage__lower_tours}>
-                    {toursArray?.map((tour: TourType) => (
-                        <TourCard key={tour._id} tour={tour} />
-                    ))}
-                </div>
+                {toursArray.length > 0 ? (toursArray?.map((tour: TourType) => (
+                    <div className={styles.menuPage__lower_tours} key={tour._id}>
+                        <TourCard tour={tour} />
+                    </div>
+                ))) : (
+                    <>
+                        <h2>Sorry, No Tours Found</h2>
+                        <UnifiedToursComponent type="like" />
+                    </>
+                )}
             </section>
         </main>
     )
