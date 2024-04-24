@@ -10,7 +10,8 @@
     gap: 1rem;
     height: 100%;
     cursor: pointer;
-
+    position: relative;
+    z-index: 99;
 
     .image {
         position: relative;
