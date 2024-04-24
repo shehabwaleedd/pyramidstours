@@ -1,0 +1,26 @@
+.whatsapp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: var(--container-color);
+    padding: 0.4rem;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: var(--animation-primary);
+
+    &:hover {
+        background-color: #25d366;
+        transition: var(--animation-primary);
+        svg {
+            transition: var(--animation-primary);
+            fill: #fff
+        }
+    }
+
+    svg {
+        color: var(--title-color);
+        font-size: 30px;
+    }
+}

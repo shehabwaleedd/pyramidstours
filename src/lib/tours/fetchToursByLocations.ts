@@ -1,12 +1,22 @@
-
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
-export async function fetchAndGroupToursByLocations() {
+export async function fetchAndGroupTours() {
     const locations = ["Cairo", "Giza", "Luxor", "Aswan", "Alexandria"];
-    const groupedTours = await Promise.all(locations.map(async location => {
-        const query = `location.from=${location}`;
-        const tours = await serverUseToursByIds(query);
-        return { title: `${location} Tours`, tours };
+    const tag = 'top-rated-tours';
+
+    // Fetching tours by locations
+    const groupedToursByLocations = await Promise.all(locations.map(async location => {
+        const locationQuery = `location.from=${location}`;
+        const toursByLocation = await serverUseToursByIds(locationQuery);
+        return { title: `${location} Tours`, tours: toursByLocation };
     }));
 
-    return groupedTours.filter(group => group.tours.length > 0);
+    // Fetching top-rated tours
+    const topRatedToursQuery = `tags=${tag}`;
+    const topRatedTours = await serverUseToursByIds(topRatedToursQuery);
+    const groupedTopRatedTours = { title: 'Top Rated Tours', tours: topRatedTours };
+
+    // Combine both results
+    const allGroupedTours = [groupedTopRatedTours, ...groupedToursByLocations].filter(group => group.tours && group.tours.length > 0);
+
+    return allGroupedTours;
 }

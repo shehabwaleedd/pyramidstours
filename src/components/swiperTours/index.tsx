@@ -39,7 +39,8 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
                         <h2>{title}</h2>
                         <div className={styles.testimonials_btns}>
                             <button onClick={() => handlePrevSlide(index)} aria-label="Previous slide"><GoArrowLeft /></button>
-                            <button onClick={() => handleNextSlide(index)} aria-label="Next slide"><GoArrowRight /></button>                            </div>
+                            <button onClick={() => handleNextSlide(index)} aria-label="Next slide"><GoArrowRight /></button>
+                        </div>
                     </div>
                     <Swiper
                         className={styles.testimonials__slide}

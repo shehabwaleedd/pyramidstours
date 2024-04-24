@@ -18,12 +18,7 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
     return (
         <motion.section className={styles.wishlistHeader} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
             {wishlistOpen && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.2 }}
-                    className={styles.wishlistHeader__container}>
+                <motion.div className={styles.wishlistHeader__container}>
                     <div className={styles.wishlistHeader__upper}>
                         <h3>Wishlist</h3>
                     </div>

@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
+import WhatsappIcon from "@/components/whatsappIcon";
 
 interface OpenGraph {
   type: string;
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <AuthProvider>
             <Navbar />
             {children}
+            <WhatsappIcon />
             <Footer />
           </AuthProvider>
       </body>

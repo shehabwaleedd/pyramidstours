@@ -2,7 +2,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from './style.module.scss'
-import { FiMenu } from "react-icons/fi";
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
