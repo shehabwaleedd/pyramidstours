@@ -1,13 +1,13 @@
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { TourType } from '@/types/homePageTours';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FiHeart } from "react-icons/fi";
 import { useAuth } from '@/context/AuthContext';
 import styles from "./style.module.scss"
-
+import Link from 'next/link';
 
 const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
@@ -32,9 +32,20 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
         }
     };
 
+    const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
+
+    
+
     const handleTourClick = (title: string) => {
         router.push(`/tours/${title}`);
     }
+
+    const handleCategoryClick = (event: React.MouseEvent, category: string) => {
+        event.stopPropagation();
+        const slugCategory = slugify(category);
+        router.push(`/${slugCategory}`);
+    }
+
 
     const originalPrice = parseFloat(String(tour.adultPricing.find(p => p.adults === 1)?.price ?? '0'));
     const increasedPrice = tour.hasOffer ? originalPrice * 1.15 : originalPrice;
@@ -54,9 +65,9 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
                             Offer
                         </span>
                     ) : (
-                        <span style={{ backgroundColor: "var(--second-accent-color)" }}>
+                        <button className={styles.catBtn} style={{ backgroundColor: "var(--second-accent-color)" }} onClick={(event) => handleCategoryClick(event, tour.category)}>
                             {tour.category}
-                        </span>
+                        </button>
                     )}
                     <button onClick={(event) => handleWishlistClick(event, tour._id)}
                         style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }}>

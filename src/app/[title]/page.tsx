@@ -31,7 +31,7 @@ export default async function MenuPage({ params }: { params: { title: string } }
         'siwa-tours': '/backgroundss/Siwa.webp',
         'siwa-day-tours': '/backgroundss/Siwa.webp',
         'dahab-tours': '/backgroundss/Dahab.webp',
-        'dahab-day-tours': '/backgroundss/Dahab.webp'  // 
+        'dahab-day-tours': '/backgroundss/Dahab.webp'
     };
 
     const imageKey = params.title as ImageMapKey;
@@ -46,16 +46,18 @@ export default async function MenuPage({ params }: { params: { title: string } }
                 </div>
             </section>
             <section className={styles.menuPage__lower}>
-                {toursArray.length > 0 ? (toursArray?.map((tour: TourType) => (
-                    <div className={styles.menuPage__lower_tours} key={tour._id}>
-                        <TourCard tour={tour} />
+                {toursArray.length > 0 ?
+                    <div className={styles.menuPage__lower_tours}>
+                        {toursArray.map((tour: TourType) => (
+                            <TourCard key={tour._id} tour={tour} />
+                        ))}
                     </div>
-                ))) : (
-                    <>
-                        <h2>Sorry, No Tours Found</h2>
-                        <UnifiedToursComponent type="like" />
-                    </>
-                )}
+                    : (
+                        <>
+                            <h2>Sorry, No Tours Found</h2>
+                            <UnifiedToursComponent type="like" />
+                        </>
+                    )}
             </section>
         </main>
     )

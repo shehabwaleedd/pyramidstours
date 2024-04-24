@@ -5,6 +5,7 @@ import TourCard from '@/components/card';
 import styles from "./page.module.scss"
 import Image from 'next/image';
 import SearchField from '@/components/searchField';
+import UnifiedToursComponent from '@/components/unifiedToursComponent';
 export default async function SearchPage({ searchParams }: { searchParams: { results: string } }) {
 
     const query = new URLSearchParams(searchParams).toString();
@@ -17,18 +18,26 @@ export default async function SearchPage({ searchParams }: { searchParams: { res
                 <Image src="/assets/backgrounds/1.jpg" alt="search" width={1920} height={1080} />
                 <div className={styles.searchPage__upper__text}>
                     <h1>Search Results</h1>
-                    <SearchField isNavbar={isNavbar}/>
+                    <SearchField isNavbar={isNavbar} />
                 </div>
             </section>
             <section className={styles.searchPage__lower}>
-                <div>
-                    <h2>Results</h2>
-                </div>
-                <div className={styles.searchPage__lower_tours}>
-                    {toursArray.map((tour: TourType) => (
-                        <TourCard key={tour._id} tour={tour} />
-                    ))}
-                </div>
+                {toursArray > 0 ? (
+                    <div className={styles.searchPage__lower_tours}>
+                        <div>
+                            <h2>Results</h2>
+                        </div>
+                        {toursArray.map((tour: TourType) => (
+                            <TourCard key={tour._id} tour={tour} />
+                        ))}
+                    </div>
+                ) : (
+                    <>
+                        <h2>Sorry, No Tours Found</h2>
+                        <UnifiedToursComponent type="like" />
+                    </>
+
+                )}
             </section>
         </main>
     )
