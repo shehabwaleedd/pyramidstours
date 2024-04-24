@@ -16,7 +16,7 @@ export async function serverUseToursByIds(query: string) {
         }
 
         const questionAndQuery = query ? `?${query}` : "";
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour${questionAndQuery}`, { cache: "no-cache", });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour${questionAndQuery}`, { cache: "no-store", });
         if (!res.ok) {
             console.error(`Failed to fetch tours, status: ${res.status}`);
             return

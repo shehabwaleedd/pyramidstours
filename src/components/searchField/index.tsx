@@ -14,13 +14,14 @@ interface ApiResponse {
     };
 }
 
+
 const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
     const [destinations, setDestinations] = useState<string[]>([]);
     const [selectedDestination, setSelectedDestination] = useState<string>('');
     const [days, setDays] = useState<string[]>([]);
     const [selectedDay, setSelectedDay] = useState<string>('');
-    const [selectedPriceRange, setSelectedPriceRange] = useState<string>('');
-    const priceRanges = ['0-100', '101-200', '201-300', '301-400', '401+'];
+    const [inputPrice, setInputPrice] = useState<string>(''); // Changed to use single price input
+    const priceRanges = ['100', '200', '300', '400', '500', "600", "700", "800", "900", "1000", "1100", "1200", "1300", "1400", "1500"];
     const router = useRouter()
 
     useEffect(() => {
@@ -45,13 +46,10 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
 
     const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        // Define your query parameters based on state
         const query: Record<string, string> = {};
         if (selectedDestination) query['location.to'] = selectedDestination;
         if (selectedDay) query['repeatDays'] = selectedDay;
-        if (selectedPriceRange) query['priceRange'] = selectedPriceRange;
-
+        if (inputPrice) query['adultPricing.price'] = inputPrice;
         const queryString = new URLSearchParams(query).toString();
         router.push(`/search/results?${queryString}`);
 
@@ -79,9 +77,9 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Price Range</label>
-                    <select value={selectedPriceRange} onChange={(e) => setSelectedPriceRange(e.target.value)}>
-                        <option value="">Price Range</option>
+                    <label>Price From $</label>
+                    <select value={inputPrice} onChange={(e) => setInputPrice(e.target.value)}>
+                        <option value="">Price From $</option>
                         {priceRanges.map((range, index) => (
                             <option key={index} value={range}>{range}$</option>
                         ))}
@@ -96,3 +94,5 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
 }
 
 export default SearchField
+
+

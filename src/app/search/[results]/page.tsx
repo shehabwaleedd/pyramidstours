@@ -9,8 +9,10 @@ import UnifiedToursComponent from '@/components/unifiedToursComponent';
 export default async function SearchPage({ searchParams }: { searchParams: { results: string } }) {
 
     const query = new URLSearchParams(searchParams).toString();
-    const tours = serverUseToursByIds(query)
+    console.log(query, "query")
+    const tours = await serverUseToursByIds(query)
     const toursArray = await tours
+    console.log(toursArray, "toursArray")
     const isNavbar: boolean = false
     return (
         <main className={styles.searchPage}>
@@ -22,21 +24,22 @@ export default async function SearchPage({ searchParams }: { searchParams: { res
                 </div>
             </section>
             <section className={styles.searchPage__lower}>
-                {toursArray > 0 ? (
-                    <div className={styles.searchPage__lower_tours}>
+                {tours && tours.length > 0 ? ( // Correctly check if tours array exists and has more than 0 items
+                    <>
                         <div>
                             <h2>Results</h2>
                         </div>
-                        {toursArray.map((tour: TourType) => (
-                            <TourCard key={tour._id} tour={tour} />
-                        ))}
-                    </div>
+                        <div className={styles.searchPage__lower_tours}>
+                            {tours.map((tour: TourType) => (
+                                <TourCard key={tour._id} tour={tour} />
+                            ))}
+                        </div>
+                    </>
                 ) : (
                     <>
                         <h2>Sorry, No Tours Found</h2>
                         <UnifiedToursComponent type="like" />
                     </>
-
                 )}
             </section>
         </main>
