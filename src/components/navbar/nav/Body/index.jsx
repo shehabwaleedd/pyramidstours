@@ -14,7 +14,7 @@ export default function Body({ Data }) {
     };
 
     const variants = {
-        open: { opacity: 1, height: "20vh", display: "block" },
+        open: { opacity: 1, height: "auto", display: "block" },
         closed: { opacity: 0, height: 0, display: "none" }
     };
 
