@@ -35,7 +35,7 @@ export default async function MenuPage({ params }: { params: { title: string } }
     };
 
     const imageKey = params.title as ImageMapKey;
-    const backgroundImageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/assets/backgrounds/1.jpg';
+    const backgroundImageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/backgroundss/default.webp';
 
     return (
         <main className={styles.menuPage}>

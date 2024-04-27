@@ -17,7 +17,7 @@ export default async function SearchPage({ searchParams }: { searchParams: { res
     return (
         <main className={styles.searchPage}>
             <section className={styles.searchPage__upper}>
-                <Image src="/assets/backgrounds/1.jpg" alt="search" width={1920} height={1080} />
+                <Image src="/backgroundss/default.webp" alt="search" width={1920} height={1080} />
                 <div className={styles.searchPage__upper__text}>
                     <h1>Search Results</h1>
                     <SearchField isNavbar={isNavbar} />
