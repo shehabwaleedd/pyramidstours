@@ -73,6 +73,7 @@
 
         @media (max-width: 777px) {
             padding: 1rem;
+            max-width: 95vw;
         }
 
         &_card {
@@ -115,7 +116,7 @@
                 height: 40vh;
                 object-fit: cover;
                 object-position: center center;
-                border-radius: 2rem;
+                border-radius: 1rem;
                 box-shadow: 0 4px 30px rgba(206, 191, 176, 0.1);
             }
         }

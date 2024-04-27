@@ -146,7 +146,13 @@ export const presetInclusions = [
     "West and east banks in Luxor.",
     "Edfu temple and Kom Ombo temples",
     "All the sites which mentioned in itinerary.",
-    "First class A/C seated train tickets(sleeping train or flight available with extra 150$ p.p)"
+    "First class A/C seated train tickets(sleeping train or flight available with extra 150$ p.p)",
+    "2-night stay in an all-inclusive resort in Hurghada",
+    "Entry/Admission - Pyramids of Giza",
+    "Accommodation for 3 nights in a Nile Cruise from Aswan to Luxor",
+    "Entry/Admission - Khan Al-Khalili",
+    "Riding camel for 30 minutes during the tour",
+    "Entry/Admission - Saqqara (Sakkara) Pyramids",
 
 ];
 
@@ -265,6 +271,8 @@ export const duration = [
     "8 Days",
     "9 Days",
     "10 Days",
+    "11 Days",
+    "12 Days",
 ]
 
 export const presetLocations = [
