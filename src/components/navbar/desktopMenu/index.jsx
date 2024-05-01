@@ -21,14 +21,9 @@ const links = [
     src: "tours.webp"
   },
   {
-    title: "About Us",
+    title: "About",
     href: "/about",
     src: "about.webp"
-  },
-  {
-    title: "Tailor Your Tour",
-    href: "/tailor",
-    src: "book.webp"
   },
   {
     title: "Contact",

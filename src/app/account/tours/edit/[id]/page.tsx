@@ -19,7 +19,6 @@ import PricingOptions from '../../createTour/components/PricingOptions';
 import ImagesUploader from './components/EditImagesUploader';
 import ImageUploader from './components/EditImageUploader';
 import ReactQuillField from '../../createTour/components/ReactQuillField';
-import { set } from 'date-fns';
 
 
 const EditTour = () => {

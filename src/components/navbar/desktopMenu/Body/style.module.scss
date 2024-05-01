@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     margin-top: 40px;
-
+    gap: 1rem;
     a {
         color: black;
         text-decoration: none;
@@ -16,7 +16,8 @@
         font-size: 32px;
         padding-right: 30px;
         padding-top: 10px;
-        font-weight: 300;
+        font-family: var(--semi-bold-font);
+
     }
 }
 
