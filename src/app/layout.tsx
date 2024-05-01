@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     yahoo: "yahoo",
     yandex: "yandex",
     other: {
-      me: ['contact@pyramidsegypttour.com', '<meta name="google-site-verification" content="J487J6Z6E-faTE7Fm5_MUk2l3V7VJpISScurP961l7w" />']
+      me: ['contact@pyramidsegypttour.com', 'J487J6Z6E-faTE7Fm5_MUk2l3V7VJpISScurP961l7w']
     }
   }
 };

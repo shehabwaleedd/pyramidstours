@@ -95,8 +95,6 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                 id,
                 number: count.toString()
             }));
-
-        // Initialize bookingData with properties that are always needed
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
             time: values.repeatTime + ':00' || "8:00",
@@ -132,13 +130,10 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
         let total = 0;
 
         if (tour) {
-            // Base cost calculation for adults
             const adultPricingTier = tour?.adultPricing?.find(pricing => pricing.adults >= values.adults);
             if (adultPricingTier) {
                 total += adultPricingTier.price * values.adults; // Base adult cost: price per adult * number of adults
             }
-
-            // Base cost calculation for children
             if (values.children > 0) {
                 const childPricingTier = tour.childrenPricing.find(pricing => pricing.children >= values.children);
                 if (childPricingTier) {
