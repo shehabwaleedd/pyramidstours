@@ -19,6 +19,16 @@ interface Metadata {
   keywords: string;
   author: string;
   openGraph: OpenGraph;
+  verification: {
+    google: string;
+    bing: string;
+    yahoo: string;
+    yandex: string;
+    other: {
+      me: string[];
+    }
+
+  }
 }
 
 
@@ -35,7 +45,15 @@ export const metadata: Metadata = {
     url: "https://pyramidsegypttour.com",
     site_name: "Pyramids Egypt Tours",
   },
-
+  verification: {
+    google: "google",
+    bing: "bing",
+    yahoo: "yahoo",
+    yandex: "yandex",
+    other: {
+      me: ['contact@pyramidsegypttour.com', '<meta name="google-site-verification" content="J487J6Z6E-faTE7Fm5_MUk2l3V7VJpISScurP961l7w" />']
+    }
+  }
 };
 
 export const viewport = {

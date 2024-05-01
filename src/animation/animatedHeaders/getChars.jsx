@@ -1,10 +1,10 @@
 'use client'
 import React from 'react';
-import { translate } from "@/components/navbar/anim";
+import { translate } from '../../components/navbar/anim';
 import { motion } from "framer-motion"
 import styles from "./style.module.scss"
 
-const getChars = (word) => {
+export const getChars = (word) => {
     return word.split("").map((char, i) => (
         <div className={styles.getChars} key={char + i}>
             <motion.h2
@@ -18,5 +18,3 @@ const getChars = (word) => {
         </div>
     ));
 };
-
-export default getChars;
