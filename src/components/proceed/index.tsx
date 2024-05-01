@@ -15,8 +15,8 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/payment/checkout-session/${data._id}`, { data },
                 { headers: { token: localStorage.getItem('token') } })
-            if (response.data && response.data.redirectTo) {
-                window.location.href = response.data.redirectTo;
+            if (response.data && response.data.data) {
+                window.location.href = response.data.data.url;
             }
         } catch (error) {
             console.error('Failed to make payment:', error)
