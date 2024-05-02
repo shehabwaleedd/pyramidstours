@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from './style.module.scss';
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,6 +15,8 @@ import { useAuth } from '@/context/AuthContext';
 import LoginForm from '../loginForm/loginForm';
 import Skeleton from '@/animation/skeleton';
 SwiperCore.use([Navigation, Pagination]);
+import { useInView } from "react-intersection-observer";
+
 const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number, title: string, }) => {
     const swiperRefs = useRef<SwiperCore[]>([]);
     const { isLoginOpen, setIsLoginOpen } = useAuth();
@@ -24,6 +26,26 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
     const handlePrevSlide = (index: number) => {
         swiperRefs.current[index]?.slidePrev();
     };
+
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 0,
+    });
+
+
+    const fetchTours = async () => {
+        // Simulate an API call
+        console.log("Fetching tours now that the component is visible.");
+        // Here, you would typically update your state with fetched data
+        // setTours(fetchedTours);
+    };
+
+    useEffect(() => {
+        if (inView) {
+            fetchTours();
+        }
+    }, [inView]);
+
     if (!tours) {
         return (
             <motion.section className={styles.testimonials}>
@@ -32,8 +54,8 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
         );
     }
     return (
-        <>
-            {tours ? (
+        <section ref={ref}>
+            {tours && inView ? (
                 <div key={index}>
                     <div className={styles.testimonials__upper}>
                         <h2>{title}</h2>
@@ -75,7 +97,7 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
                 <Skeleton />
             )}
             <LoginForm isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
-        </>
+        </section>
     )
 }
 
