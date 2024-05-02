@@ -13,14 +13,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     const tourUrls = tourEntries.map((o: any) => ({
-        url: `https://pyramidsegypttour.com/tours/${o.slug}`,
+        url: `https://www.pyramidsegypttour.com/tours/${o.slug}`,
         lastModified: new Date(o.updatedAt),
         changeFrequency: 'weekly',
         priority: 0.6,
     }));
 
     const generateCategoryUrls = (tourCategories: any[]) => tourCategories.map((o: any) => ({
-        url: `https://pyramidsegypttour.com/${o.slug}`,
+        url: `https://www.pyramidsegypttour.com/${o.slug}`,
         lastModified: new Date(o.updatedAt),
         changeFrequency: 'weekly',
         priority: 0.6,
@@ -29,11 +29,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const categoryUrls = generateCategoryUrls(tourCategories);
 
     return [
-        { url: 'https://pyramidsegypttour.com', lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
-        { url: 'https://pyramidsegypttour.com/about', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-        { url: 'https://pyramidsegypttour.com/tours', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },
-        { url: 'https://pyramidsegypttour.com/contact', lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
-        { url: 'https://pyramidsegypttour.com/services', lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
+        { url: 'https://www.pyramidsegypttour.com', lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
+        { url: 'https://www.pyramidsegypttour.com/about', lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+        { url: 'https://www.pyramidsegypttour.com/tours', lastModified: new Date(), changeFrequency: 'weekly', priority: 0.5 },
+        { url: 'https://www.pyramidsegypttour.com/contact', lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
+        { url: 'https://www.pyramidsegypttour.com/services', lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
         ...tourUrls,
         ...categoryUrls,
 

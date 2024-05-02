@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
 import WhatsappIcon from "@/components/whatsappIcon";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 interface OpenGraph {
   type: string;
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <WhatsappIcon />
             <Footer />
           </AuthProvider>
+          <GoogleAnalytics gaId="G-XYZ" />
       </body>
     </html>
   );

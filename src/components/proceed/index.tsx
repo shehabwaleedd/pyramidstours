@@ -7,6 +7,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 const defaultImage = '/no-image.webp';
+import { Toaster, toast } from "sonner"
 
 const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSubscriptionOpen: (value: boolean) => void }) => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
@@ -17,10 +18,14 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
                 { headers: { token: localStorage.getItem('token') } })
             if (response.data && response.data.data) {
                 window.location.href = response.data.data.url;
+            } else {
+                console.error('Failed to make payment:', response.data)
+                toast.error('Payment initiation failed, please try again.')
             }
         } catch (error) {
             console.error('Failed to make payment:', error)
-            alert('Payment initiation failed, please try again.');
+            // alert('Payment initiation failed, please try again.');
+            toast.error('Payment initiation failed, please try again.')
         } finally {
             setIsSubmitting(false);
         }
@@ -38,6 +43,7 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
 
     return (
         <motion.section className={`${styles.proceed} ${globalStyles.bottomGlass}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+            <Toaster />
             <div className={styles.proceed__upper}>
                 <h2>Your Order</h2>
                 <button onClick={handleClose} className={styles.close_button}>close</button>
