@@ -42,49 +42,54 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [error, setError] = useState<string>('');
     const router = useRouter();
 
-    useEffect(() => {
-        async function checkAuth() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setLoading(false);
-                setIsLoggedIn(false);
-                return;
-            }
-
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/authentication`, {
-                    headers: { token }
-                });
-
-                if (response.data.message === "success") {
-                    setIsLoggedIn(true);  // Set authenticated state to true
-                    // Optionally fetch user details here if needed
-                    fetchUserDetails(token);
-                } else {
-                    localStorage.removeItem('token');
-                    setIsLoggedIn(false);
-                }
-            } catch (error) {
-                console.error('Authentication error:', error);
-                localStorage.removeItem('token');
-                setIsLoggedIn(false);
-            }
+    const checkAuth = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
             setLoading(false);
+            setIsLoggedIn(false);
+            setError('No token found');
+            return;
         }
 
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/authentication`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.message === "success") {
+                setIsLoggedIn(true);
+                fetchUserDetails(token);
+            } else {
+                localStorage.removeItem('token');
+                setIsLoggedIn(false);
+                setError('Authentication failed');
+            }
+        } catch (error: any) {
+            console.error('Authentication error:', error);
+            localStorage.removeItem('token');
+            setIsLoggedIn(false);
+            setError(error.message || 'Unknown authentication error');
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
         checkAuth();
     }, []);
 
     const fetchUserDetails = async (token: string) => {
         try {
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
-                headers: { token }
+                headers: { Authorization: `Bearer ${token}` }
             });
             if (data && data.user) {
                 setUser(data.user);
+            } else {
+                setError('Failed to fetch user details');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Failed to fetch user details:', error);
+            setError(error.message || 'Unknown error fetching user details');
         }
     };
 
@@ -98,18 +103,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsLoggedIn(true);
         router.push('/account');
     }; 
+
+    const clearLocalStorage = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('hasAnimationShown');
+        localStorage.removeItem('wishlist');
+    };
+
     const handleLogout = () => {
-        const clearLocalStorageItems = () => {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('hasAnimationShown');
-            localStorage.removeItem('wishlist');
-        };
+        
         const resetAuthStates = () => {
             setUser(null);
             setIsLoggedIn(false);
         };
-        clearLocalStorageItems();
+        clearLocalStorage();
         resetAuthStates();
         router.push('/login');
     };

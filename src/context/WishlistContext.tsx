@@ -14,6 +14,8 @@ interface WishlistContextType {
     setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleLoginSuccessForm: (token: string, userData: User) => void;
     clearWishlist: () => void;
+    hasAnimationShown: boolean;
+    setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
