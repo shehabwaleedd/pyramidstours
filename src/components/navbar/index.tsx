@@ -15,6 +15,7 @@ import WishlistHeader from '../wishlistHeader';
 import SearchField from '../searchField';
 import DesktopMenu from './desktopMenu';
 import { background } from './anim';
+import { useWishlist } from '@/context/WishlistContext';
 
 const NavbarData = [
     {
@@ -77,7 +78,8 @@ const NavbarData = [
 ];
 
 const Navbar = () => {
-    const { isLoggedIn, wishlist } = useAuth();
+    const { isLoggedIn } = useAuth();
+    const { wishlist } = useWishlist(); 
     const router = usePathname();
     const [navOpen, setNavOpen] = useState<boolean>(false);
     const [desktopNavOpen, setDesktopNavOpen] = useState<boolean | null>(false)

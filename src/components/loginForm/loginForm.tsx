@@ -6,6 +6,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import styles from "./style.module.scss"
 import { useAuth } from '@/context/AuthContext';
+import { useWishlist } from '@/context/WishlistContext';
 import { motion } from 'framer-motion';
 import global from "../../app/page.module.scss"
 import { CountryDropdown } from 'react-country-region-selector';
@@ -15,7 +16,8 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
     const [errorFromDataBase, setErrorFromDataBase] = useState<string>('');
     const [mode, setMode] = useState<'login' | 'register'>('login');
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const { handleLoginSuccessForm, setUser } = useAuth();
+    const { setUser } = useAuth();
+    const { handleLoginSuccessForm } = useWishlist();
 
     const validationSchema = yup.object().shape({
         email: yup.string().email("Invalid email format").required("Email is required"),

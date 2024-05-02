@@ -4,6 +4,7 @@ import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
 import WhatsappIcon from "@/components/whatsappIcon";
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { WishlistProvider } from "@/context/WishlistContext";
 
 interface OpenGraph {
   type: string;
@@ -90,14 +91,18 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-          <AuthProvider>
+        <AuthProvider>
+          <WishlistProvider>
             <Navbar />
             {children}
             <WhatsappIcon />
             <Footer />
-          </AuthProvider>
-          <GoogleAnalytics gaId="G-XYZ" />
+          </WishlistProvider>
+        </AuthProvider>
+        <GoogleAnalytics gaId="G-XYZ" />
       </body>
     </html>
   );
 }
+
+

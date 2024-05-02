@@ -5,14 +5,13 @@ import { TourType } from '@/types/homePageTours';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FiHeart } from "react-icons/fi";
-import { useAuth } from '@/context/AuthContext';
 import styles from "./style.module.scss"
-import Link from 'next/link';
+import { useWishlist } from '@/context/WishlistContext';
 
 const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
     const router = useRouter();
-    const { addToWishlist, removeFromWishlist, wishlist } = useAuth();
+    const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
     const isInWishlist = useMemo(() => wishlist.some(item => item._id === tour._id), [wishlist, tour._id]);
     const slugTitle = tour.title.replace(/ /g, '-').toLowerCase();
 

@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useAuth } from '@/context/AuthContext';
 import Calendar from 'react-calendar';
 import { TourType } from '@/types/homePageTours';
 import { SubscriptionData } from '@/types/common';
@@ -11,6 +10,7 @@ import Proceed from '@/components/proceed';
 import LoginForm from '@/components/loginForm/loginForm';
 import { AnimatePresence } from 'framer-motion';
 import 'react-calendar/dist/Calendar.css';
+import { useWishlist } from '@/context/WishlistContext';
 
 
 interface BookingData {
@@ -37,7 +37,7 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
     const [optionCounts, setOptionCounts] = useState<{ [key: string]: number }>({});
     const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
-    const { isLoginOpen, setIsLoginOpen } = useAuth();
+    const { isLoginOpen, setIsLoginOpen } = useWishlist();
     const initialValues: FormValues = {
         date: new Date(),
         adults: 1,

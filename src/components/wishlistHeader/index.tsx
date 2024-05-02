@@ -1,13 +1,13 @@
 import React from 'react'
-import { useAuth } from '@/context/AuthContext'
 import styles from "./style.module.scss"
 import { motion, AnimatePresence } from 'framer-motion'
 import { TourType } from '@/types/homePageTours'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useWishlist } from '@/context/WishlistContext'
 const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
 
-    const { wishlist, clearWishlist } = useAuth()
+    const { wishlist, clearWishlist } = useWishlist()
 
     if (!wishlist) {
         return null

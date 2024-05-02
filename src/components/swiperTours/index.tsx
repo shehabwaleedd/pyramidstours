@@ -11,15 +11,15 @@ import "swiper/css/pagination";
 import 'swiper/css/navigation';
 import { motion } from 'framer-motion';
 import TourCard from '../card';
-import { useAuth } from '@/context/AuthContext';
 import LoginForm from '../loginForm/loginForm';
 import Skeleton from '@/animation/skeleton';
 SwiperCore.use([Navigation, Pagination]);
 import { useInView } from "react-intersection-observer";
+import { useWishlist } from '@/context/WishlistContext';
 
 const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number, title: string, }) => {
     const swiperRefs = useRef<SwiperCore[]>([]);
-    const { isLoginOpen, setIsLoginOpen } = useAuth();
+    const { isLoginOpen, setIsLoginOpen } = useWishlist();
     const handleNextSlide = (index: number) => {
         swiperRefs.current[index]?.slideNext();
     };
