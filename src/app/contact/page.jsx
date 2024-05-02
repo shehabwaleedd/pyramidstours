@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from "./page.module.scss"
 import Link from 'next/link'
-
+import Image from 'next/image'
 
 export function generateMetadata() {
     return {
@@ -44,26 +44,31 @@ const Contact = () => {
 
     return (
         <main className={styles.contact}>
-            <div className={styles.contact_lower}>
+            <Image src="/assets/backgrounds/2.jpg"
+                height={1000}
+                width={1920}
+                alt='register background'
+            />
+            <section className={styles.contact_lower}>
                 <div className={styles.contact_lower_content}>
                     <p>(Events inquiry)</p>
-                    <Link href="mailto:business@f365-global.com" target="_blank" rel="noopener noreferrer">
-                        events@f365<br />-global.com
+                    <Link href="mailto:hello@pyramidsegypttour.com" target="_blank" rel="noopener noreferrer">
+                        hello@pyramids<br />-egypttour.com
                     </Link>
                 </div>
                 <div className={styles.contact_lower_content}>
                     <p>(New business)</p>
-                    <Link href="mailto:business@f365-global.com" target="_blank" rel="noopener noreferrer">
-                        business@f365-global.com
+                    <Link href="mailto:business@pyramidsegypttour.com.com" target="_blank" rel="noopener noreferrer">
+                        business@pyramids<br />-egypttour.com
                     </Link>
                 </div>
                 <div className={styles.contact_lower_content}>
                     <p>(Phone number)</p>
-                    <Link href="tel:+971 50 123 4567" target="_blank" rel="noopener noreferrer">
-                        +971 50 123 4567
+                    <Link href="tel:+20 114 854 4091" target="_blank" rel="noopener noreferrer">
+                        +20 114 854 4091
                     </Link>
                 </div>
-            </div>
+            </section>
         </main>
     )
 }

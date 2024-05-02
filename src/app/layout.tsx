@@ -14,6 +14,15 @@ interface OpenGraph {
   site_name: string;
 }
 
+interface Twitter {
+  card: string;
+  site: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+
 interface Metadata {
   title: string;
   description: string;
@@ -30,6 +39,7 @@ interface Metadata {
     }
 
   }
+  twitter: Twitter;
 }
 
 
@@ -43,8 +53,15 @@ export const metadata: Metadata = {
     title: "Pyramids Egypt Tours - Explore Ancient Wonders",
     description: "Embark on a journey through time with Pyramids Egypt Tours. Discover the ancient wonders of the Giza Pyramids, Sphinx, and more. Experience the rich history and breathtaking landscapes of Egypt with our expert-guided tours.",
     images: "https://res.cloudinary.com/dfxz1hh8s/image/upload/v1710937871/rthedhnufmo6l3rz69d0.jpg",
-    url: "https://pyramidsegypttour.com",
+    url: "https://www.pyramidsegypttour.com",
     site_name: "Pyramids Egypt Tours",
+  },
+  twitter: {
+    card: "summary",
+    site: "@PyramidsEgyptTours",
+    title: "Pyramids Egypt Tours - Explore Ancient Wonders",
+    description: "Embark on a journey through time with Pyramids Egypt Tours. Discover the ancient wonders of the Giza Pyramids, Sphinx, and more. Experience the rich history and breathtaking landscapes of Egypt with our expert-guided tours.",
+    image: "https://res.cloudinary.com/dfxz1hh8s/image/upload/v1710937871/rthedhnufmo6l3rz69d0.jpg",
   },
   verification: {
     google: "google",
