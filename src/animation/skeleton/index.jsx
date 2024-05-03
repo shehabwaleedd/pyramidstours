@@ -11,7 +11,7 @@ export default function Skeleton() {
                             </div>
                             <div className="skeleton-card-text">
                                 <h2 className="skeleton skeleton-card-title"></h2>
-                                <h4 className="skeleton skeleton-card-brand"></h4>
+                                <h3 className="skeleton skeleton-card-brand"></h3>
                                 <div>
                                     <p className="skeleton skeleton-card-description"></p>
                                     <p className="skeleton skeleton-card-description"></p>

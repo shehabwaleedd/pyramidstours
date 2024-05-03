@@ -59,8 +59,8 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
         <form onSubmit={handleSearch} className={isNavbar ? styles.navbarSearch : styles.landinSearch}>
             <div className={isNavbar ? styles.navbarSearch__middle : styles.landinSearch__middle}>
                 <div className={styles.formField}>
-                    <label>Destination</label>
-                    <select value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
+                    <label htmlFor="destination-select">Destination</label>
+                    <select id="destination-select" value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
                         <option value="">Destination</option>
                         {destinations.map((dest, index) => (
                             <option key={index} value={dest}>{dest}</option>
@@ -68,8 +68,8 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Days</label>
-                    <select value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
+                    <label htmlFor="days-select">Days</label>
+                    <select id="days-select" value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
                         <option value="">Days</option>
                         {days.map((day, index) => (
                             <option key={index} value={day}>{day}</option>
@@ -77,8 +77,8 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Price From $</label>
-                    <select value={inputPrice} onChange={(e) => setInputPrice(e.target.value)}>
+                    <label htmlFor="price-select">Price From $</label>
+                    <select id='price-select' value={inputPrice} onChange={(e) => setInputPrice(e.target.value)}>
                         <option value="">Price From $</option>
                         {priceRanges.map((range, index) => (
                             <option key={index} value={range}>{range}$</option>
@@ -86,7 +86,7 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
                     </select>
                 </div>
                 <div className={isNavbar ? styles.navbarSearch__search : styles.landinSearch__search}>
-                    <button type="submit" className={styles.searchButton}><FiSearch /></button>
+                    <button type="submit" className={styles.searchButton} aria-label="Search Tours Button"><FiSearch /></button>
                 </div>
             </div>
         </form>

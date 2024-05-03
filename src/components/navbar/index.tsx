@@ -79,7 +79,7 @@ const NavbarData = [
 
 const Navbar = () => {
     const { isLoggedIn } = useAuth();
-    const { wishlist } = useWishlist(); 
+    const { wishlist } = useWishlist();
     const router = usePathname();
     const [navOpen, setNavOpen] = useState<boolean>(false);
     const [desktopNavOpen, setDesktopNavOpen] = useState<boolean | null>(false)
@@ -187,7 +187,7 @@ const Navbar = () => {
                     <div className={styles.navbar__ul_right}>
                         <li>
                             {isLoggedIn ?
-                                (<button onClick={toggleProfileOpen}>
+                                (<button onClick={toggleProfileOpen} aria-label="Open profile">
                                     <LiaUserSolid style={{ fontSize: "1.6rem" }} />
                                 </button>
                                 ) : (
@@ -197,13 +197,13 @@ const Navbar = () => {
                                 )}
                         </li>
                         <li className={styles.cart}>
-                            <button onClick={toggleWishlistOpen}>
+                            <button onClick={toggleWishlistOpen} aria-label="Open wishlist">
                                 <LiaUserSolid />
                             </button>
                             <span>{wishlistCount ?? 0}</span>
                         </li>
                         <div className={styles.desktop_menu}>
-                            <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
+                            <button onClick={toggleDesktopNavOpen} aria-label="Toggle navigation"><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                         </div>
                     </div>
                 </ul>
@@ -211,7 +211,7 @@ const Navbar = () => {
                     <ul>
                         <li>
                             {isLoggedIn ?
-                                (<button onClick={toggleProfileOpen}>
+                                (<button onClick={toggleProfileOpen} aria-label="Open profile">
                                     <LiaUserSolid style={{ fontSize: "1.6rem" }} />
                                 </button>
                                 ) : (
@@ -221,13 +221,13 @@ const Navbar = () => {
                                 )}
                         </li>
                         <li className={styles.cart}>
-                            <button onClick={toggleWishlistOpen}>
+                            <button onClick={toggleWishlistOpen} aria-label="Open wishlist">
                                 <IoMdHeartEmpty />
                             </button>
                             <span>{wishlistCount ?? 0}</span>
                         </li>
                     </ul>
-                    <button onClick={toggleDesktopNavOpen}><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
+                    <button onClick={toggleDesktopNavOpen} aria-label="Toggle navigation"><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                 </div>
                 <AnimatePresence mode="wait">
                     {desktopNavOpen && <DesktopMenu />}

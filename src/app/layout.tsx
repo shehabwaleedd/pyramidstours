@@ -80,8 +80,7 @@ export const viewport = {
   height: "device-height",
   initialScale: 1,
   minimumScale: 1,
-  maximumScale: 1,
-  userScalable: "no",
+  maximumScale: 5,
   viewportFit: "cover",
   themeColor: "var(--background-color)",
 

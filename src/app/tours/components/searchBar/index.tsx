@@ -76,8 +76,8 @@ const SearchBar = () => {
         <form onSubmit={handleSearch} className={styles.toursSearch}>
             <div className={styles.toursSearch__middle}>
                 <div className={styles.formField}>
-                    <label>Destination</label>
-                    <select value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
+                    <label htmlFor="destination-select">Destination</label>
+                    <select id="destination-select" value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
                         <option value="">Destination</option>
                         {destinations.map((dest, index) => (
                             <option key={index} value={dest}>{dest}</option>
@@ -85,8 +85,8 @@ const SearchBar = () => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Days</label>
-                    <select value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
+                    <label htmlFor="days-select">Days</label>
+                    <select id="days-select" value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
                         <option value="">Days</option>
                         {days.map((day, index) => (
                             <option key={index} value={day}>{day}</option>
@@ -94,8 +94,8 @@ const SearchBar = () => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Time</label>
-                    <select value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
+                    <label htmlFor='time-select'>Time</label>
+                    <select id='time-select' value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
                         <option value="">Time</option>
                         {time.map((time, index) => (
                             <option key={index} value={time}>{time}:00</option>
@@ -103,8 +103,8 @@ const SearchBar = () => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Tags</label>
-                    <select value={selectedTag} onChange={(e) => setSelectedTag(e.target.value)}>
+                    <label htmlFor='tags-selected'>Tags</label>
+                    <select id='tags-selected' value={selectedTag} onChange={(e) => setSelectedTag(e.target.value)}>
                         <option value="">Tags</option>
                         {tags.map((tag, index) => (
                             <option key={index} value={tag}>{tag}</option>
@@ -112,8 +112,8 @@ const SearchBar = () => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Category</label>
-                    <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                    <label htmlFor='category-select'>Category</label>
+                    <select id='category-select' value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                         <option value="">Category</option>
                         {category.map((cat, index) => (
                             <option key={index} value={cat}>{cat}</option>
@@ -121,8 +121,8 @@ const SearchBar = () => {
                     </select>
                 </div>
                 <div className={styles.formField}>
-                    <label>Price Range</label>
-                    <select value={selectedPriceRange} onChange={(e) => setSelectedPriceRange(e.target.value)}>
+                    <label htmlFor="price-select">Price From $</label>
+                    <select id='price-select' value={selectedPriceRange} onChange={(e) => setSelectedPriceRange(e.target.value)}>
                         <option value="">Price Range</option>
                         {priceRanges.map((range, index) => (
                             <option key={index} value={range}>{range}$</option>
@@ -130,7 +130,7 @@ const SearchBar = () => {
                     </select>
                 </div>
                 <div className={styles.toursSearch__search}>
-                    <button type="submit" className={styles.searchButton}><FiSearch /></button>
+                    <button type="submit" className={styles.searchButton} aria-label="Search Tours Button"><FiSearch /></button>
                 </div>
             </div>
         </form>
