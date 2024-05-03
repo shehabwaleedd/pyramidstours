@@ -77,10 +77,10 @@ const TourCard: React.FC<{ tour: TourType, base64: string }> = ({ tour, base64 }
                             {tour.category}
                         </button>
                     )}
-                    {/* <button onClick={(event) => handleWishlistClick(event, tour._id)}
+                    <button onClick={(event) => handleWishlistClick(event, tour._id)}
                         style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }}>
                         <IoMdHeartEmpty style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
-                    </button> */}
+                    </button>
                 </div>
 
             </div>
