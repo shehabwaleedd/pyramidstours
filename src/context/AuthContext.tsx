@@ -80,7 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const fetchUserDetails = async (token: string) => {
         try {
             const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { token }
             });
             if (data && data.user) {
                 setUser(data.user);

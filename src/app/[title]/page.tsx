@@ -1,38 +1,92 @@
 import React from 'react'
 import { TourType } from '@/types/homePageTours';
-import { useTourByTag } from '@/lib/useTourByTag';
+import { serverTourByTag } from '@/lib/useTourByTag';
+import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
 import styles from "./page.module.scss"
 import TourCard from '@/components/card';
 import Image from 'next/image';
 import UnifiedToursComponent from '@/components/unifiedToursComponent';
 
+const imageMap = {
+    'cairo-tours': '/backgroundss/Cairo.webp',
+    'cairo-day-tours': '/backgroundss/Cairo.webp',
+    'giza-day-tours': '/backgroundss/Giza.webp',
+    'gizz-tours': '/backgroundss/Giza.webp',
+    'alexandria-tours': '/backgroundss/Alexandria.webp',
+    'alexandria-day-tours': '/backgroundss/Alexandria.webp',
+    'luxor-tours': '/backgroundss/Luxor.webp',
+    'luxor-day-tours': '/backgroundss/Luxor.webp',
+    'aswan-tours': '/backgroundss/Aswan.webp',
+    'aswan-day-tours': '/backgroundss/Aswan.webp',
+    'hurghada-tours': '/backgroundss/Hurghada.webp',
+    'hurghada-day-tours': '/backgroundss/Hurghada.webp',
+    'sharm-el-sheikh-tours': '/backgroundss/Sharm el-Sheikh.webp',
+    'sharm-el-sheikh-day-tours': '/backgroundss/Sharm el-Sheikh.webp',
+    'siwa-tours': '/backgroundss/Siwa.webp',
+    'siwa-day-tours': '/backgroundss/Siwa.webp',
+    'dahab-tours': '/backgroundss/Dahab.webp',
+    'dahab-day-tours': '/backgroundss/Dahab.webp'
+};
+
+export async function generateStaticParams() {
+    const tours: { tags: string[] }[] = await serverUseToursByIds('');
+    const tags: string[] = [...new Set(tours.flatMap((tour) => tour.tags))];
+    return tags;
+}
+
+export async function generateMetadata({ params }: { params: { title: string } }) {
+    const slugToTile = (slug: string): string => {
+        return slug.replace(/-/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+    const title = slugToTile(params.title);
+    const description = `Explore our ${title} and discover the best time and places to visit. Tailor-made travel planned by local experts.`;
+    const keywords = `${title}, travel, tours, destinations, attractions`;
+    const url = `https://pyramidsegypttours.com/${params.title}`
+    type ImageMapKey = keyof typeof imageMap;
+    const imageKey = params.title as ImageMapKey;
+
+    // Get the appropriate image URL from the image map, or default if not found
+    const imageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/backgroundss/default.webp';
+
+
+    return {
+        title,
+        description,
+        keywords,
+        url,
+        openGraph: {
+            title,
+            description,
+            url,
+            type: 'website',
+            images: [
+                {
+                    url: imageUrl,
+                    width: 800,
+                    height: 600,
+                    alt: title,
+                },
+            ],
+            site_name: 'Pyramdis Egypt Tour',
+        },
+        twitter: {
+            title: title,
+            description: `Explore ${title} with Pyramid Egypt Tours`,
+            cardType: 'summary_large_image',
+        }
+    }
+}
+
 
 export default async function MenuPage({ params }: { params: { title: string } }) {
-    const tours = useTourByTag({ tag: params.title });
+    const tours = serverTourByTag({ tag: params.title });
     const toursArray = await tours;
-    console.log(toursArray, 'toursArray')
     type ImageMapKey = keyof typeof imageMap;
 
-    const imageMap = {
-        'cairo-tours': '/backgroundss/Cairo.webp',
-        'cairo-day-tours': '/backgroundss/Cairo.webp',
-        'giza-day-tours': '/backgroundss/Giza.webp',
-        'gizz-tours': '/backgroundss/Giza.webp',
-        'alexandria-tours': '/backgroundss/Alexandria.webp',
-        'alexandria-day-tours': '/backgroundss/Alexandria.webp',
-        'luxor-tours': '/backgroundss/Luxor.webp',
-        'luxor-day-tours': '/backgroundss/Luxor.webp',
-        'aswan-tours': '/backgroundss/Aswan.webp',
-        'aswan-day-tours': '/backgroundss/Aswan.webp',
-        'hurghada-tours': '/backgroundss/Hurghada.webp',
-        'hurghada-day-tours': '/backgroundss/Hurghada.webp',
-        'sharm-el-sheikh-tours': '/backgroundss/Sharm el-Sheikh.webp',
-        'sharm-el-sheikh-day-tours': '/backgroundss/Sharm el-Sheikh.webp',
-        'siwa-tours': '/backgroundss/Siwa.webp',
-        'siwa-day-tours': '/backgroundss/Siwa.webp',
-        'dahab-tours': '/backgroundss/Dahab.webp',
-        'dahab-day-tours': '/backgroundss/Dahab.webp'
-    };
+
 
     const imageKey = params.title as ImageMapKey;
     const backgroundImageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/backgroundss/default.webp';

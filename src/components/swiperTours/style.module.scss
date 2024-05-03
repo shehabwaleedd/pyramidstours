@@ -54,7 +54,7 @@
             padding: 0;
             align-items: center;
             gap: 1rem;
-            width: fit-content;
+            width: 100%;
         }
 
         button {
@@ -82,12 +82,14 @@
         width: 100%;
         justify-content: space-between;
         align-items: center;
-
-        @media (max-width: 777px) {
+        @media (max-width: 555px) {
+            padding-bottom: 1rem;
             h2 {
                 width: 100%;
             }
         }
+
+
     }
 
     &__slide {

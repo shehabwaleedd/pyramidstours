@@ -4,9 +4,9 @@ import React, { useMemo } from 'react'
 import { TourType } from '@/types/homePageTours';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { FiHeart } from "react-icons/fi";
 import styles from "./style.module.scss"
 import { useWishlist } from '@/context/WishlistContext';
+import { IoMdHeartEmpty } from "react-icons/io";
 
 const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
@@ -33,7 +33,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
 
     const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
 
-    
+
 
     const handleTourClick = (title: string) => {
         router.push(`/tours/${title}`);
@@ -57,7 +57,9 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
     return (
         <div className={styles.tours__container_card} onClick={() => handleTourClick(slugTitle)}>
             <div className={styles.image}>
-                <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} />
+                <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} sizes="(min-width: 2780px) 16.36vw, (min-width: 1880px) calc(22.5vw - 33px), (min-width: 1280px) 28.97vw, (min-width: 780px) calc(45vw - 28px), (min-width: 580px) 90vw, calc(98.08vw - 18px)" layout="responsive"
+                    priority={true} loading="eager"
+                />
                 <div style={{ zIndex: 99999 }}>
                     {tour.hasOffer ? (
                         <span style={{ backgroundColor: "var(--accent-color)" }}>
@@ -70,7 +72,7 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
                     )}
                     <button onClick={(event) => handleWishlistClick(event, tour._id)}
                         style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }}>
-                        <FiHeart style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
+                        <IoMdHeartEmpty style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
                     </button>
                 </div>
 

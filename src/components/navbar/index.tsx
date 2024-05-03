@@ -5,7 +5,6 @@ import styles from './style.module.scss'
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import { FiHeart } from "react-icons/fi";
 import Image from 'next/image';
 import { GoChevronDown } from "react-icons/go";
 import { TbMenuDeep } from "react-icons/tb";
@@ -16,6 +15,7 @@ import SearchField from '../searchField';
 import DesktopMenu from './desktopMenu';
 import { background } from './anim';
 import { useWishlist } from '@/context/WishlistContext';
+import { IoMdHeartEmpty } from "react-icons/io";
 
 const NavbarData = [
     {
@@ -198,7 +198,7 @@ const Navbar = () => {
                         </li>
                         <li className={styles.cart}>
                             <button onClick={toggleWishlistOpen}>
-                                <FiHeart />
+                                <LiaUserSolid />
                             </button>
                             <span>{wishlistCount ?? 0}</span>
                         </li>
@@ -222,7 +222,7 @@ const Navbar = () => {
                         </li>
                         <li className={styles.cart}>
                             <button onClick={toggleWishlistOpen}>
-                                <FiHeart />
+                                <IoMdHeartEmpty />
                             </button>
                             <span>{wishlistCount ?? 0}</span>
                         </li>

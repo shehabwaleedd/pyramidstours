@@ -2,6 +2,8 @@ import React from 'react'
 import styles from "./page.module.scss"
 import TourClient from './components/TourClient';
 import { serverUseToursByTitle } from '@/lib/tours/serverUseTourByTitle';
+import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
+
 import Loading from '@/animation/loading/Loading';
 
 
@@ -39,6 +41,12 @@ export async function generateMetadata({ params }: { params: { title: string } }
     }
 }
 
+
+export async function generateStaticParams() {
+    const tours: { title: string[] }[] = await serverUseToursByIds('');
+    const titles: string[] = [...new Set(tours.flatMap((tour) => tour.title))];
+    return titles;
+}
 
 
 export default async function page({ params }: { params: { title: string } }) {

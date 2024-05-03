@@ -54,11 +54,11 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
                     setIsLoginOpen(false);
                 } else {
                     console.log("Fail")
-                    setErrorFromDataBase(response.data.message || 'An unexpected error occurred.');
+                    setErrorFromDataBase(response.data.err || 'An unexpected error occurred.');
                 }
 
             } catch (error: any) {
-                setErrorFromDataBase(error.response.err || "An unexpected error occurred.");
+                setErrorFromDataBase(error.response.data.err || "An unexpected error occurred.");
             } finally {
                 setIsLoading(false);
             }
@@ -177,7 +177,7 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
                             )}
                         </div>
                         <div className={styles.link}>
-                            <Link href="/forgetPassword">
+                            <Link href="/forgotPassword">
                                 Forgot your password? Don&apos;t worry, click here
                             </Link>
                         </div>
