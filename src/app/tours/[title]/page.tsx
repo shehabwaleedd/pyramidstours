@@ -3,8 +3,7 @@ import styles from "./page.module.scss"
 import TourClient from './components/TourClient';
 import { serverUseToursByTitle } from '@/lib/tours/serverUseTourByTitle';
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
-
-import Loading from '@/animation/loading/Loading';
+import getBase64 from '@/lib/getLocalBase64';
 
 
 const slugToTitle = (slug: string): string => {
@@ -53,6 +52,9 @@ export default async function page({ params }: { params: { title: string } }) {
 
     const title = slugToTitle(params.title);
     const tour = await serverUseToursByTitle(title);
+    const base64 = await getBase64(tour[0]?.mainImg?.url);
+
+    console.log(params.title, "params.title", title, "title")
 
     if (!tour) {
         return <p>Loading...</p>;
@@ -60,7 +62,7 @@ export default async function page({ params }: { params: { title: string } }) {
 
     return (
         <main className={styles.tourDetails}>
-            <TourClient tour={tour[0]} />
+            <TourClient tour={tour[0]} base64={base64 || ''} />
         </main>
     )
 }

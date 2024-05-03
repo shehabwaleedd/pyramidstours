@@ -79,7 +79,7 @@ const NavbarData = [
 
 
 
-const NavbarItem = ({ item }: { item: any }) => {
+const NavbarItem = ({ item, expandable }: { item: any, expandable: boolean }) => {
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
 
@@ -98,12 +98,14 @@ const NavbarItem = ({ item }: { item: any }) => {
     return (
         <li key={item.id}
             onMouseEnter={() => handleDropdown(item.id)}
-            onMouseLeave={() => handleDropdownDelayedClose(item.id)}>
+            onMouseLeave={() => handleDropdownDelayedClose(item.id)}
+            className={styles.navbar__right_left}
+        >
             <Link href={item.href || "#"}>
                 {item.title}
-                <GoChevronDown />
+                {expandable && <GoChevronDown />}
             </Link>
-            <AnimatePresence>
+            {expandable && <AnimatePresence>
                 {openDropdownId === item.id && (
                     <motion.ul
                         initial={{ opacity: 0, y: -20 }}
@@ -111,16 +113,14 @@ const NavbarItem = ({ item }: { item: any }) => {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         className={styles.dropdown}>
-                        {item?.subMenu?.map((subItem: any, index: number) => (
+                        {item.subMenu.map((subItem: any, index: number) => (
                             <motion.li key={index}>
-                                <Link href={subItem.href}>
-                                    <span>{subItem.title}</span>
-                                </Link>
+                                <Link href={subItem.href}>{subItem.title}</Link>
                             </motion.li>
                         ))}
                     </motion.ul>
                 )}
-            </AnimatePresence>
+            </AnimatePresence>}
         </li>
     );
 };
@@ -170,7 +170,7 @@ const Navbar = () => {
     return (
         <motion.header className={styles.navbar} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1 }}>
             <motion.nav className={styles.navbar__container}>
-                <div className={styles.navbar__logo}>
+                <section className={styles.navbar__logo}>
                     <Link href="/">
                         <Image src="/Pyramids_logo.webp" alt="logo" width={300} height={200} />
                     </Link>
@@ -178,22 +178,17 @@ const Navbar = () => {
                         <h1>Pyramids</h1>
                     </Link>
                     <SearchField isNavbar={isNavbar} />
-                </div>
-                <ul className={styles.ul}>
-                    <div className={styles.navbar__ul_left}>
-                        {NavbarData.map((item) =>
-                            item.expandable ? (
-                                <NavbarItem key={item.id} item={item} />
-                            ) : (
-                                <li key={item.id}>
-                                    <Link href={item.href || "#"}>
-                                        <span>{item.title}</span>
-                                    </Link>
-                                </li>
-                            )
-                        )}
-                    </div>
-                    <div className={styles.navbar__ul_right}>
+                </section>
+                <section className={styles.navbar__right}>
+                    <ul className={styles.ul}>
+                        <div className={styles.navbar__right_left}>
+                            {NavbarData.map((item) =>
+                                <NavbarItem key={item.id} item={item} expandable={item.expandable} />
+                            )}
+                        </div>
+                    </ul>
+
+                    <ul className={styles.navbar__right_right}>
                         <li>
                             {isLoggedIn ?
                                 (<button onClick={toggleProfileOpen} aria-label="Open profile">
@@ -205,7 +200,9 @@ const Navbar = () => {
                                     </Link>
                                 )}
                         </li>
-                        <li className={styles.cart}>
+                        <li className={styles.cart}
+
+                        >
                             <button onClick={toggleWishlistOpen} aria-label="Open wishlist">
                                 <IoMdHeartEmpty />
                             </button>
@@ -214,8 +211,8 @@ const Navbar = () => {
                         <div className={styles.desktop_menu}>
                             <button onClick={toggleDesktopNavOpen} aria-label="Toggle navigation"><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                         </div>
-                    </div>
-                </ul>
+                    </ul>
+                </section>
                 <AnimatePresence mode="wait">
                     {desktopNavOpen && <DesktopMenu />}
                 </AnimatePresence>

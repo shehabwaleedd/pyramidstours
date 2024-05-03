@@ -50,6 +50,7 @@ export interface TourType {
     tour?: string;
     wishList?: string[];
     tourId?: string;
+    base64?: string;
 
 }
 

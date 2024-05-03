@@ -8,7 +8,7 @@ import styles from "./style.module.scss"
 import { useWishlist } from '@/context/WishlistContext';
 import { IoMdHeartEmpty } from "react-icons/io";
 
-const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
+const TourCard: React.FC<{ tour: TourType, base64: string }> = ({ tour, base64 }) => {
 
     const router = useRouter();
     const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
@@ -57,8 +57,15 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
     return (
         <div className={styles.tours__container_card} onClick={() => handleTourClick(slugTitle)}>
             <div className={styles.image}>
-                <Image src={tour.mainImg.url} alt={tour.title} width={500} height={500} sizes="(min-width: 2780px) 16.36vw, (min-width: 1880px) calc(22.5vw - 33px), (min-width: 1280px) 28.97vw, (min-width: 780px) calc(45vw - 28px), (min-width: 580px) 90vw, calc(98.08vw - 18px)" layout="responsive"
-                    priority={true} loading="eager"
+                <Image src={tour.mainImg.url}
+                    objectFit='cover'
+                    objectPosition='center'
+                    alt={tour.title}
+                    width={500}
+                    height={500}
+                    loading="lazy"
+                    blurDataURL={base64}
+                    placeholder="blur"
                 />
                 <div style={{ zIndex: 99999 }}>
                     {tour.hasOffer ? (
@@ -70,10 +77,10 @@ const TourCard: React.FC<{ tour: TourType }> = ({ tour }) => {
                             {tour.category}
                         </button>
                     )}
-                    <button onClick={(event) => handleWishlistClick(event, tour._id)}
+                    {/* <button onClick={(event) => handleWishlistClick(event, tour._id)}
                         style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }}>
                         <IoMdHeartEmpty style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
-                    </button>
+                    </button> */}
                 </div>
 
             </div>

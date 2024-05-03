@@ -65,7 +65,7 @@
         }
     }
 
-    .ul {
+    &__right {
         display: flex;
         gap: 4vw;
         width: 100%;
@@ -76,7 +76,7 @@
 
 
 
-        .navbar__ul_left {
+        &_left {
             display: flex;
             gap: 1rem;
             align-items: center;
@@ -87,7 +87,7 @@
             }
         }
 
-        .navbar__ul_right {
+        &_right {
             display: flex;
             gap: 1rem;
             align-items: center;

@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "..//page.module.scss"
+import styles from "../page.module.scss"
 import { IoLocationSharp, IoPricetagOutline } from 'react-icons/io5';
 import { FiClock } from 'react-icons/fi';
 import { BsCurrencyDollar } from 'react-icons/bs';
@@ -13,10 +13,11 @@ import UnifiedToursComponent from '@/components/unifiedToursComponent';
 
 interface TourClientProps {
     tour: TourType;
+    base64: string;
 }
 
 
-const TourClient: React.FC<TourClientProps> = ({ tour }) => {
+const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
 
     const cleanGoogleMapLink = (mapDetails: string) => {
         let cleanedLink = mapDetails.replace(/style="border:0;"\s?/g, '');
@@ -34,7 +35,9 @@ const TourClient: React.FC<TourClientProps> = ({ tour }) => {
         <>
             <section className={styles.eventDetails}>
                 <div className={styles.eventDetails__mainImage}>
-                    <Image src={tour?.mainImg?.url ?? ''} width={1800} height={1000} alt='Main Image' className={styles.mainImage} />
+                    <Image src={tour?.mainImg?.url ?? ''} width={1800} height={1000} alt='Main Image' className={styles.mainImage}
+                        placeholder="blur" blurDataURL={base64} priority={true}
+                    />
                     <div className={styles.eventDetails__mainImage_abs}>
                         <div className={styles.eventDetails__mainImage__upper}>
                             <h1>{tour?.title}</h1>
@@ -63,8 +66,8 @@ const TourClient: React.FC<TourClientProps> = ({ tour }) => {
                 </aside>
                 <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />
             </section>
-            <UnifiedToursComponent location={tour.location.from} type="recommended"/>
-            <UnifiedToursComponent type="like"/>
+            <UnifiedToursComponent location={tour.location.from} type="recommended" />
+            <UnifiedToursComponent type="like" />
         </>
     )
 }

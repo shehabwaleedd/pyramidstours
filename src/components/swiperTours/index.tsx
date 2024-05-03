@@ -17,7 +17,7 @@ SwiperCore.use([Navigation, Pagination]);
 import { useInView } from "react-intersection-observer";
 import { useWishlist } from '@/context/WishlistContext';
 
-const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number, title: string, }) => {
+const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number, title: string}) => {
     const swiperRefs = useRef<SwiperCore[]>([]);
     const { isLoginOpen, setIsLoginOpen } = useWishlist();
     const handleNextSlide = (index: number) => {
@@ -32,19 +32,6 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
         threshold: 0,
     });
 
-
-    const fetchTours = async () => {
-        // Simulate an API call
-        console.log("Fetching tours now that the component is visible.");
-        // Here, you would typically update your state with fetched data
-        // setTours(fetchedTours);
-    };
-
-    useEffect(() => {
-        if (inView) {
-            fetchTours();
-        }
-    }, [inView]);
 
     if (!tours) {
         return (
@@ -88,7 +75,7 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
                         navigation={{ nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }}>
                         {tours?.map((tour: TourType) => (
                             <SwiperSlide key={tour._id}>
-                                <TourCard tour={tour} />
+                                <TourCard tour={tour} base64={tour.base64 || ''}/>
                             </SwiperSlide>
                         ))}
                     </Swiper>
