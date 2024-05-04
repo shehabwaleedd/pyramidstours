@@ -46,7 +46,7 @@ export default function Footer() {
                     variants={translate} initial="initial"
                     animate="enter"
                     exit="exit">
-                    <span>Designed & Developed By </span> <Link style={{ color: "var(--accent-color)" }} href="https://cairo-studio.com" target='_blank' referrerPolicy='no-referrer' rel="noreferrer">Cairo Studio</Link>
+                    <span>Designed & Developed By </span> <Link style={{ color: "var(--accent-color)" }} href="https://cairo-studio.com" target='_blank' referrerPolicy='no-referrer' rel="noreferrer"aria-label="Cairo Studio">Cairo Studio</Link>
                 </motion.li>
             </ul>
         </div>

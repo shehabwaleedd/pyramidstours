@@ -84,7 +84,7 @@ const ChangePasswordForm = () => {
                             <Field type="password" id="reNewPassword" name="reNewPassword" />
                             <ErrorMessage name="reNewPassword" component="div" className={styles.error} />
                         </div>
-                        <button type="submit" disabled={isSubmitting} className={styles.changePassword__form_submit}>
+                        <button type="submit" disabled={isSubmitting} className={styles.changePassword__form_submit} aria-label="Change Password">
                             Change Password
                         </button>
                         {errors && <div className={styles.error}>{errors}</div>}

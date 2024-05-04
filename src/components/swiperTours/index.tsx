@@ -73,9 +73,9 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
                         onSwiper={(swiper) => swiperRefs.current[index] = swiper}
                         spaceBetween={20}
                         navigation={{ nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }}>
-                        {tours?.map((tour: TourType) => (
+                        {tours?.map((tour: TourType, index: number) => (
                             <SwiperSlide key={tour._id}>
-                                <TourCard tour={tour} base64={tour.base64 || ''}/>
+                                <TourCard tour={tour} base64={tour.base64 || ''} priority={index < 4}/>
                             </SwiperSlide>
                         ))}
                     </Swiper>

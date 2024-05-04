@@ -26,7 +26,7 @@ export default function Footer() {
                     variants={translate} initial="initial"
                     animate="enter"
                     exit="exit">
-                    <Link href="/privacy">
+                    <Link href="/privacy" aria-label="Privacy Policy">
                         Privacy Policy
                     </Link>
                 </motion.li>
@@ -35,7 +35,7 @@ export default function Footer() {
                     variants={translate} initial="initial"
                     animate="enter"
                     exit="exit">
-                    <Link href="/terms">
+                    <Link href="/terms" aria-label="Terms & Conditions">
                         Terms & Conditions
                     </Link>
                 </motion.li>

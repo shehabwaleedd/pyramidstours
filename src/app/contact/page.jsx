@@ -52,19 +52,19 @@ const Contact = () => {
             <section className={styles.contact_lower}>
                 <div className={styles.contact_lower_content}>
                     <p>(Events inquiry)</p>
-                    <Link href="mailto:hello@pyramidsegypttour.com" target="_blank" rel="noopener noreferrer">
+                    <Link href="mailto:hello@pyramidsegypttour.com" target="_blank" rel="noopener noreferrer" aria-label='Pyramids Egypt Tour Email Address'>
                         hello@pyramids<br />-egypttour.com
                     </Link>
                 </div>
                 <div className={styles.contact_lower_content}>
                     <p>(New business)</p>
-                    <Link href="mailto:business@pyramidsegypttour.com.com" target="_blank" rel="noopener noreferrer">
+                    <Link href="mailto:business@pyramidsegypttour.com.com" target="_blank" rel="noopener noreferrer" aria-label='Pyramids Egypt Tour Business Email Address'>
                         business@pyramids<br />-egypttour.com
                     </Link>
                 </div>
                 <div className={styles.contact_lower_content}>
                     <p>(Phone number)</p>
-                    <Link href="tel:+20 114 854 4091" target="_blank" rel="noopener noreferrer">
+                    <Link href="tel:+20 114 854 4091" target="_blank" rel="noopener noreferrer" aria-label='Pyramids Egypt Tour Phone Number'>
                         +20 114 854 4091
                     </Link>
                 </div>

@@ -177,8 +177,8 @@ const Register = () => {
                     </div>
                 </div>
 
-                <button type="submit" disabled={registerFormik.isSubmitting} className={styles.register__btn}>{registerFormik.isSubmitting ? 'Registering...' : 'Register'}</button>
-                <Link href="/login"> <span className={styles.register__login}>Already have an account? Login</span></Link>
+                <button type="submit" disabled={registerFormik.isSubmitting} className={styles.register__btn} aria-label="Register Button">{registerFormik.isSubmitting ? 'Registering...' : 'Register'}</button>
+                <Link href="/login" aria-label="Already have an account? Login"> <span className={styles.register__login}>Already have an account? Login</span></Link>
                 {errorFromDataBase ? <div className={styles.register__error}>{errorFromDataBase}</div> : null}
             </form>
 

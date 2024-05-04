@@ -18,20 +18,20 @@ const Footer = () => {
                         </span>
                     </li>
                     <li>
-                        <Link href="#">Facebook </Link>
+                        <Link href="#" aria-label="Facebook">Facebook </Link>
                     </li>
                     <li>
-                        <Link href="#">Instagram </Link>
+                        <Link href="#" arial-label="Instagram Page">Instagram </Link>
                     </li>
                     <li>
-                        <Link href="#">Twitter </Link>
+                        <Link href="#" aria-label="Twitter Page">Twitter </Link>
                     </li>
                     <li>
-                        <Link href="/privacy">Privacy </Link>
+                        <Link href="/privacy" aria-label="Privacy Policy">Privacy </Link>
                     </li>
                     <li>
                         <span>
-                            Made by <Link href="https://www.cairo-studio.com" style={{color: "var(--accent-color)"}}> Cairo Studio</Link>
+                            Made by <Link href="https://www.cairo-studio.com" style={{color: "var(--accent-color)"}} aria-label="Cairo Studio"> Cairo Studio</Link>
                         </span>
                     </li>
                 </ul>

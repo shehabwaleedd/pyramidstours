@@ -44,7 +44,7 @@ const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
                         </div>
                         <div className={styles.eventDetails__mainImage__upper_details} style={{ flexWrap: "wrap" }}>
                             {tour?.tags?.map((tag, index) => (
-                                <Link href={`/${tag}`} key={index}><CiHashtag />{tag}</Link>
+                                <Link href={`/${tag}`} key={index} aria-label={`#${tag}`}><CiHashtag />{tag}</Link>
                             ))}
                         </div>
                     </div>
@@ -57,7 +57,7 @@ const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
                         <p> <IoLocationSharp /> {tour?.location?.from}, {tour?.location?.to} </p>
                         <p> <FiClock /> {tour?.duration} </p>
                         <p> <BsCurrencyDollar />   From ${tour?.adultPricing?.find(p => p.adults === 1)?.price ?? 'N/A'}</p>
-                        <Link href={`/search/${tour?.category}`} > <IoPricetagOutline /> {tour?.category} </Link>
+                        <Link href={`/search/${tour?.category}`}  aria-label={tour?.category}> <IoPricetagOutline /> {tour?.category} </Link>
                     </div>
                 </div>
                 <aside className={styles.eventDetails__lower}>

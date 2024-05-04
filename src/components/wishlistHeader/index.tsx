@@ -26,7 +26,7 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
                         {wishlist.length > 0 ? (
                             <>
                                 {wishlist.map((tour: TourType) => (
-                                    <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${tour._id}`}>
+                                    <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${tour._id}`}aria-label={ `View ${tour.title}`}>
                                         <Image src={tour?.mainImg?.url} alt="Tour" width={50} height={50} objectFit="cover" />
                                         <div className={styles.cardContent}>
                                             <div>

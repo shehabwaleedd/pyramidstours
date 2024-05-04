@@ -186,19 +186,19 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                                 </div>
                                 <div className={styles.headGroup}>
                                     <div className={styles.group}>
-                                        <label>Number of Adults</label>
-                                        <Field type="number" name="adults" min={1} max={tour?.adultPricing?.length} readOnly />
+                                        <label htmlFor='adult-count'>Number of Adults</label>
+                                        <Field id="adult-count" type="number" name="adults" min={1} max={tour?.adultPricing?.length} readOnly />
                                         <div className={styles.incrementBtns}>
-                                            <button type="button" onClick={() => setFieldValue('adults', values.adults + 1)}>+</button>
-                                            <button type="button" onClick={() => setFieldValue('adults', Math.max(1, values.adults - 1))}>-</button>
+                                            <button type="button" onClick={() => setFieldValue('adults', values.adults + 1)} aria-label="Increment number of adults">+</button>
+                                            <button type="button" onClick={() => setFieldValue('adults', Math.max(1, values.adults - 1))} aria-label="Decrement number of adults">-</button>
                                         </div>
                                     </div>
                                     <div className={styles.group}>
-                                        <label>Number of Children</label>
-                                        <Field type="number" name="children" min={0} max={tour?.childrenPricing?.length} readOnly />
+                                        <label htmlFor="child-count">Number of Children</label>
+                                        <Field id="child-count" type="number" name="children" min={0} max={tour?.childrenPricing?.length} readOnly />
                                         <div className={styles.incrementBtns}>
-                                            <button type="button" onClick={() => setFieldValue('children', values.children + 1)}>+</button>
-                                            <button type="button" onClick={() => setFieldValue('children', Math.max(0, values.children - 1))}>-</button>
+                                            <button type="button" onClick={() => setFieldValue('children', values.children + 1)} aria-label="Increment number of children">+</button>
+                                            <button type="button" onClick={() => setFieldValue('children', Math.max(0, values.children - 1))} aria-label="Decrement number of children">-</button>
                                         </div>
                                     </div>
                                 </div>
@@ -218,8 +218,8 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                                                     readOnly
                                                 />
                                                 <div className={styles.incrementBtns}>
-                                                    <button type="button" onClick={() => handleIncrement(option._id)}>+</button>
-                                                    <button type="button" onClick={() => handleDecrement(option._id)}>-</button>
+                                                    <button type="button" onClick={() => handleIncrement(option._id)} aria-label="Increment number of options">+</button>
+                                                    <button type="button" onClick={() => handleDecrement(option._id)} aria-label="Decrement number of options">-</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -234,8 +234,8 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                                     <h2>Total Price: ${calculateTotalCost(values, tour, optionCounts)}</h2>
                                 </div>
                             </div>
-                            {errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-                            <button type="submit" className={styles.submitButton} disabled={isSubmitting}> {isSubmitting ? 'Booking...' : 'Book Now'}</button>
+                            {errorMessage && <div role="alert" style={{ color: "red" }}>{errorMessage}</div>}
+                            <button type="submit" className={styles.submitButton} disabled={isSubmitting} aria-label="Book now button"> {isSubmitting ? 'Booking...' : 'Book Now'}</button>
                             <p style={{ color: "var(--accent-color)" }}> Note: Infants under 6 years old are free of charge.</p>
                             <p>Note:  The total cost of the tour is calculated by summing up the prices based on the number of adults and children, each multiplied by their respective pricing tiers, and adding the cost of any selected additional options.</p>
                         </Form>

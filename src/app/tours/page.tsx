@@ -19,7 +19,7 @@ export default async function Tours ({ searchParams }: { searchParams: { results
             return '';
         });
     }));
-    
+
     return (
         <main className={styles.tours}>
             <section className={styles.tours__upper}>
@@ -34,9 +34,8 @@ export default async function Tours ({ searchParams }: { searchParams: { results
                     <h2>Explore All Tours</h2>
                 </div>
                 <div className={styles.tours__lower_tours}>
-                    {toursArray.map((tour: TourType) => (
-                        <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''}
-                        />
+                    {toursArray.map((tour: TourType, index: number) => (
+                        <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4}/>
                     ))}
                 </div>
             </section>

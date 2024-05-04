@@ -18,7 +18,7 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
             <div className={styles.subscriptionDetails__upper}>
                 <h1>Subscription Details</h1>
                 <div>
-                    <button onClick={() => setSubscriptionOpen(null)}>
+                    <button onClick={() => setSubscriptionOpen(null)} aria-label="Close">
                         Close
                     </button>
                 </div>
@@ -49,7 +49,7 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
                                 (
                                     <p style={{ color: "var(--accent-color)" }}>Status: Pending</p>
                                 )}
-                            <Link href={`/tours/${subscription?.tourDetails?._id}`} passHref>
+                            <Link href={`/tours/${subscription?.tourDetails?._id}`} passHrefaria-label="View Tour">
                                 <span>View Tour</span>
                             </Link>
                         </div>
@@ -62,7 +62,7 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
                         <p>Email: <span> {subscription?.userDetails?.email}</span> </p>
                         <p>Nationality: <span> {subscription?.userDetails?.nationality}</span> </p>
 
-                        <button onClick={() => handleUserOpen(subscription?.userDetails?._id || '')}>
+                        <button onClick={() => handleUserOpen(subscription?.userDetails?._id || '')}aria-label="View User">
                             View User
                         </button>
                     </div>

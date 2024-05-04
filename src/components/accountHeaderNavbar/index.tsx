@@ -35,10 +35,10 @@ const AccountHeaderNavbar = ({ profileOpen }: { profileOpen: boolean }) => {
                         </div>
                     </div>
                     <div className={styles.accountHeader__profile_lower}>
-                        <Link href="/account">
+                        <Link href="/account"  aria-label="Account Page">
                             <span>Account</span>
                         </Link>
-                        <button onClick={handleLogout} style={{ color: "red" }}>
+                        <button onClick={handleLogout} style={{ color: "red" }} aria-label="Logout">
                             Logout
                         </button>
                     </div>

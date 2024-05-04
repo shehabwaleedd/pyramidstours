@@ -72,7 +72,7 @@ const UserSubscriptions = () => {
                 <div className={styles.pagination}>
                     <button onClick={handlePreviousPage} disabled={currentPage <= 1}>Previous</button>
                     <span>Page {currentPage}</span>
-                    <button onClick={handleNextPage}>Next</button>
+                    <button onClick={handleNextPage} aria-label="Next page">Next</button>
                 </div>
             </div>
             <AnimatePresence mode='wait'>

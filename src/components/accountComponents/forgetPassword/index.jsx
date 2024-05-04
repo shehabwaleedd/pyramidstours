@@ -113,7 +113,7 @@ const ForgotPassword = () => {
                                         <Field name="email" type="email" />
                                         <ErrorMessage name="email" component="div" className="error" />
                                     </div>
-                                    <button type="submit" disabled={isSubmitting}>
+                                    <button type="submit" disabled={isSubmitting} aria-label="Send Verification Code">
                                         Send Verification Code
                                     </button>
                                 </>
@@ -125,7 +125,7 @@ const ForgotPassword = () => {
                                         <Field name="code" type="text" />
                                         <ErrorMessage name="code" component="div" className="error" />
                                     </div>
-                                    <button type="submit" disabled={isSubmitting}>
+                                    <button type="submit" disabled={isSubmitting} aria-label="Verify Code">
                                         Verify Code
                                     </button>
                                 </>
@@ -142,7 +142,7 @@ const ForgotPassword = () => {
                                         <Field name="confirmNewPassword" type="password" />
                                         <ErrorMessage name="confirmNewPassword" component="div" className="error" />
                                     </div>
-                                    <button type="submit" disabled={isSubmitting}>
+                                    <button type="submit" disabled={isSubmitting} aria-label="Reset Password">
                                         Reset Password
                                     </button>
                                 </>

@@ -109,12 +109,12 @@ const Page = () => {
 
 
                     <div className={styles.link}>
-                        <Link href="/forgotPassword">
+                        <Link href="/forgotPassword" aria-label="Forgot password? Don't worry, click here">
                             <span className={styles.link}>Forgot password? Don&apos;t worry, click here</span>
                         </Link>
                     </div>
                     <div className={styles.link}>
-                        <Link href="/register">
+                        <Link href="/register" aria-label="Don't have an account? Sign up">
                             <span>Don&apos;t have an account? Sign up</span>
                         </Link>
                     </div>

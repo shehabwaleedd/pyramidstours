@@ -56,13 +56,13 @@ const DashboardTours = ({ tours, loading, title }) => {
                             <Image src={event.mainImg ? event.mainImg.url : "/noimage.png"} alt={event.title} width={500} height={500} quality={100} />
                             <div className={styles.userTours__container_card_top_bottom}>
                                 <div className={styles.userTours__container_card_top_bottom_lower}>
-                                    <button onClick={() => handleEditClick(event._id)}>
+                                    <button onClick={() => handleEditClick(event._id)} aria-label="Edit event">
                                         <span style={{ backgroundColor: "#2e2e2e", color: "var(--container-color)" }}>
                                             Edit
                                         </span>
                                     </button>
 
-                                    <button onClick={() => handleDeleteClick(event._id)}>
+                                    <button onClick={() => handleDeleteClick(event._id)} aria-label="Delete event">
                                         <span style={{ backgroundColor: "#ef6363" }}>
                                             Delete
                                         </span>

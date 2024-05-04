@@ -6,6 +6,7 @@ import styles from "./page.module.scss"
 import TourCard from '@/components/card';
 import Image from 'next/image';
 import UnifiedToursComponent from '@/components/unifiedToursComponent';
+import getBase64 from '@/lib/getLocalBase64';
 
 const imageMap = {
     'cairo-tours': '/backgroundss/Cairo.webp',
@@ -87,6 +88,12 @@ export default async function MenuPage({ params }: { params: { title: string } }
     type ImageMapKey = keyof typeof imageMap;
 
 
+    await Promise.all(toursArray.map(async (tour: any) => {
+        tour.base64 = await getBase64(tour.mainImg.url).catch(e => {
+            console.error('Failed to load base64 for image:', e);
+            return '';
+        });
+    }));
 
     const imageKey = params.title as ImageMapKey;
     const backgroundImageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/backgroundss/default.webp';
@@ -102,8 +109,8 @@ export default async function MenuPage({ params }: { params: { title: string } }
             <section className={styles.menuPage__lower}>
                 {toursArray.length > 0 ?
                     <div className={styles.menuPage__lower_tours}>
-                        {toursArray.map((tour: TourType) => (
-                            <TourCard key={tour._id} tour={tour} />
+                        {toursArray.map((tour: TourType, index: number) => (
+                            <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4}/>
                         ))}
                     </div>
                     : (

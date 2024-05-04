@@ -1,17 +1,17 @@
 import { TourType } from "@/types/homePageTours";
 
 let cache: Record<string, TourType[]> = {};
-let cacheExpiry: number = Date.now() + 24 * 60 * 60 * 1000; // Set initial cache expiry to one day from now
+let cacheExpiry: number = Date.now() + 2 * 60 * 60 * 1000; 
 
 export async function serverUseToursByIds(query: string) {
     try {
-        // Check cache expiry and clear cache if needed
         if (Date.now() > cacheExpiry) {
             console.log("Cache expired, clearing cache");
             cache = {};
+            cacheExpiry = Date.now() + 2 * 60 * 60 * 1000; // Reset cache expiry to 2 hours from now after clearing
         }
-        // Return cached data if available
         if (cache[query]) {
+            console.log("Returning data from cache");
             return cache[query];
         }
 

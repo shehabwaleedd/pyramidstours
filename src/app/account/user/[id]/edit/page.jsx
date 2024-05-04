@@ -81,7 +81,7 @@ const EditUser = () => {
     return (
         <main className={styles.editUserInfo}>
             <form onSubmit={formik.handleSubmit} className={styles.editUserInfo__form}>
-                <Link href='/account'>
+                <Link href='/account' aria-label='Go back to account page'>
                     Back to Account
                 </Link>
                 <h1>Edit your account</h1>

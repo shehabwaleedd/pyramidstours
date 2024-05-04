@@ -139,7 +139,7 @@ const EditTour = () => {
         <main className={styles.editTour}>
             <div className={styles.editTour__container}>
                 <div className={styles.group}>
-                    <Link href="/account">
+                    <Link href="/account" aria-label="Go back to account page">
                         <IoArrowBack />
                     </Link>
                     <h1>Edit Tour</h1>

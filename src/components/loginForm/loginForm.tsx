@@ -163,21 +163,19 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
                         {formik.touched.password && formik.errors.password && (
                             <div className={styles.error}>{formik.errors.password}</div>
                         )}
-                        <button type="submit" disabled={isLoading}
-                            className={styles.button}
-                        >
+                        <button type="submit" disabled={isLoading} className={styles.button} aria-label={isLoading ? 'Loading' : (mode === 'login' ? 'Login' : 'Register')}>
                             {isLoading ? (mode === 'login' ? 'Logging in...' : 'Registering...') : (mode === 'login' ? 'Login' : 'Register')}
                         </button>
                         {errorFromDataBase && <div className={styles.error}>{errorFromDataBase}</div>}
                         <div className={styles.link}>
                             {mode === 'login' ? (
-                                <button onClick={() => setMode('register')}>Don&apos;t have an account? Sign up</button>
+                                <button onClick={() => setMode('register')} aria-label="Don't have an account? Sign up">Don&apos;t have an account? Sign up</button>
                             ) : (
-                                <button onClick={() => setMode('login')}>Already have an account? Login</button>
+                                <button onClick={() => setMode('login')} aria-label="Already have an account? Login">Already have an account? Login</button>
                             )}
                         </div>
                         <div className={styles.link}>
-                            <Link href="/forgotPassword">
+                            <Link href="/forgotPassword" aria-label="Forgot your password? Don't worry, click here">
                                 Forgot your password? Don&apos;t worry, click here
                             </Link>
                         </div>

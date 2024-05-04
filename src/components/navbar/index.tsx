@@ -101,7 +101,7 @@ const NavbarItem = ({ item, expandable }: { item: any, expandable: boolean }) =>
             onMouseLeave={() => handleDropdownDelayedClose(item.id)}
             className={styles.navbar__right_left}
         >
-            <Link href={item.href || "#"}>
+            <Link href={item.href || "#"} aria-label={`Go to ${item.title} Page`}>
                 {item.title}
                 {expandable && <GoChevronDown />}
             </Link>
@@ -115,7 +115,7 @@ const NavbarItem = ({ item, expandable }: { item: any, expandable: boolean }) =>
                         className={styles.dropdown}>
                         {item.subMenu.map((subItem: any, index: number) => (
                             <motion.li key={index}>
-                                <Link href={subItem.href}>{subItem.title}</Link>
+                                <Link href={subItem.href} aria-label={`Go to ${subItem.title} Page`}>{subItem.title}</Link>
                             </motion.li>
                         ))}
                     </motion.ul>
@@ -171,10 +171,10 @@ const Navbar = () => {
         <motion.header className={styles.navbar} transition={{ delay: 0.5, duration: 0.75, ease: [0.42, 0, 0.58, 1], staggerChildren: 0.1 }}>
             <motion.nav className={styles.navbar__container}>
                 <section className={styles.navbar__logo}>
-                    <Link href="/">
+                    <Link href="/" aria-label="Go to home page">
                         <Image src="/Pyramids_logo.webp" alt="logo" width={300} height={200} />
                     </Link>
-                    <Link href="/" className={styles.logo_content}>
+                    <Link href="/" className={styles.logo_content} aria-label="Go to home page">
                         <h1>Pyramids</h1>
                     </Link>
                     <SearchField isNavbar={isNavbar} />
@@ -195,22 +195,20 @@ const Navbar = () => {
                                     <LiaUserSolid style={{ fontSize: "1.6rem" }} />
                                 </button>
                                 ) : (
-                                    <Link href="/login">
+                                    <Link href="/login" aria-label="Login">
                                         Login
                                     </Link>
                                 )}
                         </li>
-                        <li className={styles.cart}
-
-                        >
+                        <li className={styles.cart}>
                             <button onClick={toggleWishlistOpen} aria-label="Open wishlist">
                                 <IoMdHeartEmpty />
                             </button>
                             <span>{wishlistCount ?? 0}</span>
                         </li>
-                        <div className={styles.desktop_menu}>
+                        <li className={styles.desktop_menu}>
                             <button onClick={toggleDesktopNavOpen} aria-label="Toggle navigation"><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
-                        </div>
+                        </li>
                     </ul>
                 </section>
                 <AnimatePresence mode="wait">

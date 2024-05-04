@@ -21,9 +21,9 @@ const AllTours = () => {
         <section>
             <DashboardTours tours={tours} title="All Tours" loading={loading} />
             <div className={styles.pagination}>
-                <button onClick={handlePreviousPage} disabled={currentPage <= 1}>Previous</button>
+                <button onClick={handlePreviousPage} disabled={currentPage <= 1}aria-label="Previous page">Previous</button>
                 <span>Page {currentPage}</span>
-                <button onClick={handleNextPage}>Next</button>
+                <button onClick={handleNextPage} disabled={!tours}aria-label="Next page">Next</button>
             </div>
         </section>
     )

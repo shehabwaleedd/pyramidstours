@@ -137,7 +137,7 @@ const CreateTestimonials: React.FC = () => {
                         </div>
                     )}
                 </div>
-                <button type="submit" className={styles.register__btn} disabled={formik.isSubmitting}> {formik.isSubmitting ? 'Submitting...' : 'Submit'}</button>
+                <button type="submit" className={styles.register__btn} disabled={formik.isSubmitting} aria-label="Submit Testimonial"> {formik.isSubmitting ? 'Submitting...' : 'Submit'}</button>
             </form>
             {errorFromDataBase && <div className={styles.error}>{errorFromDataBase}</div>}
         </main>

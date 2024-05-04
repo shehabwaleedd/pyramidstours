@@ -53,7 +53,7 @@ const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, s
             className={`${styles.viewUserDetailsAdmin} ${global.centeredGlass}`}>
             <div className={styles.viewUserDetailsAdmin__container}>
                 <div className={styles.viewUserDetailsAdmin__container__close}>
-                    <button onClick={() => setUserOpen(null)}>close</button>
+                    <button onClick={() => setUserOpen(null)} aria-label="Close">close</button>
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__top}>
                     <Image
@@ -73,7 +73,7 @@ const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, s
 
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__lower}>
-                    <button style={{ color: "#c92a2a" }} onClick={() => deleteUser(user?._id ?? '')}>Delete User</button>
+                    <button style={{ color: "#c92a2a" }} onClick={() => deleteUser(user?._id ?? '')}aria-label="Delete User">Delete User</button>
                 </div>
             </div>
         </motion.section>

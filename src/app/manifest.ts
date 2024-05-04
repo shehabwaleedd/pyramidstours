@@ -10,6 +10,7 @@ export default function manifest(): MetadataRoute.Manifest {
         display: 'standalone',
         background_color: '#fff',
         theme_color: '#fff',
+        scope: '.',
         icons: [
             {
                 src: '/favicon.ico',
@@ -36,7 +37,20 @@ export default function manifest(): MetadataRoute.Manifest {
                 sizes: '32x32',
                 type: 'image/png',
             },
+            {
+                src: '/maskable-icon.png',
+                sizes: '196x196',
+                type: 'image/png',
+                purpose: 'maskable',
+            },
+            {
+                src: '/maskable-icon.png',
+                sizes: '512x512',
+                type: 'image/png',
+                purpose: 'maskable',
+            },
         ],
-        
+
+
     }
 }

@@ -40,13 +40,13 @@ export default function Body({ Data }) {
                                 >
                                     {desc.map((item, idx) => (
                                         <div className="desc" key={idx}>
-                                            <Link href={item.href}><p>{item.title}</p></Link>
+                                            <Link href={item.href} aria-label='Link to the page'><p>{item.title}</p></Link>
                                         </div>
                                     ))}
                                 </motion.div>
                             </>
                         ) : (
-                            <Link href={href}>
+                            <Link href={href} aria-label='Link to the page'>
                                 <span className="link">{title}</span>
                             </Link>
                         )}

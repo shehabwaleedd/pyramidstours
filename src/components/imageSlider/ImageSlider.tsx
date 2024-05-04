@@ -51,10 +51,10 @@ export function ImageSlider({ images }: ImageSliderProps) {
                     ))}
                 </div>
                 <button onClick={showPrevImage} className="img-slider-btn left" aria-label="View Previous Image" style={{ left: 0 }}>
-                    <SlArrowLeft aria-hidden />
+                    <SlArrowLeft aria-label="View Previous Image" />
                 </button>
                 <button onClick={showNextImage} className="img-slider-btn right" aria-label="View Next Image" style={{ right: 0 }}>
-                    <SlArrowRight aria-hidden />
+                    <SlArrowRight  aria-label="View Next Image"/>
                 </button>
                 <div className="image-slider-dots">
                     {images.map((image, index) => (

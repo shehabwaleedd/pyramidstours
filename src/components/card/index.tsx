@@ -8,7 +8,7 @@ import styles from "./style.module.scss"
 import { useWishlist } from '@/context/WishlistContext';
 import { IoMdHeartEmpty } from "react-icons/io";
 
-const TourCard: React.FC<{ tour: TourType, base64: string }> = ({ tour, base64 }) => {
+const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> = ({ tour, base64, priority }) => {
 
     const router = useRouter();
     const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
@@ -63,7 +63,8 @@ const TourCard: React.FC<{ tour: TourType, base64: string }> = ({ tour, base64 }
                     alt={tour.title}
                     width={500}
                     height={500}
-                    loading="lazy"
+                    priority={priority}
+                    loading={priority ? 'eager' : 'lazy'} 
                     blurDataURL={base64}
                     placeholder="blur"
                 />
@@ -77,8 +78,7 @@ const TourCard: React.FC<{ tour: TourType, base64: string }> = ({ tour, base64 }
                             {tour.category}
                         </button>
                     )}
-                    <button onClick={(event) => handleWishlistClick(event, tour._id)}
-                        style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }}>
+                    <button onClick={(event) => handleWishlistClick(event, tour._id)} style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }} aria-label="Add to wishlist">
                         <IoMdHeartEmpty style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
                     </button>
                 </div>
@@ -98,7 +98,7 @@ const TourCard: React.FC<{ tour: TourType, base64: string }> = ({ tour, base64 }
                     <span>{tour.location.to}</span>
                 </div>
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
-                <button onClick={() => handleTourClick(slugTitle)}>Book Now</button>
+                <button onClick={() => handleTourClick(slugTitle)} aria-label={`Book ${tour.title}`}>Book Now</button>
             </div>
         </div>
     )

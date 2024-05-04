@@ -14,7 +14,7 @@ const PersonalInfo = ({ user } : { user: User }) => {
             <div className={styles.account__lower_right_content_top}>
                 <h2>Personal Info</h2>
                 <button>
-                    <Link href={`/account/user/${user._id}/edit`}>
+                    <Link href={`/account/user/${user._id}/edit`} aria-label="Edit personal info">
                         Edit
                     </Link>
                 </button>
