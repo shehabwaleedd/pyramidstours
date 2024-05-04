@@ -60,7 +60,7 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
             <div className={isNavbar ? styles.navbarSearch__middle : styles.landinSearch__middle}>
                 <div className={styles.formField}>
                     <label htmlFor="destination-select">Destination</label>
-                    <select id="destination-select" value={selectedDestination} onChange={e => setSelectedDestination(e.target.value)}>
+                    <select id="destination-select" aria-labelledby="destination-label" value={selectedDestination} onChange={e => setSelectedDestination(e.target.value)}>
                         <option value="">Destination</option>
                         {destinations.map((dest, index) => (
                             <option key={index} value={dest}>{dest}</option>
@@ -69,7 +69,7 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
                 </div>
                 <div className={styles.formField}>
                     <label htmlFor="days-select">Days</label>
-                    <select id="days-select" value={selectedDay} onChange={e => setSelectedDay(e.target.value)}>
+                    <select id="days-select" aria-labelledby="days-label"value={selectedDay} onChange={e => setSelectedDay(e.target.value)}>
                         <option value="">Days</option>
                         {days.map((day, index) => (
                             <option key={index} value={day}>{day}</option>
@@ -78,7 +78,7 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
                 </div>
                 <div className={styles.formField}>
                     <label htmlFor="price-select">Price From $</label>
-                    <select id="price-select" value={inputPrice} onChange={e => setInputPrice(e.target.value)}>
+                    <select id="price-select" aria-labelledby="price-label" value={inputPrice} onChange={e => setInputPrice(e.target.value)}>
                         <option value="">Price From $</option>
                         {priceRanges.map((range, index) => (
                             <option key={index} value={range}>{range}$</option>

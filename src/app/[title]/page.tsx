@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: { params: { title: string } }
     const title = slugToTile(params.title);
     const description = `Explore our ${title} and discover the best time and places to visit. Tailor-made travel planned by local experts.`;
     const keywords = `${title}, travel, tours, destinations, attractions`;
-    const url = `https://pyramidsegypttours.com/${params.title}`
+    const url = `https://pyramidsegypttour.com/${params.title}`
     type ImageMapKey = keyof typeof imageMap;
     const imageKey = params.title as ImageMapKey;
 

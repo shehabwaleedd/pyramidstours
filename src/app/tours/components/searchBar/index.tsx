@@ -77,7 +77,7 @@ const SearchBar = () => {
             <div className={styles.toursSearch__middle}>
                 <div className={styles.formField}>
                     <label htmlFor="destination-select">Destination</label>
-                    <select id="destination-select" value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
+                    <select id="destination-select"  aria-labelledby='destination-label'value={selectedDestination} onChange={(e) => setSelectedDestination(e.target.value)}>
                         <option value="">Destination</option>
                         {destinations.map((dest, index) => (
                             <option key={index} value={dest}>{dest}</option>
@@ -86,7 +86,7 @@ const SearchBar = () => {
                 </div>
                 <div className={styles.formField}>
                     <label htmlFor="days-select">Days</label>
-                    <select id="days-select" value={selectedDay} onChange={(e) => setSelectedDay(e.target.value)}>
+                    <select id="days-select" value={selectedDay}  aria-labelledby='days-label'onChange={(e) => setSelectedDay(e.target.value)}>
                         <option value="">Days</option>
                         {days.map((day, index) => (
                             <option key={index} value={day}>{day}</option>
@@ -95,7 +95,7 @@ const SearchBar = () => {
                 </div>
                 <div className={styles.formField}>
                     <label htmlFor='time-select'>Time</label>
-                    <select id='time-select' value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
+                    <select id='time-select'  aria-labelledby='time-label'value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
                         <option value="">Time</option>
                         {time.map((time, index) => (
                             <option key={index} value={time}>{time}:00</option>
@@ -104,7 +104,7 @@ const SearchBar = () => {
                 </div>
                 <div className={styles.formField}>
                     <label htmlFor='tags-selected'>Tags</label>
-                    <select id='tags-selected' value={selectedTag} onChange={(e) => setSelectedTag(e.target.value)}>
+                    <select id='tags-selected' aria-labelledby='tags-label'value={selectedTag} onChange={(e) => setSelectedTag(e.target.value)}>
                         <option value="">Tags</option>
                         {tags.map((tag, index) => (
                             <option key={index} value={tag}>{tag}</option>
@@ -113,7 +113,7 @@ const SearchBar = () => {
                 </div>
                 <div className={styles.formField}>
                     <label htmlFor='category-select'>Category</label>
-                    <select id='category-select' value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+                    <select id='category-select'  aria-labelledby="category-label"value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                         <option value="">Category</option>
                         {category.map((cat, index) => (
                             <option key={index} value={cat}>{cat}</option>
@@ -122,7 +122,7 @@ const SearchBar = () => {
                 </div>
                 <div className={styles.formField}>
                     <label htmlFor="price-select">Price From $</label>
-                    <select id='price-select' value={selectedPriceRange} onChange={(e) => setSelectedPriceRange(e.target.value)}>
+                    <select id='price-select'  aria-labelledby="price-select"value={selectedPriceRange} onChange={(e) => setSelectedPriceRange(e.target.value)}>
                         <option value="">Price Range</option>
                         {priceRanges.map((range, index) => (
                             <option key={index} value={range}>{range}$</option>

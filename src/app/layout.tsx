@@ -30,16 +30,6 @@ interface Metadata {
   keywords: string;
   author: string;
   openGraph: OpenGraph;
-  verification: {
-    google: string;
-    bing: string;
-    yahoo: string;
-    yandex: string;
-    other: {
-      me: string[];
-    }
-
-  }
   twitter: Twitter;
 }
 
@@ -64,15 +54,6 @@ export const metadata: Metadata = {
     description: "Embark on a journey through time with Pyramids Egypt Tours. Discover the ancient wonders of the Giza Pyramids, Sphinx, and more. Experience the rich history and breathtaking landscapes of Egypt with our expert-guided tours.",
     image: "https://res.cloudinary.com/dfxz1hh8s/image/upload/v1710937871/rthedhnufmo6l3rz69d0.jpg",
   },
-  verification: {
-    google: "google",
-    bing: "bing",
-    yahoo: "yahoo",
-    yandex: "yandex",
-    other: {
-      me: ['contact@pyramidsegypttour.com', 'J487J6Z6E-faTE7Fm5_MUk2l3V7VJpISScurP961l7w']
-    }
-  }
 };
 
 export const viewport = {
@@ -98,7 +79,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Footer />
           </WishlistProvider>
         </AuthProvider>
-        <GoogleAnalytics gaId="G-XYZ" />
+        <GoogleAnalytics gaId="G-RDCTEVEDHC" />
       </body>
     </html>
   );

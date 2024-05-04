@@ -21,14 +21,14 @@ export async function generateMetadata({ params }: { params: { title: string } }
     return {
         title: tour[0]?.title,
         description: cleanDescription,
-        url: `https://pyramidsegypttours/tours/${params.title}`,
+        url: `https://pyramidsegypttour/tours/${params.title}`,
         image: tour[0]?.mainImg?.url,
         openGraph: {
             type: "website",
             title: tour[0]?.title,
             description: cleanDescription,
             images: tour[0]?.mainImg,
-            url: `https://pyramidsegypttours/tours/${params.title}`,
+            url: `https://pyramidsegypttour/tours/${params.title}`,
             site_name: "Pyramids Egypt Tours",
         },
         twitter: {
