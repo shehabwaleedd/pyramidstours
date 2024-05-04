@@ -6,13 +6,21 @@ import styles from "./page.module.scss"
 import Image from 'next/image';
 import SearchField from '@/components/searchField';
 import UnifiedToursComponent from '@/components/unifiedToursComponent';
+import getBase64 from '@/lib/getLocalBase64';
 export default async function SearchPage({ searchParams }: { searchParams: { results: string } }) {
 
     const query = new URLSearchParams(searchParams).toString();
-    console.log(query, "query")
     const tours = await serverUseToursByIds(query)
-    const toursArray = await tours
-    console.log(toursArray, "toursArray")
+
+    await Promise.all(tours.map(async (tour: any) => {
+        tour.base64 = await getBase64(tour.mainImg.url).catch(e => {
+            console.error('Failed to load base64 for image:', e);
+            return '';
+        });
+    }));
+
+
+
     const isNavbar: boolean = false
     return (
         <main className={styles.searchPage}>
@@ -30,10 +38,11 @@ export default async function SearchPage({ searchParams }: { searchParams: { res
                             <h2>Results</h2>
                         </div>
                         <div className={styles.searchPage__lower_tours}>
-                            {tours.map((tour: TourType) => (
-                                <TourCard key={tour._id} tour={tour} />
+                            {tours.map((tour: TourType, index: number) => (
+                                <TourCard key={tour._id} tour={tour}  base64={tour.base64 ?? ''}  priority={index < 4}/>
                             ))}
                         </div>
+                        <UnifiedToursComponent type="like" />
                     </>
                 ) : (
                     <>
