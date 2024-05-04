@@ -3,8 +3,8 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
 import WhatsappIcon from "@/components/whatsappIcon";
-import { GoogleAnalytics } from '@next/third-parties/google'
 import { WishlistProvider } from "@/context/WishlistContext";
+import Script from "next/script"
 
 interface OpenGraph {
   type: string;
@@ -70,6 +70,18 @@ export const viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
+      <head>
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-RDCTEVEDHC"></Script>
+        <Script id="google-analytics">
+          {`{
+              window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+  
+            gtag('config', 'G-RDCTEVEDHC');
+            }`}
+        </Script>
+      </head>
       <body>
         <AuthProvider>
           <WishlistProvider>
@@ -79,7 +91,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <Footer />
           </WishlistProvider>
         </AuthProvider>
-        <GoogleAnalytics gaId="G-RDCTEVEDHC" />
       </body>
     </html>
   );
