@@ -11,8 +11,11 @@ import getBase64 from '@/lib/getLocalBase64';
 
 
 export async function generateStaticParams() {
-    const tours: { location: { to: string[] } }[] = await serverUseToursByIds('');
-    const locations: string[] = [...new Set(tours.flatMap((tour) => tour.location.to))];
+    const tours: TourType[] | null = await serverUseToursByIds('');
+    let locations: string[] = [];
+    if (tours) {
+        locations = [...new Set(tours.flatMap((tour) => tour.location.to))];
+    }
     console.log(locations, 'locations')
     return locations;
 }
@@ -49,19 +52,22 @@ export async function generateMetadata({ searchParams }: { searchParams: { resul
             description,
             image: 'https://pyramidsegypttour.com/backgroundss/default.webp',
         }
-    };}
+    };
+}
 
 export default async function SearchPage({ searchParams }: { searchParams: { results: string } }) {
 
     const query = new URLSearchParams(searchParams).toString();
     const tours = await serverUseToursByIds(query)
 
-    await Promise.all(tours.map(async (tour: any) => {
-        tour.base64 = await getBase64(tour.mainImg.url).catch(e => {
-            console.error('Failed to load base64 for image:', e);
-            return '';
-        });
-    }));
+    if (tours) {
+        await Promise.all(tours.map(async (tour: any) => {
+            tour.base64 = await getBase64(tour.mainImg.url).catch(e => {
+                console.error('Failed to load base64 for image:', e);
+                return '';
+            });
+        }));
+    }
 
 
 

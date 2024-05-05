@@ -30,8 +30,11 @@ const imageMap = {
 };
 
 export async function generateStaticParams() {
-    const tours: { tags: string[] }[] = await serverUseToursByIds('');
-    const tags: string[] = [...new Set(tours.flatMap((tour) => tour.tags))];
+    const tours: TourType[] | null = await serverUseToursByIds('');
+    let tags: string[] = [];
+    if (tours) {
+        tags = [...new Set(tours.flatMap((tour) => tour.tags))];
+    }
     return tags;
 }
 

@@ -6,9 +6,9 @@ import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds'
 import SwiperTours from '../swiperTours'
 import getBase64 from '@/lib/getLocalBase64'
 
-interface ToursProps {
+type ToursProps = {
     location?: string;
-    type?: string; // Optional type to distinguish between different modes
+    type?: 'recommended' | 'like';
 }
 
 interface EnhancedTourType extends TourType {
@@ -17,7 +17,13 @@ interface EnhancedTourType extends TourType {
 
 export default async function UnifiedToursComponent({ location, type = 'recommended' }: ToursProps) {
     const query = location ? `location.from=${location}` : '';
-    const tours: EnhancedTourType[] = await serverUseToursByIds(query);
+    const tours: EnhancedTourType[] | null = await serverUseToursByIds(query);
+
+    if (!tours) {
+        console.error('No tours found for query:', query);
+        return;
+    }
+
 
     // Load base64 for each image if not already present
     await Promise.all(tours.map(async (tour) => {

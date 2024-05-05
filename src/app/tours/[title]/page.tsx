@@ -4,6 +4,7 @@ import TourClient from './components/TourClient';
 import { serverUseToursByTitle } from '@/lib/tours/serverUseTourByTitle';
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
 import getBase64 from '@/lib/getLocalBase64';
+import { TourType } from '@/types/homePageTours';
 
 
 const slugToTitle = (slug: string): string => {
@@ -42,9 +43,13 @@ export async function generateMetadata({ params }: { params: { title: string } }
 
 
 export async function generateStaticParams() {
-    const tours: { title: string[] }[] = await serverUseToursByIds('');
-    const titles: string[] = [...new Set(tours.flatMap((tour) => tour.title))];
+    const tours: TourType[] | null = await serverUseToursByIds('');
+    let titles: string[] = [];
+    if (tours) {
+        titles = [...new Set(tours.map((tour) => tour.title))];
+    }
     return titles;
+    
 }
 
 

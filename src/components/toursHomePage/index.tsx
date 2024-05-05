@@ -9,8 +9,10 @@ async function enhancedFetchAndGroupTours() {
     const groupedTours = await fetchAndGroupTours();
 
     for (const group of groupedTours) {
-        for (const tour of group.tours) {
-            tour.base64 = await getBase64(tour.mainImg.url);
+        if (group.tours) {
+            for (const tour of group.tours) {
+                tour.base64 = await getBase64(tour.mainImg.url);
+            }
         }
     }
 
@@ -22,7 +24,14 @@ export default async function ToursHomePage() {
 
     return (
         <section className={styles.testimonials}>
-            {groupedTours.map((group, index) => ( <SwiperTours key={index} tours={group.tours} index={index} title={`${group.title}`} />))}
+            {groupedTours.map((group, index) => (
+                <SwiperTours
+                    key={index}
+                    tours={group.tours || []} 
+                    index={index}
+                    title={`${group.title}`}
+                />
+            ))}
         </section>
     );
 };

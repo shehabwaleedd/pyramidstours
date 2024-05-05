@@ -6,6 +6,7 @@ import { TourType } from '@/types/homePageTours';
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds'
 import TourCard from '@/components/card';
 import getBase64 from '@/lib/getLocalBase64';
+import Skeleton from '@/animation/skeleton';
 
 
 export async function generateMetadata() {
@@ -46,17 +47,19 @@ export async function generateMetadata() {
     };
 }
 
-export default async function Tours ({ searchParams }: { searchParams: { results: string } }) {
+export default async function Tours({ searchParams }: { searchParams: { results: string } }) {
     const query = new URLSearchParams(searchParams).toString();
     const tours = serverUseToursByIds(query)
     const toursArray = await tours
 
-    await Promise.all(toursArray.map(async (tour: any) => {
-        tour.base64 = await getBase64(tour.mainImg.url).catch(e => {
-            console.error('Failed to load base64 for image:', e);
-            return '';
-        });
-    }));
+    if (toursArray) {
+        await Promise.all(toursArray.map(async (tour: any) => {
+            tour.base64 = await getBase64(tour.mainImg.url).catch(e => {
+                console.error('Failed to load base64 for image:', e);
+                return '';
+            });
+        }));
+    }
 
     return (
         <main className={styles.tours}>
@@ -72,9 +75,13 @@ export default async function Tours ({ searchParams }: { searchParams: { results
                     <h2>Explore All Tours</h2>
                 </div>
                 <div className={styles.tours__lower_tours}>
-                    {toursArray.map((tour: TourType, index: number) => (
-                        <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4}/>
-                    ))}
+                    {toursArray ? (
+                        toursArray.map((tour: TourType, index: number) => (
+                            <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4} />
+                        ))
+                    ) : (
+                        <Skeleton />
+                    )}
                 </div>
             </section>
         </main>
