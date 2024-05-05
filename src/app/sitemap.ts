@@ -1,8 +1,16 @@
 import { MetadataRoute } from 'next';
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
 import { TourType } from '@/types/homePageTours';
+
+interface UrlObject {
+    url: string;
+    lastModified: Date;
+    changeFrequency: "weekly" | "yearly" | "always" | "hourly" | "daily" | "monthly" | "never" | undefined;
+    priority: number;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    let tourEntries = [];
+    let tourEntries: any[] = [];
     let tourCategories: any[] = [];
     try {
         tourEntries = await generateBlogPostsSitemapObjects();
@@ -12,21 +20,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         // Handle the error appropriately, perhaps logging it or sending to an error tracking service
     }
 
-    const tourUrls = tourEntries.map((o: any) => ({
+    const tourUrls: UrlObject[] = tourEntries.map((o: any) => ({
         url: `https://www.pyramidsegypttour.com/tours/${o.slug}`,
         lastModified: new Date(o.updatedAt),
         changeFrequency: 'weekly',
         priority: 0.6,
     }));
 
-    const generateCategoryUrls = (tourCategories: any[]) => tourCategories.map((o: any) => ({
-        url: `https://www.pyramidsegypttour.com/${o.slug}`,
+    const categoryUrls: UrlObject[] = tourCategories.map((o: any) => ({
+        url: `https://www.pyramidsegypttour.com/categories/${o.slug}`,
         lastModified: new Date(o.updatedAt),
         changeFrequency: 'weekly',
         priority: 0.6,
     }));
-
-    const categoryUrls = generateCategoryUrls(tourCategories);
 
     return [
         { url: 'https://www.pyramidsegypttour.com', lastModified: new Date(), changeFrequency: 'yearly', priority: 1 },
@@ -44,10 +50,14 @@ const generateBlogPostsSitemapObjects = async () => {
     try {
         const posts = await serverUseToursByIds('');
         console.log(posts, 'posts')
-        return posts.map((post: any) => ({
-            slug: post.title?.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, ''),
-            updatedAt: new Date(),
-        }));
+        if (posts) {
+            return posts.map((post: any) => ({
+                slug: post.title?.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, ''),
+                updatedAt: new Date(),
+            }));
+        } else {
+            return [];
+        }
     } catch (error) {
         console.error('Error fetching blog posts:', error);
         return [];
@@ -56,8 +66,11 @@ const generateBlogPostsSitemapObjects = async () => {
 
 const generateTourTagSitemapObjects = async () => {
     try {
-        const tours: TourType[] = await serverUseToursByIds('');
-        const tags: string[] = [...new Set(tours.flatMap((tour: any) => tour.tags))];
+        const tours: TourType[] | null = await serverUseToursByIds('');
+        let tags: string[] = [];
+        if (tours) {
+            tags = [...new Set(tours.flatMap((tour: any) => tour.tags))];
+        }
         return tags.map((tag: string) => ({
             slug: tag.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, ''),
             updatedAt: new Date(),
