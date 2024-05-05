@@ -2,10 +2,7 @@ import React from 'react'
 import styles from "./page.module.scss"
 import TourClient from './components/TourClient';
 import { serverUseToursByTitle } from '@/lib/tours/serverUseTourByTitle';
-import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
 import getBase64 from '@/lib/getLocalBase64';
-import { TourType } from '@/types/homePageTours';
-
 
 const slugToTitle = (slug: string): string => {
     return slug.replace(/-/g, ' ')
@@ -40,18 +37,6 @@ export async function generateMetadata({ params }: { params: { title: string } }
         },
     }
 }
-
-
-export async function generateStaticParams() {
-    const tours: TourType[] | null = await serverUseToursByIds('');
-    let titles: string[] = [];
-    if (tours) {
-        titles = [...new Set(tours.map((tour) => tour.title))];
-    }
-    return titles;
-    
-}
-
 
 export default async function page({ params }: { params: { title: string } }) {
 

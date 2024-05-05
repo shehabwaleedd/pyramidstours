@@ -29,14 +29,6 @@ const imageMap = {
     'dahab-day-tours': '/backgroundss/Dahab.webp'
 };
 
-export async function generateStaticParams() {
-    const tours: TourType[] | null = await serverUseToursByIds('');
-    let tags: string[] = [];
-    if (tours) {
-        tags = [...new Set(tours.flatMap((tour) => tour.tags))];
-    }
-    return tags;
-}
 
 export async function generateMetadata({ params }: { params: { title: string } }) {
     const slugToTile = (slug: string): string => {

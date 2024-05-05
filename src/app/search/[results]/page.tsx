@@ -10,16 +10,6 @@ import getBase64 from '@/lib/getLocalBase64';
 
 
 
-export async function generateStaticParams() {
-    const tours: TourType[] | null = await serverUseToursByIds('');
-    let locations: string[] = [];
-    if (tours) {
-        locations = [...new Set(tours.flatMap((tour) => tour.location.to))];
-    }
-    console.log(locations, 'locations')
-    return locations;
-}
-
 export async function generateMetadata({ searchParams }: { searchParams: { results: string } }) {
     const queryParams = new URLSearchParams(searchParams);
     const location = queryParams.get('location.to') || 'Giza Pyramids';
