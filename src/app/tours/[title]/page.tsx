@@ -4,6 +4,11 @@ import TourClient from './components/TourClient';
 import { serverUseToursByTitle } from '@/lib/tours/serverUseTourByTitle';
 import getBase64 from '@/lib/getLocalBase64';
 
+
+export const revalidate = 1;
+
+
+
 const slugToTitle = (slug: string): string => {
     return slug.replace(/-/g, ' ')
         .split(' ')

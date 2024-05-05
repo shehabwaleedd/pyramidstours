@@ -30,51 +30,54 @@ const imageMap = {
 };
 
 
-// export async function generateMetadata({ params }: { params: { title: string } }) {
-//     const slugToTile = (slug: string): string => {
-//         return slug.replace(/-/g, ' ')
-//             .split(' ')
-//             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-//             .join(' ');
-//     }
-//     const title = slugToTile(params.title);
-//     const description = `Explore our ${title} and discover the best time and places to visit. Tailor-made travel planned by local experts.`;
-//     const keywords = `${title}, travel, tours, destinations, attractions`;
-//     const url = `https://pyramidsegypttour.com/${params.title}`
-//     type ImageMapKey = keyof typeof imageMap;
-//     const imageKey = params.title as ImageMapKey;
+export async function generateMetadata({ params }: { params: { title: string } }) {
+    const slugToTile = (slug: string): string => {
+        return slug.replace(/-/g, ' ')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+    const title = slugToTile(params.title);
+    const description = `Explore our ${title} and discover the best time and places to visit. Tailor-made travel planned by local experts.`;
+    const keywords = `${title}, travel, tours, destinations, attractions`;
+    const url = `https://pyramidsegypttour.com/${params.title}`
+    type ImageMapKey = keyof typeof imageMap;
+    const imageKey = params.title as ImageMapKey;
 
-//     // Get the appropriate image URL from the image map, or default if not found
-//     const imageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/backgroundss/default.webp';
+    // Get the appropriate image URL from the image map, or default if not found
+    const imageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/backgroundss/default.webp';
 
 
-//     return {
-//         title,
-//         description,
-//         keywords,
-//         url,
-//         openGraph: {
-//             title,
-//             description,
-//             url,
-//             type: 'website',
-//             images: [
-//                 {
-//                     url: imageUrl,
-//                     width: 800,
-//                     height: 600,
-//                     alt: title,
-//                 },
-//             ],
-//             site_name: 'Pyramdis Egypt Tour',
-//         },
-//         twitter: {
-//             title: title,
-//             description: `Explore ${title} with Pyramid Egypt Tours`,
-//             cardType: 'summary_large_image',
-//         }
-//     }
-// }
+    return {
+        title,
+        description,
+        keywords,
+        url,
+        openGraph: {
+            title,
+            description,
+            url,
+            type: 'website',
+            images: [
+                {
+                    url: imageUrl,
+                    width: 800,
+                    height: 600,
+                    alt: title,
+                },
+            ],
+            site_name: 'Pyramdis Egypt Tour',
+        },
+        twitter: {
+            title: title,
+            description: `Explore ${title} with Pyramid Egypt Tours`,
+            cardType: 'summary_large_image',
+        }
+    }
+}
+
+
+export const revalidate = 1;
 
 
 export default async function MenuPage({ params }: { params: { title: string } }) {
