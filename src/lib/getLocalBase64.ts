@@ -1,20 +1,27 @@
-import { getPlaiceholder } from "plaiceholder"
+import { getPlaiceholder } from "plaiceholder";
+import axios from "axios";
 
-export default async function getBase64(imageUrl: string) {
+export default async function getBase64(imageUrl: string): Promise<string> {
     try {
-        const res = await fetch(imageUrl)
+        // Configuring Axios to return the image as a stream
+        const response = await axios.get(imageUrl, {
+            responseType: 'arraybuffer'  // Ensures the response is an array buffer
+        });
 
-        if (!res.ok) {
-            throw new Error(`Failed to fetch image: ${res.status} ${res.statusText}`)
+        // Check if the response is successful
+        if (response.status !== 200) {
+            throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`);
         }
 
-        const buffer = await res.arrayBuffer()
+        // Get the base64 representation using plaiceholder
+        const { base64 } = await getPlaiceholder(Buffer.from(response.data, 'binary'));
 
-        const { base64 } = await getPlaiceholder(Buffer.from(buffer))
-
-        return base64
+        return base64;
 
     } catch (e) {
-        if (e instanceof Error) console.log(e.stack)
+        if (e instanceof Error) {
+            console.error(e.message);
+        }
+        return ''; // Return an empty string on error
     }
 }

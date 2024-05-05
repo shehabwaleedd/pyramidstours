@@ -1,14 +1,15 @@
+import axios from "axios";
+
 export async function serverTourByTag({ tag }: { tag: string }) {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour?tags=${tag}`, { cache: "no-cache",});
-        if (!response.ok) {
-            throw new Error(`HTTP status ${response.status}`);
-        }
-        const data = await response.json();
-        return data.data.result;
+        // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour?tags=${tag}`, { cache: "no-cache",});
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tour?tags=${tag}`);
+        const data = response.data.data.result;
+        return data;
+
     } catch (error) {
         console.error("Error fetching tours:", error);
-        // Log detailed error messages or send them to a monitoring service
-        return []; // Return an empty array or appropriate error handling
+        throw error;
     }
+    
 }

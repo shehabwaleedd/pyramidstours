@@ -1,16 +1,14 @@
+import axios from "axios";
+
+
 export async function serverUseToursByTitle(query: string) {
     try {
-
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour?title=${query}`, { cache: "no-cache"  });
-        if (!res.ok) {
-            throw new Error(`Failed to fetch tours, status: ${res.status}`);
-        }
-        const data = await res.json();
-
-        return data.data.result;
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tour?title=${query}`);
+        const data = res.data.data.result;
+        return data;
     } catch (error) {
         console.error("Error fetching tours:", error);
-
         throw error;
     }
+
 }
