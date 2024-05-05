@@ -10,40 +10,40 @@ import getBase64 from '@/lib/getLocalBase64';
 
 
 
-export async function generateMetadata({ searchParams }: { searchParams: { results: string } }) {
-    const queryParams = new URLSearchParams(searchParams);
-    const location = queryParams.get('location.to') || 'Giza Pyramids';
-    const title = `Discover ${location} Tours | Pyramids Egypt Tours`;
-    const description = `Explore and book tours to ${location}. Experience the beauty and history of ${location} with our guided tours.`;
-    const canonicalUrl = `https://pyramidsegypttour.com/search?location.to=${encodeURIComponent(location)}`;
+// export async function generateMetadata({ searchParams }: { searchParams: { results: string } }) {
+//     const queryParams = new URLSearchParams(searchParams);
+//     const location = queryParams.get('location.to') || 'Giza Pyramids';
+//     const title = `Discover ${location} Tours | Pyramids Egypt Tours`;
+//     const description = `Explore and book tours to ${location}. Experience the beauty and history of ${location} with our guided tours.`;
+//     const canonicalUrl = `https://pyramidsegypttour.com/search?location.to=${encodeURIComponent(location)}`;
 
-    return {
-        title,
-        description,
-        canonicalUrl,
-        openGraph: {
-            title,
-            description,
-            url: canonicalUrl,
-            type: 'website',
-            images: [
-                {
-                    url: 'https://pyramidsegypttour.com/backgroundss/default.webp',
-                    width: 800,
-                    height: 600,
-                    alt: `${location} Tours`,
-                },
-            ],
-            site_name: 'Pyramids Egypt Tour',
-        },
-        twitter: {
-            cardType: 'summary_large_image',
-            title,
-            description,
-            image: 'https://pyramidsegypttour.com/backgroundss/default.webp',
-        }
-    };
-}
+//     return {
+//         title,
+//         description,
+//         canonicalUrl,
+//         openGraph: {
+//             title,
+//             description,
+//             url: canonicalUrl,
+//             type: 'website',
+//             images: [
+//                 {
+//                     url: 'https://pyramidsegypttour.com/backgroundss/default.webp',
+//                     width: 800,
+//                     height: 600,
+//                     alt: `${location} Tours`,
+//                 },
+//             ],
+//             site_name: 'Pyramids Egypt Tour',
+//         },
+//         twitter: {
+//             cardType: 'summary_large_image',
+//             title,
+//             description,
+//             image: 'https://pyramidsegypttour.com/backgroundss/default.webp',
+//         }
+//     };
+// }
 
 export default async function SearchPage({ searchParams }: { searchParams: { results: string } }) {
 
