@@ -32,7 +32,7 @@ const EditTour = () => {
     useEffect(() => {
         if (tour) {
             setMainImgUrl(tour.mainImg.url);
-            setNewImageFiles(tour.images.map((img: CurrentImage) => ({ file: new File([], ''), previewUrl: img.url})));
+            setNewImageFiles(tour.images.map((img: CurrentImage) => ({ file: new File([], ''), previewUrl: img.url })));
         }
     }, [tour]);
 
@@ -160,7 +160,7 @@ const EditTour = () => {
                                     <CustomField name="location.to" setFieldValue={setFieldValue} fieldType="select" label='Destination' options={presetLocations.map((loc) => ({ value: loc.value, label: loc.label }))} />
                                 </div>
                                 <ImageUploader mainImg={mainImg} setMainImg={setMainImg} mainImgUrl={mainImgUrl} setMainImgUrl={setMainImgUrl} />
-                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles}/>
+                                <ImagesUploader uploadedImages={newImageFiles} setUploadedImages={setNewImageFiles} />
                                 <DynamicFieldArray name="options" label="Options" fieldType="select" options={presetOptionNames.map((opt) => ({ value: opt.name, label: opt.name }))} />
                                 <CheckboxGroupFieldArray name="repeatTime" options={repeatedTimes} setFieldValue={setFieldValue} values={values.repeatTime} />
                                 <CheckboxGroupFieldArray name="repeatDays" options={presetWeekDays} setFieldValue={setFieldValue} values={values.repeatDays} />

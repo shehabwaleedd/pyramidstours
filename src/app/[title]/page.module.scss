@@ -74,6 +74,10 @@
         align-items: flex-start;
         position: relative;
 
+        @media (min-width: 922px) {
+            padding: 2rem;
+        }
+
         h2 {
             font-size: var(--bigger-font-size);
             font-family: var(--title-font);

@@ -108,11 +108,14 @@ export default async function MenuPage({ params }: { params: { title: string } }
             </section>
             <section className={styles.menuPage__lower}>
                 {toursArray.length > 0 ?
-                    <div className={styles.menuPage__lower_tours}>
-                        {toursArray.map((tour: TourType, index: number) => (
-                            <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4}/>
-                        ))}
-                    </div>
+                    <>
+                        <div className={styles.menuPage__lower_tours}>
+                            {toursArray.map((tour: TourType, index: number) => (
+                                <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4} />
+                            ))}
+                        </div>
+                        <UnifiedToursComponent type="like" />
+                    </>
                     : (
                         <>
                             <h2>Sorry, No Tours Found</h2>
