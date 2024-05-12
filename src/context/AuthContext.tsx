@@ -4,6 +4,7 @@ import React, { createContext, useContext, useMemo, useState, useEffect, ReactNo
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { User } from '@/types/hooks';
+import Cookies from 'js-cookie';
 
 interface AuthContextType {
     user: User | null;
@@ -31,7 +32,9 @@ interface AuthProviderProps {
     children: ReactNode;
 }
 
-
+interface UserResponse {
+    data: User;
+}
 
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -41,78 +44,59 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>('');
     const router = useRouter();
+    const token = Cookies.get("token")
 
-    const checkAuth = async () => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setLoading(false);
+    const authCheck = () => {
+        if (token) {
+            setIsLoggedIn(true);
+            fetchUser();
+        } else {
             setIsLoggedIn(false);
-            setError('No token found');
-            return;
-        }
 
-        try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/authentication`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            if (response.data.message === "success") {
-                setIsLoggedIn(true);
-                fetchUserDetails(token);
-            } else {
-                localStorage.removeItem('token');
-                setIsLoggedIn(false);
-                setError('Authentication failed');
-            }
-        } catch (error: any) {
-            console.error('Authentication error:', error);
-            localStorage.removeItem('token');
-            setIsLoggedIn(false);
-            setError(error.message || 'Unknown authentication error');
         }
-        setLoading(false);
-    };
+    }
+
 
     useEffect(() => {
-        checkAuth();
-    }, []);
+        authCheck();
+    }, [token]);
 
-    const fetchUserDetails = async (token: string) => {
+    const fetchUser = async () => {
+        setLoading(true);
         try {
-            const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
-                headers: { token }
+            const response = await axios.get<UserResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
+                headers: {
+                    token
+                }
             });
-            if (data && data.user) {
-                setUser(data.user);
-            } else {
-                setError('Failed to fetch user details');
-            }
-        } catch (error: any) {
-            console.error('Failed to fetch user details:', error);
-            setError(error.message || 'Unknown error fetching user details');
+            setUser(response.data.data);
+        } catch (error) {
+            setError('Failed to fetch user data');
+        } finally {
+            setLoading(false);
         }
-    };
+    }
 
 
 
     const handleLoginSuccess = (token: string, userData: User) => {
-        localStorage.setItem('token', token);
+        Cookies.set('token', token, { expires: new Date(new Date().getTime() + 30 * 60 * 1000) });
         localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
         setUser(userData);
         setIsLoggedIn(true);
         router.push('/account');
-    }; 
+    };
 
     const clearLocalStorage = () => {
-        localStorage.removeItem('token');
+        Cookies.remove('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('hasAnimationShown');
         localStorage.removeItem('wishlist');
     };
 
     const handleLogout = () => {
-        
+
         const resetAuthStates = () => {
             setUser(null);
             setIsLoggedIn(false);

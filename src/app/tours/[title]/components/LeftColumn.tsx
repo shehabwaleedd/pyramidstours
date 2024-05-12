@@ -11,6 +11,7 @@ import LoginForm from '@/components/loginForm/loginForm';
 import { AnimatePresence } from 'framer-motion';
 import 'react-calendar/dist/Calendar.css';
 import { useWishlist } from '@/context/WishlistContext';
+import Cookies from 'js-cookie';
 
 
 interface BookingData {
@@ -71,7 +72,7 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
 
 
     const handleSubmit = async (values: FormValues) => {
-        const token = localStorage.getItem('token');
+        const token = Cookies.get('token');
         if (!token) {
             setIsLoginOpen(true);
             return;
@@ -153,6 +154,7 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
     }
 
     return (
+
         <>
             <Formik initialValues={initialValues}
                 onSubmit={(values, { setSubmitting }) => {

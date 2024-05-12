@@ -4,7 +4,7 @@ import React, { createContext, useContext, useMemo, useState, useEffect, ReactNo
 import { User } from '@/types/hooks';
 import { TourType } from '@/types/homePageTours';
 import { useAuth } from '@/context/AuthContext';
-
+import Cookies from 'js-cookie';
 
 interface WishlistContextType {
     addToWishlist: (tour: TourType) => void;
@@ -90,7 +90,7 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
 
 
     const handleLoginSuccessForm = (token: string, userData: User) => {
-        localStorage.setItem('token', token);
+        Cookies.set('token', token, { expires: new Date(new Date().getTime() + 30 * 60 * 1000)});   
         localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
         setUser(userData);

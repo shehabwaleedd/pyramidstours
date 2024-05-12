@@ -1,3 +1,5 @@
+import { User } from "./hooks";
+
 export interface MainImg {
     url: string;
     public_id: string;
@@ -51,7 +53,8 @@ export interface TourType {
     wishList?: string[];
     tourId?: string;
     base64?: string;
-
+    userDetails?: User;
+    payment?: string;
 }
 
 
