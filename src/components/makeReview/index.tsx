@@ -23,7 +23,8 @@ const validationSchema = Yup.object({
 
 
 const LeaveReview = () => {
-    const { subscriptions, loading, error } = useAllSubscriptions()
+    const { subscriptions, error } = useAllSubscriptions()
+    const [rating, setRating] = useState<number>(0);
     const { user } = useAuth()
     const userHasSubscription = subscriptions.some(subscription => subscription?.userDetails?._id === user?.id)
     const userHasPaid = subscriptions.some(subscription => subscription?.userDetails?._id === user?.id && subscription?.payment === 'paid')
@@ -34,10 +35,14 @@ const LeaveReview = () => {
         rating: ''
     }
 
+    const handleRating = (rate: number) => {
+        setRating(rate);
+    };
+
     const handleSubmit = async (values: FormValues) => {
         const formData = new FormData()
         formData.append('comment', values.comment)
-        formData.append('rating', values.rating)
+        formData.append('rating', String(rating));
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/review`, { values, }, {
                 headers: {
@@ -47,7 +52,7 @@ const LeaveReview = () => {
             })
             if (response.status === 200 && response.data.message === 'success') {
                 toast.success('Review submitted successfully')
-            } 
+            }
         } catch (error) {
             console.error('Error submitting review:', error)
             toast.error('Error submitting review. Please try again.')
@@ -55,28 +60,33 @@ const LeaveReview = () => {
     }
 
 
+
+
     return (
         <>
             {userQualifiedToReview && (
                 <section className={styles.review}>
-                    <h2>Hello, {user?.name}! Leave a Review</h2>
+                    <h2>Hello, {user?.name}🫶 Your review would mean the world for us</h2>
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationSchema}
                         onSubmit={handleSubmit}
                     >
-                        <Form>
+                        <Form className={styles.review_container}>
+                            <div className={styles.register__form__group_column}>
+                                <label> Rate </label>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span key={star} onClick={() => handleRating(star)} style={{ color: rating >= star ? 'gold' : 'grey', cursor: "pointer" }}>
+                                        {rating >= star ? '★' : '☆'}
+                                    </span>
+                                ))}
+                            </div>
                             <CustomField
                                 label="Comment"
                                 name="comment"
-                                fieldType="input"
+                                fieldType="textarea"
                             />
-                            <CustomField
-                                label="Rating"
-                                name="comment"
-                                fieldType="input"
-                            />
-                            <button type="submit">Submit</button>
+                            <button className={styles.review_container_button} type="submit">Submit</button>
                         </Form>
                     </Formik>
                 </section>

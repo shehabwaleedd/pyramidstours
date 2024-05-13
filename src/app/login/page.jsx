@@ -37,7 +37,6 @@ const Page = () => {
 
                 if (response.status === 200 && response.data.message === "success") {
                     setUser(response.data.data);
-                    console.log('User data:', response.data.data);
                     handleLoginSuccess(response.data.token, response.data.data);
                 }
             } catch (err) {
@@ -56,11 +55,7 @@ const Page = () => {
         },
     });
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            router.push('/account');
-        }
-    }, [router]);
+
 
 
 

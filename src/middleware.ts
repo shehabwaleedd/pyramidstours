@@ -1,44 +1,31 @@
 // middleware.ts (in your Next.js application root)
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { cookies } from "next/headers";
 
-export async function middleware(req: NextRequest) {
+export function middleware(req: NextRequest) {
+    const { pathname } = req.nextUrl;
     const token = cookies()?.get('token')?.value;
-    if (!token) {
-        console.log('No token found')
-        return NextResponse.redirect(new URL('/login', req.url));
+    console.log('middleware', { pathname, token })
+
+    // Redirect authenticated users away from login and register pages
+    if (token && (pathname === '/login' || pathname === '/register')) {
+        const url = req.nextUrl.clone();
+        url.pathname = '/'; // Redirect to home page if already logged in
+        return NextResponse.redirect(url);
     }
 
-    console.log('Token found:', token)
-
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/authentication`, {
-            method: 'GET',
-            headers: {
-                token,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Authentication failed with status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (data.message === "success") {
-            console.log('Authentication successful:', data.data);
-            return NextResponse.next();
-        } else {
-            throw new Error('Authentication failed: ' + data.message);
-        }
-    } catch (error) {
-        console.error('Authentication error:', error);
-        return NextResponse.redirect(new URL('/login', req.url));
+    // Redirect unauthenticated users trying to access restricted paths
+    if (!token && pathname.startsWith('/account')) {
+        const url = req.nextUrl.clone();
+        url.pathname = '/login'; // Redirect to login page if not logged in
+        return NextResponse.redirect(url);
     }
+
+    // Pass through for all other cases
+    return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/account/:path*']
+    matcher: ['/account/:path*', '/login', '/register']  // Apply middleware to these paths
 };

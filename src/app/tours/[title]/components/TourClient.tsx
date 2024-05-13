@@ -10,6 +10,7 @@ import RightColumn from './RightColumn';
 import LeftColumn from './LeftColumn';
 import { TourType } from '@/types/homePageTours';
 import UnifiedToursComponent from '@/components/unifiedToursComponent';
+import LeaveReview from '@/components/makeReview';
 
 interface TourClientProps {
     tour: TourType;
@@ -65,6 +66,7 @@ const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
                     {tour && <RightColumn tour={tour} />}
                 </aside>
                 <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />
+                <LeaveReview />
             </section>
             <UnifiedToursComponent location={tour.location.from} type="recommended" />
             <UnifiedToursComponent type="like" />

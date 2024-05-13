@@ -24,6 +24,7 @@
     "plaiceholder": "^3.0.0",
     "react": "^18",
     "react-calendar": "^4.8.0",
+    "react-confetti": "^6.1.0",
     "react-country-region-selector": "^3.6.1",
     "react-dom": "^18",
     "react-icons": "^5.0.1",

@@ -55,6 +55,7 @@ export interface TourType {
     base64?: string;
     userDetails?: User;
     payment?: string;
+    price?: number;
 }
 
 

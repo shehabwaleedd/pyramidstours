@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { TourType } from "@/types/homePageTours";
 
-export const useTourById = (id: string) => {
+export const useTourById = (id: string | null) => {
     const [tour, setTour] = useState<TourType | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 

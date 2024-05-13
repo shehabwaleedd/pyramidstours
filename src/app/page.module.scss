@@ -65,3 +65,23 @@
   }
 
 }
+
+.submitButton {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid var(--title-color);
+  border-radius: 2rem;
+  font-size: 1.5rem;
+  background-color: var(--title-color);
+  color: var(--background-color);
+  cursor: pointer;
+  transition: var(--animation-primary);
+  margin-top: 3vh;
+
+  &:hover {
+    transition: var(--animation-primary);
+    background-color: var(--accent-color);
+    color: var(--title-color);
+    font-family: var(--title-font);
+  }
+}

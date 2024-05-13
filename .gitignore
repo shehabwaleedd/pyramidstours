@@ -18,6 +18,7 @@
 /env
 /.env.local
 /.env
+.env
 
 # misc
 .DS_Store

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { SubscriptionData } from '@/types/common';
+import Cookies from 'js-cookie';
 
 interface ApiResponse {
     message: string;
@@ -16,7 +17,7 @@ const useSubscriptionById = (id: string) => {
         setLoading(true);
         try {
             const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription/${id}`, {
-                headers: { token: localStorage.getItem('token') },
+                headers: { token: Cookies.get('token') },
             });
             if (response.data.data.length > 0) {
                 setSubscription(response.data.data[0]);  // Now correctly setting a single SubscriptionData object

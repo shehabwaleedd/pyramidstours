@@ -49,7 +49,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 const generateBlogPostsSitemapObjects = async () => {
     try {
         const posts = await serverUseToursByIds('');
-        console.log(posts, 'posts')
         if (posts) {
             return posts.map((post: any) => ({
                 slug: post.title?.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, ''),
@@ -71,6 +70,7 @@ const generateTourTagSitemapObjects = async () => {
         if (tours) {
             tags = [...new Set(tours.flatMap((tour: any) => tour.tags))];
         }
+        console.log(tags, "tags")
         return tags.map((tag: string) => ({
             slug: tag.replace(/\s+/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, ''),
             updatedAt: new Date(),
