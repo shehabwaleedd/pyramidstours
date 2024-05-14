@@ -3,6 +3,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
 import WhatsappIcon from "@/components/whatsappIcon";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import Script from "next/script"
 
@@ -85,8 +86,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <AuthProvider>
           <WishlistProvider>
-            <Navbar />
-            {children}
+            <CurrencyProvider>
+              <Navbar />
+              {children}
+            </CurrencyProvider>
             <WhatsappIcon />
             <Footer />
           </WishlistProvider>

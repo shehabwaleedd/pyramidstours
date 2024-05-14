@@ -7,6 +7,27 @@ import Image from 'next/image';
 import styles from "./style.module.scss"
 import { useWishlist } from '@/context/WishlistContext';
 import { IoMdHeartEmpty } from "react-icons/io";
+import { useCurrency } from '@/context/CurrencyContext';
+
+const currencySymbols: { [key: string]: string } = {
+    USD: '$',
+    EUR: '€',
+    EGP: '£',
+    SAR: '﷼',
+    MXN: '$',
+    GBP: '£',
+    JPY: '¥',
+    AUD: 'A$',
+    CAD: 'C$',
+    CHF: 'CHF',
+    CNY: '¥',
+    INR: '₹',
+    BRL: 'R$',
+    ZAR: 'R',
+    RUB: '₽',
+};
+
+
 
 const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> = ({ tour, base64, priority }) => {
 
@@ -14,6 +35,7 @@ const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> 
     const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
     const isInWishlist = useMemo(() => wishlist.some(item => item._id === tour._id), [wishlist, tour._id]);
     const slugTitle = tour.title.replace(/ /g, '-').toLowerCase();
+    const { currency, rates } = useCurrency();
 
 
     if (!tour) {
@@ -46,13 +68,22 @@ const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> 
     }
 
 
-    const originalPrice = parseFloat(String(tour.adultPricing.find(p => p.adults === 1)?.price ?? '0'));
-    const increasedPrice = tour.hasOffer ? originalPrice * 1.15 : originalPrice;
+    const originalPriceUSD = parseFloat(String(tour.adultPricing.find((p) => p.adults === 1)?.price ?? '0'));
+    const increasedPriceUSD = tour.hasOffer ? originalPriceUSD * 1.15 : originalPriceUSD;
 
     // Round to nearest 5
-    const roundedPrice = Math.round(increasedPrice / 5) * 5;
+    const roundedPriceUSD = Math.round(increasedPriceUSD / 5) * 5;
 
+    const convertPrice = (price: number, toCurrency: string) => {
+        if (!rates[toCurrency]) return price;
+        return (price * rates[toCurrency]).toFixed(2);
+    };
 
+    const originalPrice = convertPrice(originalPriceUSD, currency);
+    const displayPrice = convertPrice(increasedPriceUSD, currency);
+    const roundedPrice = convertPrice(roundedPriceUSD, currency);
+
+    const currencySymbol = currencySymbols[currency] || '';
 
     return (
         <div className={styles.tours__container_card} onClick={() => handleTourClick(slugTitle)}>
@@ -64,7 +95,7 @@ const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> 
                     width={500}
                     height={500}
                     priority={priority}
-                    loading={priority ? 'eager' : 'lazy'} 
+                    loading={priority ? 'eager' : 'lazy'}
                     blurDataURL={base64}
                     placeholder="blur"
                 />
@@ -89,11 +120,20 @@ const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> 
                 <div className={styles.bottom_group}>
                     {tour.hasOffer ? (
                         <>
-                            <span>From $<span style={{ textDecoration: 'line-through' }}>{roundedPrice}</span></span>
-                            <span>${originalPrice},</span>
+                            <span>
+                                From {currencySymbol}
+                                <span style={{ textDecoration: 'line-through' }}>{roundedPrice}</span>
+                            </span>
+                            <span>
+                                {currencySymbol}
+                                {displayPrice}
+                            </span>
                         </>
                     ) : (
-                        <span>From ${originalPrice},</span>
+                        <span>
+                            From {currencySymbol}
+                            {originalPrice}
+                        </span>
                     )}
                     <span>{tour.location.to}</span>
                 </div>
