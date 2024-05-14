@@ -1,0 +1,13 @@
+.select {
+    select {
+        border: none;
+        border-bottom: 1px solid var(--title-color);
+        background-color: transparent;
+        color: var(--title-color);
+
+        &:focus {
+            outline: none;
+        }
+        
+    }
+}
