@@ -193,6 +193,9 @@ const Navbar = () => {
 
                     <ul className={styles.navbar__right_right}>
                         <li>
+                            <CurrencyConverter />
+                        </li>
+                        <li>
                             {isLoggedIn ?
                                 (<button onClick={toggleProfileOpen} aria-label="Open profile">
                                     <LiaUserSolid style={{ fontSize: "1.6rem" }} />
@@ -209,9 +212,7 @@ const Navbar = () => {
                             </button>
                             <span>{wishlistCount ?? 0}</span>
                         </li>
-                        <li>
-                            <CurrencyConverter />
-                        </li>
+
                         <li className={styles.desktop_menu}>
                             <button onClick={toggleDesktopNavOpen} aria-label="Toggle navigation"><TbMenuDeep style={{ fontSize: "2rem", position: "relative", right: "0.5rem" }} /></button>
                         </li>

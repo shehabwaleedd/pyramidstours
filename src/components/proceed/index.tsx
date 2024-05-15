@@ -1,4 +1,3 @@
-// components/Proceed.tsx
 'use client';
 import { SubscriptionData } from '@/types/common';
 import React, { useState } from 'react';
@@ -17,18 +16,6 @@ const currencySymbols: { [key: string]: string } = {
     USD: '$',
     EUR: '€',
     EGP: '£',
-    SAR: '﷼',
-    MXN: '$',
-    GBP: '£',
-    JPY: '¥',
-    AUD: 'A$',
-    CAD: 'C$',
-    CHF: 'CHF',
-    CNY: '¥',
-    INR: '₹',
-    BRL: 'R$',
-    ZAR: 'R',
-    RUB: '₽',
 };
 
 const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSubscriptionOpen: (value: boolean) => void }) => {

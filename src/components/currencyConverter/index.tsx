@@ -4,10 +4,8 @@ import { useCurrency } from '@/context/CurrencyContext';
 import styles from "./style.module.scss"
 
 const CurrencyConverter: React.FC = () => {
-    const { currency, setCurrency, isLoading, error } = useCurrency();
+    const { currency, setCurrency} = useCurrency();
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading exchange rates</div>;
 
     return (
 
@@ -16,18 +14,6 @@ const CurrencyConverter: React.FC = () => {
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
                 <option value="EGP">EGP</option>
-                <option value="SAR">SAR</option>
-                <option value="MXN">MXN</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
-                <option value="AUD">AUD</option>
-                <option value="CAD">CAD</option>
-                <option value="CHF">CHF</option>
-                <option value="CNY">CNY</option>
-                <option value="INR">INR</option>
-                <option value="BRL">BRL</option>
-                <option value="ZAR">ZAR </option>
-                <option value="RUB">RUB</option>
             </select>
         </div>
 
