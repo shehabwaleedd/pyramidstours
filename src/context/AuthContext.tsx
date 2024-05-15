@@ -83,7 +83,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const authValue = useMemo(
         () => ({ user, setUser, isLoggedIn, setIsLoggedIn, loading, handleLoginSuccess, handleLogout }),
         [user, isLoggedIn, loading]
-      );
+    );
 
     return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
 };

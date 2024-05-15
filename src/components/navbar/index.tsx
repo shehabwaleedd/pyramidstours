@@ -17,7 +17,6 @@ import { background } from './anim';
 import { useWishlist } from '@/context/WishlistContext';
 import { IoMdHeartEmpty } from "react-icons/io";
 import CurrencyConverter from '../currencyConverter';
-import { useCurrency } from '@/context/CurrencyContext';
 
 const NavbarData = [
     {
@@ -84,7 +83,6 @@ const NavbarData = [
 const NavbarItem = ({ item, expandable }: { item: any, expandable: boolean }) => {
     const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
-    const { currency } = useCurrency();
 
     const handleDropdown = (id: number | null) => {
         if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);

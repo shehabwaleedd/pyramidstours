@@ -109,7 +109,7 @@
             transition: color 0.3s;
             font-family: var(--body-font);
             position: relative;
-            width: 100%;
+            width: fit-content;
             height: fit-content;
             text-transform: capitalize;
 
@@ -128,7 +128,7 @@
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: flex-start;
-                width: 18vw;
+                width: calc(max-content * 10vw);
                 background-color: var(--background-color);
                 border-radius: 1rem;
                 padding: 1rem;

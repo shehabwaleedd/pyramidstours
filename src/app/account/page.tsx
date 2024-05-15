@@ -17,7 +17,7 @@ import CreateTour from './tours/createTour/page'
 import { AnimatePresence, motion } from 'framer-motion'
 import UserSubscriptions from '@/components/accountComponents/userSubscriptions'
 const Account = () => {
-    const { user, loading, error, setUser, handleLogout, isLoggedIn } = useAuth();
+    const { user, loading, setUser, handleLogout, isLoggedIn } = useAuth();
     const [activeSection, setActiveSection] = useState<string>('');
     const router = useRouter();
 
