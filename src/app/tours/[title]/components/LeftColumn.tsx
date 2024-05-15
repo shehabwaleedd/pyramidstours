@@ -13,6 +13,7 @@ import 'react-calendar/dist/Calendar.css';
 import { useWishlist } from '@/context/WishlistContext';
 import Cookies from 'js-cookie';
 import { useCurrency } from '@/context/CurrencyContext';
+import { toast } from 'sonner';
 
 const currencySymbols: { [key: string]: string } = {
     USD: '$',
@@ -125,12 +126,13 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
             if (response.data.message === "Subscription created successfully") {
                 setSubscriptionData(response.data.data);
                 setSubscriptionOpen(true);
+                toast.success('Subscription created successfully');
             } else {
-                setErrorMessage("Failed to create subscription: " + response.data.err);
+                toast.error('Subscription failed, Try Again.')
             }
 
         } catch (error: any) {
-            setErrorMessage(error.response?.data?.err || error.response?.err);
+            toast.error(error.response?.data?.err || error.response?.err)
         }
     };
 
@@ -249,7 +251,6 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                                 <h2>Total Price: {currencySymbol}{calculateTotalCost(values, tour, optionCounts)}</h2>
                             </div>
                         </div>
-                        {errorMessage && <div role="alert" style={{ color: "red" }}>{errorMessage}</div>}
                         <button type="submit" className={styles.submitButton} disabled={isSubmitting} aria-label="Book now button">
                             {isSubmitting ? 'Booking...' : 'Book Now'}
                         </button>

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import styles from "./page.module.scss"
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 const Page = () => {
     const [errorFromDataBase, setErrorFromDataBase] = useState('')
@@ -48,7 +49,7 @@ const Page = () => {
                         errorMessage = err.response.data.map(e => e.message || e).join('\n');
                     }
                 }
-                setErrorFromDataBase(errorMessage);
+                toast.error(errorMessage);
             } finally {
                 setIsLoading(false);
             }

@@ -6,12 +6,12 @@ import * as Yup from 'yup';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../../context/AuthContext';
 import styles from "./style.module.scss";
+import { toast } from 'sonner';
 
 const ForgotPassword = () => {
     const { user } = useAuth();
-    const userRegisteredEmail = user?.email;
-    const [step, setStep] = useState(1); 
-    const [emailForReset, setEmailForReset] = useState(''); 
+    const [step, setStep] = useState(1);
+    const [emailForReset, setEmailForReset] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
     const getInitialValues = () => {
         switch (step) {
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
                 });
             case 2:
                 return Yup.object({
-                    code: Yup.string().required('Required'), 
+                    code: Yup.string().required('Required'),
                 });
             case 3:
                 return Yup.object({
@@ -51,12 +51,13 @@ const ForgotPassword = () => {
                 case 1:
                     // Check if the entered email matches the user's registered email
                     if (values.email !== user?.email) {
-                        alert('The provided email does not match the registered email.');
+                        toast.error('The provided email does not match the registered email.');
                         break;
                     }
                     // If email matches, proceed with sending the verification code
                     await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/user/sendCode`, { email: values.email });
                     setEmailForReset(values.email); // Store the email for later use
+                    toast.success('Verification code sent successfully!');
                     setStep(2);
                     break;
                 case 2:
@@ -68,9 +69,10 @@ const ForgotPassword = () => {
                     });
 
                     if (response.data.message === 'success' && response.data.data === 'correct code') {
-                        setStep(3); // If verification successful, proceed to password reset
+                        toast.success('Verification successful!');
+                        setStep(3); 
                     } else {
-                        alert('Verification code is incorrect.');
+                        toast.error('Verification code is incorrect.');
                     }
                     break;
                 case 3:
@@ -80,7 +82,7 @@ const ForgotPassword = () => {
                         newPassword: values.newPassword,
                         code: verificationCode, // Include the code from step 2
                     });
-                    alert('Your password has been updated successfully!');
+                    toast.success('Your password has been updated successfully!');
                     resetForm();
                     setStep(1); // Reset to the initial step
                     break;
@@ -89,12 +91,12 @@ const ForgotPassword = () => {
             }
         } catch (error) {
             console.error('An error occurred:', error.response?.data?.err || 'Please try again later.');
-            alert(error.response?.data?.err || 'An error occurred. Please try again later.');
+            toast.error(error.response?.data?.err || 'An error occurred. Please try again later.');
         } finally {
             setSubmitting(false);
         }
     };
-    
+
     return (
         <section className={styles.forgotPassword}>
             <h2>Forgot Password</h2>
@@ -147,12 +149,12 @@ const ForgotPassword = () => {
                                     </button>
                                 </>
                             )}
-                            
+
                         </Form>
-                        
+
                     </motion.div>
                 )}
-                {}
+                { }
             </Formik>
         </section>
     );

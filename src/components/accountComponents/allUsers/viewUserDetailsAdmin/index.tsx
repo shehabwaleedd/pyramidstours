@@ -9,6 +9,7 @@ import { FiUser } from "react-icons/fi";
 import axios from 'axios';
 import { useUserById } from '@/lib/user/useUserById';
 import global from "../../../../app/page.module.scss"
+import { toast } from 'sonner';
 
 interface ViewUserDetailsAdminProps {
     userOpen: string;
@@ -30,13 +31,13 @@ const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, s
                     },
                 });
                 if (response.status === 200) {
-                    alert("User has been deleted");
+                    toast.success("User has been deleted");
                     setUserOpen(null);
                 }
             }
             catch (error) {
                 console.log(error);
-                alert("Failed to delete user, please try again later");
+                toast.error("Failed to delete user, please try again later");
             }
         }
     }

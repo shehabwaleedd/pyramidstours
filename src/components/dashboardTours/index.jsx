@@ -5,12 +5,11 @@ import Image from 'next/image'
 import { useRouter } from "next/navigation"
 import Loading from '@/animation/loading/Loading'
 import axios from 'axios'
-import { useAuth } from '@/context/AuthContext'
+import { toast } from 'sonner'
 
 
 const DashboardTours = ({ tours, loading, title }) => {
     const router = useRouter();
-    const { user } = useAuth();
     const handleEditClick = (eventId) => {
         router.push(`/account/tours/edit/${eventId}`);
     };
@@ -26,13 +25,13 @@ const DashboardTours = ({ tours, loading, title }) => {
                 });
 
                 if (response.status === 200) {
-                    alert("Event deleted successfully.");
+                    toast.success("Tour deleted successfully.");
                 } else {
-                    throw new Error("Failed to delete event.");
+                    throw new Error("Failed to delete tour.");
                 }
             } catch (error) {
-                console.error("Error deleting event:", error);
-                alert("There was a problem deleting the event, please try again later.");
+                console.error("Error deleting tour:", error);
+                toast.error("There was a problem deleting the event, please try again later.");
             }
         }
     };

@@ -5,7 +5,7 @@ import { User } from '@/types/hooks';
 import { TourType } from '@/types/homePageTours';
 import { useAuth } from '@/context/AuthContext';
 import Cookies from 'js-cookie';
-
+import { toast } from 'sonner';
 interface WishlistContextType {
     addToWishlist: (tour: TourType) => void;
     removeFromWishlist: (tourId: string) => void;
@@ -51,6 +51,7 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
 
             const newWishlist = [...wishlist, tour];
             localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+            toast.success('Tour added to wishlist');
             setWishlist(newWishlist);
         }
 
@@ -61,8 +62,8 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
             setIsLoginOpen(true);
         } else {
             const newWishlist = wishlist.filter(tour => tour._id !== tourId);
-            console.log("Updated wishlist after removal:", newWishlist);
             localStorage.setItem('wishlist', JSON.stringify(newWishlist));
+            toast.success('Tour removed from wishlist');
             setWishlist(newWishlist);
         }
     };
@@ -93,6 +94,7 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
         Cookies.set('token', token, { expires: new Date(new Date().getTime() + 30 * 60 * 1000)});   
         localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
+        toast.success('Login successful');
         setUser(userData);
         setIsLoggedIn(true);
     };

@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import styles from "./style.module.scss";
-
+import { toast } from 'sonner';
 // TypeScript types for form values
 interface FormValues {
     password: string;
@@ -28,7 +28,7 @@ const ChangePasswordForm = () => {
 
     const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
         const payload = {
-            password: values.password, 
+            password: values.password,
             newPassword: values.newPassword,
             reNewPassword: values.reNewPassword,
         };
@@ -39,15 +39,15 @@ const ChangePasswordForm = () => {
             });
 
             if (response.data.success) {
-                alert('Password changed successfully');
+                toast.success('Password changed successfully');
                 resetForm();
             } else {
-                setErrors('Error changing password. Please try again.');
+                toast.error('Error changing password. Please try again.');
             }
         } catch (error: any) {
             console.error('Error changing password:', error);
             const errorMessage = error.response?.data?.err || 'Error changing password. Please try again.';
-            setErrors(errorMessage);
+            toast.error(errorMessage);
         }
 
         setSubmitting(false);

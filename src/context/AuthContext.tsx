@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { User } from '@/types/hooks';
 import Cookies from 'js-cookie';
+import { toast } from 'sonner';
+
 
 interface AuthContextType {
     user: User | null;
@@ -83,6 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         Cookies.set('token', token, { expires: new Date(new Date().getTime() + 30 * 60 * 1000) });
         localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
+        toast.success('Login successful, Redirecting to dashboard...');
         setUser(userData);
         setIsLoggedIn(true);
         router.push('/account');
@@ -101,6 +104,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setUser(null);
             setIsLoggedIn(false);
         };
+        toast.success('Logged out successfully')
         clearLocalStorage();
         resetAuthStates();
         router.push('/login');
@@ -116,7 +120,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         handleLoginSuccess,
         handleLogout,
         error,
-    }), [user, isLoggedIn, loading, error, setIsLoggedIn]);
+    }), [user, isLoggedIn, setIsLoggedIn]);
     return (
         <AuthContext.Provider value={authValue}>
             {children}

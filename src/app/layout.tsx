@@ -6,6 +6,7 @@ import WhatsappIcon from "@/components/whatsappIcon";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import Script from "next/script"
+import { Toaster } from "sonner";
 
 interface OpenGraph {
   type: string;
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <WishlistProvider>
             <CurrencyProvider>
               <Navbar />
+              <Toaster />
               {children}
             </CurrencyProvider>
             <WhatsappIcon />

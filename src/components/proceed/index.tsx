@@ -6,10 +6,9 @@ import globalStyles from '../../app/page.module.scss';
 import axios from 'axios';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 import { useCurrency } from '@/context/CurrencyContext';
 import Cookies from 'js-cookie';
-
 const defaultImage = '/no-image.webp';
 
 const currencySymbols: { [key: string]: string } = {
@@ -36,6 +35,7 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
                 { headers: { token: Cookies.get('token') } }
             );
             if (response.data && response.data.data) {
+                toast.success('Payment initiation successful, redirecting to payment page...')
                 window.location.href = response.data.data.url;
             } else {
                 console.error('Failed to make payment:', response.data);
@@ -58,7 +58,6 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
 
     return (
         <motion.section className={`${styles.proceed} ${globalStyles.bottomGlass}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
-            <Toaster />
             <div className={styles.proceed__upper}>
                 <h2>Your Order</h2>
                 <button onClick={handleClose} className={styles.close_button}>close</button>
