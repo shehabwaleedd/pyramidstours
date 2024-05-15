@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 const AboutLower = () => {
     const width = useWindowWidth()
-    const isMobile = width !== null && width < 768;
+    const isMobile = width !== null && width < 1168;
 
     const data = [
         {
@@ -29,7 +29,7 @@ const AboutLower = () => {
     return (
         <section className={styles.about_lower}>
             {data.map((item, index) => (
-                <div key={index} className={styles.about_lower_card} style={{ flexDirection: isMobile ? "column" : (index % 2 === 0 ? "row" : "row-reverse") }}>
+                <div key={index} className={styles.about_lower_card} style={{ flexDirection: isMobile ? "column-reverse" : (index % 2 === 0 ? "row" : "row-reverse") }}>
                     <Image src={item.image} alt="about" width={1920} height={1080} />
                     <div className={styles.about_lower_card_text}>
                         <span> 0{index + 1}</span>
