@@ -11,6 +11,8 @@ import LeftColumn from './LeftColumn';
 import { TourType } from '@/types/homePageTours';
 import UnifiedToursComponent from '@/components/unifiedToursComponent';
 import LeaveReview from '@/components/makeReview';
+import TourUpper from './TourUpper';
+import TourBelow from './TourBelow';
 
 interface TourClientProps {
     tour: TourType;
@@ -25,42 +27,11 @@ const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
         return cleanedLink;
     };
 
-
-
-    if (!tour) {
-        return null
-    }
-
-
     return (
         <>
             <section className={styles.eventDetails}>
-                <div className={styles.eventDetails__mainImage}>
-                    <Image src={tour?.mainImg?.url ?? ''} width={1800} height={1000} alt='Main Image' className={styles.mainImage}
-                        placeholder="blur" blurDataURL={base64} priority={true}
-                    />
-                    <div className={styles.eventDetails__mainImage_abs}>
-                        <div className={styles.eventDetails__mainImage__upper}>
-                            <h1>{tour?.title}</h1>
-                        </div>
-                        <div className={styles.eventDetails__mainImage__upper_details} style={{ flexWrap: "wrap" }}>
-                            {tour?.tags?.map((tag, index) => (
-                                <Link href={`/${tag}`} key={index} aria-label={`#${tag}`}><CiHashtag />{tag}</Link>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.eventDetails__intro}>
-                    <div className={styles.eventDetails__intro_title}>
-                        <h2>{tour?.title}</h2>
-                    </div>
-                    <div className={styles.eventDetails__intro_desc}>
-                        <p> <IoLocationSharp /> {tour?.location?.from}, {tour?.location?.to} </p>
-                        <p> <FiClock /> {tour?.duration} </p>
-                        <p> <BsCurrencyDollar />   From ${tour?.adultPricing?.find(p => p.adults === 1)?.price ?? 'N/A'}</p>
-                        <Link href={`/search/${tour?.category}`}  aria-label={tour?.category}> <IoPricetagOutline /> {tour?.category} </Link>
-                    </div>
-                </div>
+                <TourUpper  tour={tour} base64={base64} />
+                <TourBelow tour={tour} />
                 <aside className={styles.eventDetails__lower}>
                     {tour && <LeftColumn tour={tour} />}
                     {tour && <RightColumn tour={tour} />}

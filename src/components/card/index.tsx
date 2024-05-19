@@ -8,6 +8,7 @@ import styles from "./style.module.scss"
 import { useWishlist } from '@/context/WishlistContext';
 import { IoMdHeartEmpty } from "react-icons/io";
 import { useCurrency } from '@/context/CurrencyContext';
+import Link from 'next/link';
 
 const currencySymbols: { [key: string]: string } = {
     USD: '$',
@@ -86,7 +87,7 @@ const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> 
     const currencySymbol = currencySymbols[currency] || '';
 
     return (
-        <div className={styles.tours__container_card} onClick={() => handleTourClick(slugTitle)}>
+        <Link className={styles.tours__container_card} href={`/tours/${slugTitle}`} aria-label={`View ${tour.title}`}>
             <div className={styles.image}>
                 <Image src={tour.mainImg.url}
                     objectFit='cover'
@@ -140,7 +141,7 @@ const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> 
                 <p>{tour.description.replace(/<[^>]*>/g, '').slice(0, 150)}...</p>
                 <button onClick={() => handleTourClick(slugTitle)} aria-label={`Book ${tour.title}`}>Book Now</button>
             </div>
-        </div>
+        </Link>
     )
 }
 

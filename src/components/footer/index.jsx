@@ -8,6 +8,7 @@ const Footer = () => {
         <footer className={styles.footer}>
             <Image src="/footer.webp" alt="Footer Background" width={900} height={900} />
             <section className={styles.footer_abs}>
+                <div className="noise"></div>
                 <section className={styles.footer__upper}>
                     <h2>
                         Pyramids Egypt Tour
@@ -31,7 +32,7 @@ const Footer = () => {
                         </li>
                         <li>
                             <span>
-                                Made by <Link href="https://www.cairo-studio.com" style={{ color: "var(--accent-color)" }} aria-label="Cairo Studio"> Cairo Studio</Link>
+                                Made by <Link href="https://www.cairo-studio.com" style={{ borderBottom: "1px solid #D8A01B" }} aria-label="Cairo Studio"> Cairo Studio</Link>
                             </span>
                         </li>
                     </ul>

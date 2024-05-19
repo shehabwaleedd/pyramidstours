@@ -5,6 +5,9 @@ import { TourType } from '@/types/homePageTours';
 import styles from "./styles.module.scss"
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Destinations from './components/Destinations';
+import Days from './components/Days';
+import Price from './components/Price';
 
 interface ApiResponse {
     message: string;
@@ -49,7 +52,7 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
         const query: Record<string, string> = {};
         if (selectedDestination) query['location.to'] = selectedDestination;
         if (selectedDay) query['repeatDays'] = selectedDay;
-        if (inputPrice) query['adultPricing.price'] = inputPrice;
+        if (inputPrice) query['price'] = `<=${inputPrice}`;
         const queryString = new URLSearchParams(query).toString();
         router.push(`/search/results?${queryString}`);
 
@@ -58,33 +61,9 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
     return (
         <form onSubmit={handleSearch} className={isNavbar ? styles.navbarSearch : styles.landinSearch}>
             <div className={isNavbar ? styles.navbarSearch__middle : styles.landinSearch__middle}>
-                <div className={styles.formField}>
-                    <label htmlFor="destination-select">Destination</label>
-                    <select id="destination-select" aria-labelledby="destination-label" value={selectedDestination} onChange={e => setSelectedDestination(e.target.value)}>
-                        <option value="">Destination</option>
-                        {destinations.map((dest, index) => (
-                            <option key={index} value={dest}>{dest}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className={styles.formField}>
-                    <label htmlFor="days-select">Days</label>
-                    <select id="days-select" aria-labelledby="days-label"value={selectedDay} onChange={e => setSelectedDay(e.target.value)}>
-                        <option value="">Days</option>
-                        {days.map((day, index) => (
-                            <option key={index} value={day}>{day}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className={styles.formField}>
-                    <label htmlFor="price-select">Price From $</label>
-                    <select id="price-select" aria-labelledby="price-label" value={inputPrice} onChange={e => setInputPrice(e.target.value)}>
-                        <option value="">Price From $</option>
-                        {priceRanges.map((range, index) => (
-                            <option key={index} value={range}>{range}$</option>
-                        ))}
-                    </select>
-                </div>
+                <Destinations destinations={destinations} setSelectedDestination={setSelectedDestination} selectedDestination={selectedDestination} />
+                <Days days={days} selectedDay={selectedDay} setSelectedDay={setSelectedDay} />
+                <Price priceRanges={priceRanges} inputPrice={inputPrice} setInputPrice={setInputPrice} />
                 <div className={isNavbar ? styles.navbarSearch__search : styles.landinSearch__search}>
                     <button type="submit" className={styles.searchButton} aria-label="Search Tours Button"><FiSearch /></button>
                 </div>

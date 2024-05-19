@@ -5,6 +5,7 @@
     justify-content: flex-start;
     width: 100%;
     min-height: 80vh;
+    padding-top: 6.5vh;
 
     &__upper {
         display: flex;
@@ -14,6 +15,7 @@
         align-items: center;
         position: relative;
         z-index: 1;
+
         img {
             height: 50vh;
             object-fit: cover;
@@ -86,6 +88,7 @@
                 font-size: var(--bigger-font-size);
             }
         }
+
         &_tours {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
