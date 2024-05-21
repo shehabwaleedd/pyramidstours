@@ -43,6 +43,14 @@ export async function generateMetadata({ params }: { params: { title: string } }
     }
 }
 
+export async function generateStaticParams() {
+    const tours = await serverUseToursByTitle('');
+    return tours.map((tour: any) => ({
+        params: {
+            title: tour.title.split(' ').join('-').toLowerCase()
+        }
+    }))
+}
 export default async function page({ params }: { params: { title: string } }) {
 
     const title = slugToTitle(params.title);

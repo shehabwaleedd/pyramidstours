@@ -18,7 +18,7 @@ interface ApiResponse {
 }
 
 
-const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
+const SearchField = ({ isNavbar, tours }: { isNavbar: boolean, tours: TourType[] }) => {
     const [destinations, setDestinations] = useState<string[]>([]);
     const [selectedDestination, setSelectedDestination] = useState<string>('');
     const [days, setDays] = useState<string[]>([]);
@@ -28,23 +28,15 @@ const SearchField = ({ isNavbar }: { isNavbar: boolean }) => {
     const router = useRouter()
 
     useEffect(() => {
-        const fetchTours = async () => {
-            try {
-                const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/tour`);
-                const tours = response.data.data.result;
-                const fetchedDestinations = tours.map(tour => tour.location.to);
-                const fetchedRepeatDays = tours.flatMap(tour => tour.repeatDays);
-                const uniqueDestinations = Array.from(new Set(fetchedDestinations));
-                const uniqueDays = Array.from(new Set(fetchedRepeatDays));
-                setDestinations(uniqueDestinations);
-                setDays(uniqueDays);
-
-            } catch (error) {
-                console.error('Failed to fetch tours:', error);
-            }
-        };
-        fetchTours();
-    }, []);
+        if (tours && tours.length > 0) {
+            const fetchedDestinations = tours.map(tour => tour.location.to);
+            const fetchedRepeatDays = tours.flatMap(tour => tour.repeatDays);
+            const uniqueDestinations = Array.from(new Set(fetchedDestinations));
+            const uniqueDays = Array.from(new Set(fetchedRepeatDays));
+            setDestinations(uniqueDestinations);
+            setDays(uniqueDays);
+        }
+    }, [tours]);
 
 
     const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -49,7 +49,7 @@ export async function generateMetadata({ searchParams }: { searchParams: { resul
 export default async function SearchPage({ searchParams }: { searchParams: { results: string } }) {
 
     const query = new URLSearchParams(searchParams).toString();
-    const tours = await serverUseToursByIds(query)
+    const tours = await serverUseToursByIds(query) ?? []
 
     if (tours) {
         await Promise.all(tours.map(async (tour: any) => {
@@ -69,7 +69,7 @@ export default async function SearchPage({ searchParams }: { searchParams: { res
                 <Image src="/backgroundss/default.webp" alt="search" width={1920} height={1080} />
                 <div className={styles.searchPage__upper__text}>
                     <h1>Search Results</h1>
-                    <SearchField isNavbar={isNavbar} />
+                    <SearchField isNavbar={isNavbar} tours={tours}/>
                 </div>
             </section>
             <section className={styles.searchPage__lower}>

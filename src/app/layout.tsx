@@ -7,6 +7,7 @@ import { CurrencyProvider } from "@/context/CurrencyContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import Script from "next/script"
 import { Toaster } from "sonner";
+import { serverUseToursByIds } from "@/lib/tours/serverUseToursByIds";
 
 interface OpenGraph {
   type: string;
@@ -69,7 +70,17 @@ export const viewport = {
 
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+async function fetchTours() {
+  const tours = await serverUseToursByIds('') ?? [];
+  return tours;
+}
+
+
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+
+  const tours = await fetchTours();
+
   return (
     <html lang="en">
       <head>
@@ -88,7 +99,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <AuthProvider>
           <WishlistProvider>
             <CurrencyProvider>
-              <Navbar />
+              <Navbar tours={tours} />
               <Toaster />
               {children}
             </CurrencyProvider>

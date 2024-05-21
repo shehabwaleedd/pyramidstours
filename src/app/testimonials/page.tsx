@@ -41,7 +41,7 @@ const CreateTestimonials: React.FC = () => {
                 formData.append('rate', values.rate.toString());
                 if (avatar) formData.append('avatar', avatar); 
 
-                const response = await axios.post('https://tours-b5zy.onrender.com/testimonial', formData);
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/testimonial`, formData);
 
                 if (response.status === 200 && response.data.message === 'success') {
                     router.push('/');

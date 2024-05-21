@@ -90,8 +90,6 @@ const TourCard: React.FC<{ tour: TourType, base64: string, priority: boolean }> 
         <Link className={styles.tours__container_card} href={`/tours/${slugTitle}`} aria-label={`View ${tour.title}`}>
             <div className={styles.image}>
                 <Image src={tour.mainImg.url}
-                    objectFit='cover'
-                    objectPosition='center'
                     alt={tour.title}
                     width={500}
                     height={500}

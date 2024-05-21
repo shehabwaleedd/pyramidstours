@@ -43,3 +43,17 @@ export interface SubscriptionData {
     _id: string;
 
 }
+export interface Testimonial {
+    avatar: {
+        url: string;
+        public_id: string;
+    };
+    _id: string;
+    userName: string;
+    description: string;
+    rate: number;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
