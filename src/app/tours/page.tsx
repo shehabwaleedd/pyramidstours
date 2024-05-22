@@ -3,7 +3,6 @@ import styles from "./page.module.scss"
 import Image from 'next/image';
 import SearchBar from './components/searchBar';
 import { TourType } from '@/types/homePageTours';
-import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds'
 import TourCard from '@/components/card';
 import getBase64 from '@/lib/getLocalBase64';
 import Skeleton from '@/animation/skeleton';
@@ -47,13 +46,21 @@ export async function generateMetadata() {
     };
 }
 
+async function fetchTours(query: string): Promise<TourType[]> {
+    const res = await fetch(`/api/tours?results=${query}`);
+    if (!res.ok) {
+        throw new Error('Failed to fetch tours');
+    }
+    const toursArray: TourType[] = await res.json();
+    return toursArray;
+}
+
 export default async function Tours({ searchParams }: { searchParams: { results: string } }) {
     const query = new URLSearchParams(searchParams).toString();
-    const tours = serverUseToursByIds(query)
-    const toursArray = await tours
+    const toursArray = await fetchTours(query);
 
     if (toursArray) {
-        await Promise.all(toursArray.map(async (tour: any) => {
+        await Promise.all(toursArray.map(async (tour) => {
             tour.base64 = await getBase64(tour.mainImg.url).catch(e => {
                 console.error('Failed to load base64 for image:', e);
                 return '';

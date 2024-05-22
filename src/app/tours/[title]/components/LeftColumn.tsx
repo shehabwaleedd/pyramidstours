@@ -1,25 +1,25 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useReducer, useMemo } from 'react';
+import dynamic from 'next/dynamic';
 import axios from 'axios';
-import Calendar from 'react-calendar';
+import { Formik, Form, FormikHelpers } from 'formik';
+import { AnimatePresence } from 'framer-motion';
+import Cookies from 'js-cookie';
+import { toast } from 'sonner';
+import styles from '../page.module.scss';
+import { useWishlist } from '@/context/WishlistContext';
+import { useCurrency } from '@/context/CurrencyContext';
+import Available from './chunks/Available';
+import Participants from './chunks/Participants';
+import Options from './chunks/Options';
 import { TourType } from '@/types/homePageTours';
 import { SubscriptionData } from '@/types/common';
-import { Formik, Form, Field } from 'formik';
-import styles from '../page.module.scss';
-import Proceed from '@/components/proceed';
-import LoginForm from '@/components/loginForm/loginForm';
-import { AnimatePresence } from 'framer-motion';
-import 'react-calendar/dist/Calendar.css';
-import { useWishlist } from '@/context/WishlistContext';
-import Cookies from 'js-cookie';
-import { useCurrency } from '@/context/CurrencyContext';
-import { toast } from 'sonner';
 
-const currencySymbols: { [key: string]: string } = {
-    USD: '$',
-    EUR: '€',
-    EGP: '£',
-};
+const Proceed = dynamic(() => import('@/components/proceed'));
+const LoginForm = dynamic(() => import('@/components/loginForm/loginForm'));
+const Calendar = dynamic(() => import('react-calendar'), { ssr: false });
+
+const currencySymbols: { [key: string]: string } = { USD: '$', EUR: '€', EGP: '£' };
 
 interface BookingData {
     adultPricing: string | null;
@@ -40,16 +40,52 @@ interface FormValues {
     repeatDays: string;
 }
 
-const LeftColumn = ({ tour }: { tour: TourType }) => {
-    const [subscriptionData, setSubscriptionData] = useState<SubscriptionData | null>(null);
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [optionCounts, setOptionCounts] = useState<{ [key: string]: number }>({});
-    const [subscriptionOpen, setSubscriptionOpen] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>('');
+interface State {
+    subscriptionData: SubscriptionData | null;
+    isSubmitting: boolean;
+    optionCounts: { [key: string]: number };
+    subscriptionOpen: boolean;
+    errorMessage: string;
+}
+
+type Action =
+    | { type: 'SET_SUBSCRIPTION_DATA'; payload: SubscriptionData }
+    | { type: 'SET_IS_SUBMITTING'; payload: boolean }
+    | { type: 'SET_OPTION_COUNTS'; payload: { id: string; count: number } }
+    | { type: 'TOGGLE_SUBSCRIPTION_OPEN' }
+    | { type: 'SET_ERROR_MESSAGE'; payload: string };
+
+const initialState: State = {
+    subscriptionData: null,
+    isSubmitting: false,
+    optionCounts: {},
+    subscriptionOpen: false,
+    errorMessage: ''
+};
+
+const reducer = (state: State, action: Action): State => {
+    switch (action.type) {
+        case 'SET_SUBSCRIPTION_DATA':
+            return { ...state, subscriptionData: action.payload, subscriptionOpen: true };
+        case 'SET_IS_SUBMITTING':
+            return { ...state, isSubmitting: action.payload };
+        case 'SET_OPTION_COUNTS':
+            return { ...state, optionCounts: { ...state.optionCounts, [action.payload.id]: action.payload.count } };
+        case 'TOGGLE_SUBSCRIPTION_OPEN':
+            return { ...state, subscriptionOpen: !state.subscriptionOpen };
+        case 'SET_ERROR_MESSAGE':
+            return { ...state, errorMessage: action.payload };
+        default:
+            return state;
+    }
+};
+
+const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
     const { isLoginOpen, setIsLoginOpen } = useWishlist();
     const { currency, rates } = useCurrency();
 
-    const initialValues: FormValues = {
+    const initialValues: FormValues = useMemo(() => ({
         date: new Date(),
         adults: 1,
         children: 0,
@@ -57,7 +93,7 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
         repeatTime: '8',
         day: 'Sunday',
         repeatDays: '',
-    };
+    }), []);
 
     const handleDateChange = (date: Date) => {
         const correctedDate = new Date(date);
@@ -66,30 +102,25 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
     };
 
     const handleIncrement = (optionId: string) => {
-        setOptionCounts(prev => ({
-            ...prev,
-            [optionId]: (prev[optionId] || 0) + 1
-        }));
+        dispatch({ type: 'SET_OPTION_COUNTS', payload: { id: optionId, count: (state.optionCounts[optionId] || 0) + 1 } });
     };
 
     const handleDecrement = (optionId: string) => {
-        setOptionCounts(prev => ({
-            ...prev,
-            [optionId]: Math.max(0, (prev[optionId] || 0) - 1)
-        }));
+        dispatch({ type: 'SET_OPTION_COUNTS', payload: { id: optionId, count: Math.max(0, (state.optionCounts[optionId] || 0) - 1) } });
     };
 
-    const handleSubmit = async (values: FormValues) => {
+    const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
         const token = Cookies.get('token');
         if (!token) {
             setIsLoginOpen(true);
             return;
         }
 
-        setErrorMessage('');
+        dispatch({ type: 'SET_IS_SUBMITTING', payload: true });
 
         if (!(values.date instanceof Date)) {
             console.error('Invalid date object');
+            dispatch({ type: 'SET_IS_SUBMITTING', payload: false });
             return;
         }
         const formattedDate = values.date.toISOString().split('T')[0];
@@ -98,12 +129,9 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
             ? tour?.childrenPricing.slice().reverse().find(pricing => pricing.children <= values.children)?._id
             : '';
 
-        const selectedOptions = Object.entries(optionCounts)
+        const selectedOptions = Object.entries(state.optionCounts)
             .filter(([_, count]) => count > 0)
-            .map(([id, count]) => ({
-                id,
-                number: count.toString()
-            }));
+            .map(([id, count]) => ({ id, number: count.toString() }));
 
         const bookingData: BookingData = {
             adultPricing: adultPricing ?? null,
@@ -119,20 +147,18 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
             bookingData.options = selectedOptions;
         }
         try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/subscription/${tour?._id}`, bookingData,
-                { headers: { token } }
-            );
+            const response = await axios.post('/api/subscription', { ...bookingData, id: tour?._id }, { headers: { token } });
             if (response.data.message === "Subscription created successfully") {
-                setSubscriptionData(response.data.data);
-                setSubscriptionOpen(true);
+                dispatch({ type: 'SET_SUBSCRIPTION_DATA', payload: response.data.data });
                 toast.success('Subscription created successfully');
             } else {
-                toast.error('Subscription failed, Try Again.')
+                toast.error('Subscription failed, Try Again.');
             }
-
         } catch (error: any) {
-            toast.error(error.response?.data?.err || error.response?.err)
+            toast.error(error.response?.data?.err || error.response?.err);
+        } finally {
+            dispatch({ type: 'SET_IS_SUBMITTING', payload: false });
+            setSubmitting(false);
         }
     };
 
@@ -141,31 +167,34 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
         return (price * rates[toCurrency]).toFixed(2);
     };
 
-    const calculateTotalCost = (values: FormValues, tour: TourType | null, optionCounts: { [key: string]: number }): string => {
-        let total = 0;
+    const calculateTotalCost = useMemo(() => {
+        return (values: FormValues): string => {
+            let total = 0;
 
-        if (tour) {
-            const adultPricingTier = tour?.adultPricing?.find(pricing => pricing.adults >= values.adults);
-            if (adultPricingTier) {
-                total += parseFloat(convertPrice(parseFloat(adultPricingTier.price.toString()), currency)) * values.adults;
-            }
-            if (values.children > 0) {
-                const childPricingTier = tour.childrenPricing.find(pricing => pricing.children >= values.children);
-                if (childPricingTier) {
-                    total += parseFloat(convertPrice(parseFloat(childPricingTier.price.toString()), currency)) * values.children;
+            if (tour) {
+                const adultPricingTier = tour?.adultPricing?.find(pricing => pricing.adults >= values.adults);
+                if (adultPricingTier) {
+                    total += parseFloat(convertPrice(parseFloat(adultPricingTier.price.toString()), currency)) * values.adults;
                 }
+                if (values.children > 0) {
+                    const childPricingTier = tour.childrenPricing.find(pricing => pricing.children >= values.children);
+                    if (childPricingTier) {
+                        total += parseFloat(convertPrice(parseFloat(childPricingTier.price.toString()), currency)) * values.children;
+                    }
+                }
+
+                Object.entries(state.optionCounts).forEach(([optionId, count]) => {
+                    const option = tour.options.find(o => o._id === optionId);
+                    if (option) {
+                        total += parseFloat(convertPrice(parseFloat(option.price), currency)) * count;
+                    }
+                });
             }
 
-            Object.entries(optionCounts).forEach(([optionId, count]) => {
-                const option = tour.options.find(o => o._id === optionId);
-                if (option) {
-                    total += parseFloat(convertPrice(parseFloat(option.price), currency)) * count;
-                }
-            });
-        }
-
-        return total.toFixed(2);
-    };
+            return total.toFixed(2);
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [tour, state.optionCounts, currency, rates]);
 
     const currencySymbol = currencySymbols[currency] || '';
 
@@ -173,86 +202,22 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
         <>
             <Formik
                 initialValues={initialValues}
-                onSubmit={(values, { setSubmitting }) => {
-                    setIsSubmitting(true);
-                    handleSubmit(values).finally(() => {
-                        setIsSubmitting(false);
-                        setSubmitting(false);
-                    });
-                }}
+                onSubmit={handleSubmit}
             >
                 {({ setFieldValue, values }) => (
                     <Form className={styles.eventDetails__lower_left}>
                         <h2>Tailor Your Tour</h2>
-                        <Calendar
-                            onChange={(value) => setFieldValue('date', handleDateChange(value as Date))}
-                            value={values.date}
-                            minDate={new Date()}
-                            className={styles.calendar}
-                        />
-                        <div className={styles.headGroup}>
-                            <h2>Tour Available in</h2>
-                            <div className={styles.group}>
-                                <Field as="select" name="repeatTime" className={styles.Field}>
-                                    {tour?.repeatTime?.map((time, index) => (
-                                        <option key={index} value={time}>{time}:00</option>
-                                    ))}
-                                </Field>
-                                <Field as="select" name="repeatDays" className={styles.Field}>
-                                    {tour?.repeatDays?.map((day, index) => (
-                                        <option key={index} value={day}>{day}</option>
-                                    ))}
-                                </Field>
-                            </div>
-                        </div>
-                        <div className={styles.headGroup}>
-                            <div className={styles.group}>
-                                <label htmlFor='adult-count'>Number of Adults</label>
-                                <Field id="adult-count" type="number" name="adults" min={1} max={tour?.adultPricing?.length} readOnly />
-                                <div className={styles.incrementBtns}>
-                                    <button type="button" onClick={() => setFieldValue('adults', values.adults + 1)} aria-label="Increment number of adults">+</button>
-                                    <button type="button" onClick={() => setFieldValue('adults', Math.max(1, values.adults - 1))} aria-label="Decrement number of adults">-</button>
-                                </div>
-                            </div>
-                            <div className={styles.group}>
-                                <label htmlFor="child-count">Number of Children</label>
-                                <Field id="child-count" type="number" name="children" min={0} max={tour?.childrenPricing?.length} readOnly />
-                                <div className={styles.incrementBtns}>
-                                    <button type="button" onClick={() => setFieldValue('children', values.children + 1)} aria-label="Increment number of children">+</button>
-                                    <button type="button" onClick={() => setFieldValue('children', Math.max(0, values.children - 1))} aria-label="Decrement number of children">-</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.eventDetails__lower_left_options}>
-                            <div className={styles.eventDetails__lower_left_options__header}>
-                                <h2>Options</h2>
-                            </div>
-                            <div className={styles.headGroup}>
-                                {tour?.options?.map(option => (
-                                    <div key={option._id} className={styles.column}>
-                                        <span>{option.name} - {currencySymbol}{convertPrice(parseFloat(option.price), currency)}</span>
-                                        <div className={styles.incrementBtns_group}>
-                                            <input
-                                                type="number"
-                                                value={optionCounts[option._id] || 0}
-                                                readOnly
-                                            />
-                                            <div className={styles.incrementBtns}>
-                                                <button type="button" onClick={() => handleIncrement(option._id)} aria-label="Increment number of options">+</button>
-                                                <button type="button" onClick={() => handleDecrement(option._id)} aria-label="Decrement number of options">-</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <Calendar onChange={(value) => setFieldValue('date', handleDateChange(value as Date))} value={values.date} minDate={new Date()} className={styles.calendar}/>
+                        <Available tour={tour} />
+                        <Participants tour={tour} values={values} setFieldValue={setFieldValue} />
+                        <Options tour={tour} optionCounts={state.optionCounts} handleIncrement={handleIncrement} handleDecrement={handleDecrement} currency={currency} currencySymbol={currencySymbol} convertPrice={convertPrice} />
                         <div className={styles.headGroup}>
                             <div>
-                                <h2>Total Price: {currencySymbol}{calculateTotalCost(values, tour, optionCounts)}</h2>
+                                <h2>Total Price: {currencySymbol}{calculateTotalCost(values)}</h2>
                             </div>
                         </div>
-                        <button type="submit" className={styles.submitButton} disabled={isSubmitting} aria-label="Book now button">
-                            {isSubmitting ? 'Booking...' : 'Book Now'}
+                        <button type="submit" className={styles.submitButton} disabled={state.isSubmitting} aria-label="Book now button">
+                            {state.isSubmitting ? 'Booking...' : 'Book Now'}
                         </button>
                         <p style={{ color: "var(--accent-color)" }}>Note: Infants under 6 years old are free of charge.</p>
                         <p>Note: The total cost of the tour is calculated by summing up the prices based on the number of adults and children, each multiplied by their respective pricing tiers, and adding the cost of any selected additional options.</p>
@@ -260,7 +225,7 @@ const LeftColumn = ({ tour }: { tour: TourType }) => {
                 )}
             </Formik>
             <AnimatePresence mode='wait'>
-                {subscriptionOpen && subscriptionData && (<Proceed data={subscriptionData} setSubscriptionOpen={setSubscriptionOpen} />)}
+                {state.subscriptionOpen && state.subscriptionData && (<Proceed data={state.subscriptionData} setSubscriptionOpen={() => dispatch({ type: 'TOGGLE_SUBSCRIPTION_OPEN' })} />)}
             </AnimatePresence>
             <AnimatePresence mode='wait'>
                 {isLoginOpen && <LoginForm setIsLoginOpen={setIsLoginOpen} isLoginOpen={isLoginOpen} />}

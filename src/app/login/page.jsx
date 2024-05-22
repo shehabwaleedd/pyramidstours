@@ -22,8 +22,6 @@ const Page = () => {
 
     })
 
-
-
     const loginFormik = useFormik({
         initialValues: {
             email: '',
@@ -34,7 +32,7 @@ const Page = () => {
             setIsLoading(true);
             setErrorFromDataBase(''); // Reset server error message before each submission
             try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values);
+                const response = await axios.post('/api/login', values);
 
                 if (response.status === 200 && response.data.message === "success") {
                     setUser(response.data.data);
@@ -55,10 +53,6 @@ const Page = () => {
             }
         },
     });
-
-
-
-
 
     return (
         <main className={styles.container}>
@@ -117,8 +111,7 @@ const Page = () => {
                 </form>
             </section>
         </main>
-
     )
 }
 
-export default Page
+export default Page;

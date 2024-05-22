@@ -19,7 +19,7 @@ const AllTours = () => {
 
     return (
         <section>
-            <DashboardTours tours={tours} title="All Tours" loading={loading} />
+            <DashboardTours tours={tours ?? []} title="All Tours" loading={loading} />
             <div className={styles.pagination}>
                 <button onClick={handlePreviousPage} disabled={currentPage <= 1}aria-label="Previous page">Previous</button>
                 <span>Page {currentPage}</span>
