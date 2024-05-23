@@ -3,12 +3,12 @@ import { SubscriptionData } from '@/types/common';
 import React, { useState } from 'react';
 import styles from './style.module.scss';
 import globalStyles from '../../app/page.module.scss';
-import axios from 'axios';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { useCurrency } from '@/context/CurrencyContext';
 import Cookies from 'js-cookie';
+
 const defaultImage = '/no-image.webp';
 
 const currencySymbols: { [key: string]: string } = {
@@ -29,16 +29,22 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
     const handlePaymentClick = async () => {
         setIsSubmitting(true);
         try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/payment/checkout-session/${data._id}`, 
-                { data, currency },
-                { headers: { token: Cookies.get('token') } }
-            );
-            if (response.data && response.data.data) {
-                toast.success('Payment initiation successful, redirecting to payment page...')
-                window.location.href = response.data.data.url;
+            const response = await fetch(`/api/payment?subscriptionId=${data._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': Cookies.get('token') || '',
+                },
+                body: JSON.stringify({ data, currency }),
+            });
+
+            const responseData = await response.json();
+
+            if (response.status === 200 && responseData.data) {
+                toast.success('Payment initiation successful, redirecting to payment page...');
+                window.location.href = responseData.data.payment_data.redirectTo;
             } else {
-                console.error('Failed to make payment:', response.data);
+                console.error('Failed to make payment:', responseData);
                 toast.error('Payment initiation failed, please try again.');
             }
         } catch (error) {

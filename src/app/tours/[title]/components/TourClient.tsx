@@ -39,7 +39,7 @@ const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
                 <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />
                 <LeaveReview />
             </section>
-            <UnifiedToursComponent location={tour.location.from} type="recommended" />
+            <UnifiedToursComponent location={tour.location.from || ''} type="recommended" />
             <UnifiedToursComponent type="like" />
         </>
     )

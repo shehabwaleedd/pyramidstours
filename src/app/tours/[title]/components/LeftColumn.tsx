@@ -14,7 +14,7 @@ import Participants from './chunks/Participants';
 import Options from './chunks/Options';
 import { TourType } from '@/types/homePageTours';
 import { SubscriptionData } from '@/types/common';
-
+import 'react-calendar/dist/Calendar.css';
 const Proceed = dynamic(() => import('@/components/proceed'));
 const LoginForm = dynamic(() => import('@/components/loginForm/loginForm'));
 const Calendar = dynamic(() => import('react-calendar'), { ssr: false });
@@ -147,9 +147,19 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
             bookingData.options = selectedOptions;
         }
         try {
-            const response = await axios.post('/api/subscription', { ...bookingData, id: tour?._id }, { headers: { token } });
-            if (response.data.message === "Subscription created successfully") {
-                dispatch({ type: 'SET_SUBSCRIPTION_DATA', payload: response.data.data });
+            const response = await fetch(`/api/subscription?tourId=${tour._id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': token || '',
+                },
+                body: JSON.stringify(bookingData),
+            });
+
+            const responseData = await response.json();
+
+            if (response.status === 200 && responseData.message === "Subscription created successfully") {
+                dispatch({ type: 'SET_SUBSCRIPTION_DATA', payload: responseData.data });
                 toast.success('Subscription created successfully');
             } else {
                 toast.error('Subscription failed, Try Again.');
@@ -193,7 +203,7 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
 
             return total.toFixed(2);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tour, state.optionCounts, currency, rates]);
 
     const currencySymbol = currencySymbols[currency] || '';
@@ -207,7 +217,7 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
                 {({ setFieldValue, values }) => (
                     <Form className={styles.eventDetails__lower_left}>
                         <h2>Tailor Your Tour</h2>
-                        <Calendar onChange={(value) => setFieldValue('date', handleDateChange(value as Date))} value={values.date} minDate={new Date()} className={styles.calendar}/>
+                        <Calendar onChange={(value) => setFieldValue('date', handleDateChange(value as Date))} value={values.date} minDate={new Date()} className={styles.calendar} />
                         <Available tour={tour} />
                         <Participants tour={tour} values={values} setFieldValue={setFieldValue} />
                         <Options tour={tour} optionCounts={state.optionCounts} handleIncrement={handleIncrement} handleDecrement={handleDecrement} currency={currency} currencySymbol={currencySymbol} convertPrice={convertPrice} />
