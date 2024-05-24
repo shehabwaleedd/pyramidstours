@@ -31,7 +31,7 @@ const LoginPage = () => {
             setIsLoading(true);
             setErrorFromDataBase(''); // Reset server error message before each submission
             try {
-                const response = await axios.post('/api/login', values);
+                const response = await axios.post('/api/user/login', values);
                 setUser(response.data.user);
                 handleLoginSuccess(response.data.token, response.data.data);
                 router.push('/account');

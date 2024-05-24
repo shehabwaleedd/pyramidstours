@@ -62,7 +62,7 @@ const Register = () => {
             if (avatar) formData.append('avatar', avatar);
 
             try {
-                const response = await axios.post('/api/register', formData, {
+                const response = await axios.post('/api/user/register', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
 
