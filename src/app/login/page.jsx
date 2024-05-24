@@ -32,12 +32,10 @@ const Page = () => {
             setIsLoading(true);
             setErrorFromDataBase(''); // Reset server error message before each submission
             try {
-                const response = await axios.post('/api/login', values);
-
-                if (response.status === 200 && response.data.message === "success") {
-                    setUser(response.data.data);
-                    handleLoginSuccess(response.data.token, response.data.data);
-                }
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/login`, values);
+                setUser(response.data.user);
+                handleLoginSuccess(response.data.token);
+                router.push('/account');
             } catch (err) {
                 let errorMessage = 'An unexpected error occurred during login.'; // Default error message
                 if (err.response && err.response.data) {

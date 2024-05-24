@@ -8,20 +8,43 @@
   gap: 2rem;
   user-select: none;
   margin: 0 auto;
-
+}
+.products-grid-tour {
+  display: grid;
+  grid-template-columns: 0.3fr 1fr;
+  gap: 1rem;
+  width: 97vw;
+  height: fit-content;
+  user-select: none;
 
 }
 
-.column {
+.tour-header {
+  width: 100%;
+  height: 20vh;
+}
+
+.tour-grid-right {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 2rem;
+  gap: 1rem;
+  width: 100%;
+
+}
+.tour-grid-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+
+column-tour {
+  width: 97vw;
 }
 
 .skeleton {
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   animation: skeleton-loading 1s linear infinite alternate;
 }
 
@@ -49,6 +72,38 @@
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
 }
 
+@media (max-width: 555px) {
+  .products-grid-tour {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+}
+
+.skeleton-card-tours {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  height: fit-content;
+  border: 1px solid var(--border-color);
+  border-radius: 2rem;
+  padding: 0.4rem;
+  gap: 0.6rem;
+  max-width: 500px;
+  min-width: 300px;
+  cursor: pointer;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.4);
+}
+
+.skeleton-card-tour-header {
+  width: 100%;
+  height: fit-content;
+  border-radius: 1.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+}
 
 .skeleton-title {
   width: 30vw;
@@ -66,6 +121,13 @@
   width: 100%;
   height: 30vh;
   border-radius: 1.5rem;
+}
+
+.skeleton-card-img-header {
+  width: 100%;
+  height: 40vh;
+  border-radius: 1rem;
+
 }
 
 .skeleton-card-price {
@@ -93,6 +155,12 @@
   margin-bottom: 0.5rem;
 }
 
+.equal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  gap: 1rem;
+}
 
 @keyframes skeleton-loading {
   0% {
@@ -102,4 +170,13 @@
   100% {
     background-color: hsl(200, 20%, 95%);
   }
+}
+
+.skeleton-video {
+  margin-top: 5vh;
+  width: 100%;
+  height: 50vh;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  animation: skeleton-loading 1s linear infinite alternate;
 }

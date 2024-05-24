@@ -1,11 +1,11 @@
 .nav {
     overflow: hidden;
     position: fixed;
-    background-color: var(--background-color);
     z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
+    background-color: var(--background-color);
     @media (max-width: 1255px) {
         padding: 0rem;
     }
