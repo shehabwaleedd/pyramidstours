@@ -50,7 +50,7 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
                 const response = await axios.post(url, dataToSend);
                 if (response.data.message === 'success') {
                     setUser(response.data.data);
-                    handleLoginSuccessForm(response.data.token, response.data.data); // Modify this line
+                    handleLoginSuccessForm(response.data.token, response.data.data); 
                     setIsLoginOpen(false);
                 } else {
                     console.log("Fail")
