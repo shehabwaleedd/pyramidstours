@@ -5,8 +5,7 @@ import SearchBar from './components/searchBar';
 import { TourType } from '@/types/homePageTours';
 import TourCard from '@/components/card';
 import getBase64 from '@/lib/getLocalBase64';
-import Skeleton from '@/animation/skeleton';
-
+import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
 
 export async function generateMetadata() {
     // This example assumes searchParams is a plain string that indicates the query or some keywords
@@ -46,18 +45,14 @@ export async function generateMetadata() {
     };
 }
 
-async function fetchTours(query: string): Promise<TourType[]> {
-    const res = await fetch(`/api/tours?results=${query}`);
-    if (!res.ok) {
-        throw new Error('Failed to fetch tours');
-    }
-    const toursArray: TourType[] = await res.json();
-    return toursArray;
-}
+// handleLoginSuccessForm(response.data.token, response.data.data);
+// const { setUser } = useAuth();
+// const { handleLoginSuccessForm } = useWishlist();
 
-export default async function Tours({ searchParams }: { searchParams: { results: string } }) {
-    const query = new URLSearchParams(searchParams).toString();
-    const toursArray = await fetchTours(query);
+
+
+export default async function Tours() {
+    const toursArray = await serverUseToursByIds('');
 
     if (toursArray) {
         await Promise.all(toursArray.map(async (tour) => {
@@ -82,13 +77,9 @@ export default async function Tours({ searchParams }: { searchParams: { results:
                     <h2>Explore All Tours</h2>
                 </div>
                 <div className={styles.tours__lower_tours}>
-                    {toursArray ? (
-                        toursArray.map((tour: TourType, index: number) => (
-                            <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4} />
-                        ))
-                    ) : (
-                        <Skeleton />
-                    )}
+                    {toursArray && toursArray.map((tour: TourType, index: number) => (
+                        <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4} />
+                    ))}
                 </div>
             </section>
         </main>

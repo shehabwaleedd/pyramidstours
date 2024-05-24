@@ -71,7 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const handleLoginSuccess = (token: string, userData: User) => {
         Cookies.set('token', token, { expires: 1 });
         localStorage.setItem('userId', userData._id);
-        toast.success('Login successful');
+        toast.success('Successful, Redirecting you now to your dashboard');
         setUser(userData);
         setIsLoggedIn(true);
         router.push('/account');

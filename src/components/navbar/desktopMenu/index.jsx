@@ -17,7 +17,7 @@ const links = [
   },
   {
     title: "Tours",
-    href: "/shotours",
+    href: "/tours",
     src: "tours.webp"
   },
   {

@@ -43,7 +43,7 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
         validationSchema,
         onSubmit: async (values) => {
             setIsLoading(true);
-            const url = mode === 'login' ? `${process.env.NEXT_PUBLIC_BASE_URL}/user/login` : `${process.env.NEXT_PUBLIC_BASE_URL}/user/register`;
+            const url = mode === 'login' ? `/api/login` : `/api/register`;
             const dataToSend = mode === 'login' ? { email: values.email, password: values.password } : values;
 
             try {
