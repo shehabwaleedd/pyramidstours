@@ -1,7 +1,6 @@
 'use client';
 import React, { useReducer, useMemo } from 'react';
 import dynamic from 'next/dynamic';
-import axios from 'axios';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { AnimatePresence } from 'framer-motion';
 import Cookies from 'js-cookie';
@@ -16,8 +15,9 @@ import { TourType } from '@/types/homePageTours';
 import { SubscriptionData } from '@/types/common';
 import 'react-calendar/dist/Calendar.css';
 const Proceed = dynamic(() => import('@/components/proceed'));
-const LoginForm = dynamic(() => import('@/components/loginForm/loginForm'));
 const Calendar = dynamic(() => import('react-calendar'), { ssr: false });
+const LoginComponent = dynamic(() => import('@/components/accountComponents/loginComponent'));
+const RegisterComponent = dynamic(() => import('@/components/accountComponents/registerComponent'));
 
 const currencySymbols: { [key: string]: string } = { USD: '$', EUR: '€', EGP: '£' };
 
@@ -82,7 +82,7 @@ const reducer = (state: State, action: Action): State => {
 
 const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { isLoginOpen, setIsLoginOpen } = useWishlist();
+    const { isLoginOpen, setIsLoginOpen, isRegisterOpen } = useWishlist();
     const { currency, rates } = useCurrency();
 
     const initialValues: FormValues = useMemo(() => ({
@@ -238,7 +238,8 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
                 {state.subscriptionOpen && state.subscriptionData && (<Proceed data={state.subscriptionData} setSubscriptionOpen={() => dispatch({ type: 'TOGGLE_SUBSCRIPTION_OPEN' })} />)}
             </AnimatePresence>
             <AnimatePresence mode='wait'>
-                {isLoginOpen && <LoginForm setIsLoginOpen={setIsLoginOpen} isLoginOpen={isLoginOpen} />}
+                {isLoginOpen && <LoginComponent setIsLoginOpen={setIsLoginOpen} />}
+                {isRegisterOpen && <RegisterComponent setIsLoginOpen={setIsLoginOpen} />}
             </AnimatePresence>
         </>
     );

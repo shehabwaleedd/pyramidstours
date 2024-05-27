@@ -1,18 +1,14 @@
-import React from 'react'
+import React, { Suspense } from 'react'
+import dynamic from 'next/dynamic';
 import styles from "../page.module.scss"
-import { IoLocationSharp, IoPricetagOutline } from 'react-icons/io5';
-import { FiClock } from 'react-icons/fi';
-import { BsCurrencyDollar } from 'react-icons/bs';
-import { CiHashtag } from "react-icons/ci";
-import Image from 'next/image'
-import Link from 'next/link';
 import RightColumn from './RightColumn';
-import LeftColumn from './LeftColumn';
 import { TourType } from '@/types/homePageTours';
-import UnifiedToursComponent from '@/components/unifiedToursComponent';
-import LeaveReview from '@/components/makeReview';
 import TourUpper from './TourUpper';
 import TourBelow from './TourBelow';
+import LeftColumnSkeleton from '@/animation/skeleton/LeftColumn';
+const LeftColumn = dynamic(() => import('./LeftColumn'));
+const UnifiedToursComponent = dynamic(() => import('@/components/unifiedToursComponent'), { ssr: false });
+const LeaveReview = dynamic(() => import('@/components/makeReview'), { ssr: false });
 
 interface TourClientProps {
     tour: TourType;
@@ -30,10 +26,15 @@ const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
     return (
         <>
             <section className={styles.eventDetails}>
-                <TourUpper  tour={tour} base64={base64} />
+                <TourUpper tour={tour} base64={base64} />
                 <TourBelow tour={tour} />
                 <aside className={styles.eventDetails__lower}>
-                    {tour && <LeftColumn tour={tour} />}
+                    {tour &&
+                        <Suspense fallback={<LeftColumnSkeleton />}>
+                            <LeftColumn tour={tour} />
+                        </Suspense>
+                    }
+
                     {tour && <RightColumn tour={tour} />}
                 </aside>
                 <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />

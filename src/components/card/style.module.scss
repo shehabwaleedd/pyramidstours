@@ -12,6 +12,7 @@
     cursor: pointer;
     position: relative;
     z-index: 9;
+    user-select: none;
 
     .image {
         position: relative;

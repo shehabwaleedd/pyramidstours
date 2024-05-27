@@ -199,14 +199,6 @@ img {
 }
 
 @font-face {
-  font-family: 'Kalam-Bold';
-  src: url('../../public/fonts/Kalam-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Satoshi-Regular';
   src: url('../../public/fonts/Satoshi-Regular.woff2') format('woff2');
   font-weight: 400;
@@ -224,7 +216,7 @@ img {
 
 @font-face {
   font-family: 'Avantt-Heavy';
-  src: url('../../public/fonts/Avantt-Heavy.ttf') format('truetype');
+  src: url('../../public/fonts/Avantt-Heavy.woff2') format('woff2');
   font-weight: 800;
   font-display: swap;
   font-style: normal;
@@ -232,7 +224,7 @@ img {
 
 @font-face {
   font-family: 'Avantt-Bold';
-  src: url('../../public/fonts/Avantt-Bold.ttf') format('truetype');
+  src: url('../../public/fonts/Avantt-Bold.woff2') format('woff2');
   font-weight: 600;
   font-display: swap;
   font-style: normal;
@@ -240,7 +232,7 @@ img {
 
 @font-face {
   font-family: 'Avantt-SemiBold';
-  src: url('../../public/fonts/Avantt-SemiBold.ttf') format('truetype');
+  src: url('../../public/fonts/Avantt-SemiBold.woff2') format('woff2');
   font-weight: 500;
   font-display: swap;
   font-style: normal;
@@ -248,7 +240,7 @@ img {
 
 @font-face {
   font-family: 'Avantt-Medium';
-  src: url('../../public/fonts/Avantt-Medium.ttf') format('truetype');
+  src: url('../../public/fonts/Avantt-Medium.woff2') format('woff2');
   font-weight: 500;
   font-display: swap;
   font-style: normal;
@@ -256,7 +248,7 @@ img {
 
 @font-face {
   font-family: 'Avantt-Regular';
-  src: url('../../public/fonts/Avantt-Regular.ttf') format('truetype');
+  src: url('../../public/fonts/Avantt-Regular.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
   font-style: normal;

@@ -1,6 +1,6 @@
 .viewUserDetailsAdmin {
-
     &__container {
+
         width: 100%;
         padding: 2rem;
         display: flex;
@@ -9,6 +9,8 @@
         justify-content: center;
         gap: 1rem;
         min-width: 400px;
+        max-width: 600px;
+        height: fit-content;
 
         &__close {
             button {
@@ -40,7 +42,6 @@
                 height: 5rem;
                 object-fit: cover;
                 border-radius: 50%;
-
             }
         }
 
@@ -58,21 +59,14 @@
                 font-family: var(--subtitle-font);
                 font-weight: 200;
                 text-transform: capitalize;
+                border-bottom: 1px solid var(--border-color);
+                width: 100%;
+                padding-bottom: 0.2rem;
             }
         }
 
         &__lower {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 1vh;
             width: 100%;
-
-            button {
-                padding: 0;
-            }
         }
     }
-
 }

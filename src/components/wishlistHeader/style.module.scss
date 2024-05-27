@@ -17,10 +17,12 @@
     overflow-x: hidden;
 
     @media (max-width: 555px) {
-        top: auto;
+        // cancel top
+        top: unset;
         right: 0;
         width: 100%;
         bottom: 0;
+        max-height: 50vh;
         border-radius: 0;
         border-top-left-radius: 2rem;
         border-top-right-radius: 2rem;

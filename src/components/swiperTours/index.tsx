@@ -1,37 +1,39 @@
-'use client'
-import React, { useRef, useEffect } from 'react';
-import styles from './style.module.scss';
+'use client';
+import React, { useRef } from 'react';
+import styles from '../toursHomePage/style.module.scss';
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Virtual } from "swiper/modules";
+import SwiperCore from 'swiper';
 import { TourType } from '@/types/homePageTours';
 import "swiper/css";
-import "swiper/css/pagination";
 import 'swiper/css/navigation';
 import { motion } from 'framer-motion';
 import TourCard from '../card';
-import LoginForm from '../loginForm/loginForm';
 import Skeleton from '@/animation/skeleton';
-SwiperCore.use([Navigation, Pagination]);
 import { useInView } from "react-intersection-observer";
-import { useWishlist } from '@/context/WishlistContext';
 
-const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number, title: string}) => {
-    const swiperRefs = useRef<SwiperCore[]>([]);
-    const { isLoginOpen, setIsLoginOpen } = useWishlist();
-    const handleNextSlide = (index: number) => {
-        swiperRefs.current[index]?.slideNext();
+SwiperCore.use([Navigation, Virtual]);
+
+const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number, title: string }) => {
+    const swiperRef = useRef<SwiperCore | null>(null);
+
+    const handleNextSlide = () => {
+        if (swiperRef.current) {
+            swiperRef.current.slideNext();
+        }
     };
-    const handlePrevSlide = (index: number) => {
-        swiperRefs.current[index]?.slidePrev();
+
+    const handlePrevSlide = () => {
+        if (swiperRef.current) {
+            swiperRef.current.slidePrev();
+        }
     };
 
     const { ref, inView } = useInView({
         triggerOnce: true,
         threshold: 0,
     });
-
 
     if (!tours) {
         return (
@@ -40,6 +42,7 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
             </motion.section>
         );
     }
+
     return (
         <section ref={ref}>
             {tours && inView ? (
@@ -47,8 +50,12 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
                     <div className={styles.testimonials__upper}>
                         <h2>{title}</h2>
                         <div className={styles.testimonials_btns}>
-                            <button onClick={() => handlePrevSlide(index)} aria-label="Previous slide"><GoArrowLeft /></button>
-                            <button onClick={() => handleNextSlide(index)} aria-label="Next slide"><GoArrowRight /></button>
+                            <button onClick={handlePrevSlide} aria-label="Previous slide">
+                                <GoArrowLeft />
+                            </button>
+                            <button onClick={handleNextSlide} aria-label="Next slide">
+                                <GoArrowRight />
+                            </button>
                         </div>
                     </div>
                     <Swiper
@@ -70,12 +77,19 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
                                 slidesPerView: 5,
                             },
                         }}
-                        onSwiper={(swiper) => swiperRefs.current[index] = swiper}
+                        virtual
+                        onSwiper={(swiper) => {
+                            swiperRef.current = swiper;
+                        }}
                         spaceBetween={20}
-                        navigation={{ nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }}>
-                        {tours?.map((tour: TourType, index: number) => (
-                            <SwiperSlide key={tour._id}>
-                                <TourCard tour={tour} base64={tour.base64 || ''} priority={index < 4}/>
+                        navigation={{
+                            nextEl: ".swiper-button-next",
+                            prevEl: ".swiper-button-prev",
+                        }}
+                    >
+                        {tours.map((tour: TourType, idx: number) => (
+                            <SwiperSlide key={tour._id} virtualIndex={idx}>
+                                <TourCard tour={tour} base64={tour.base64 || ''} priority={idx < 4} />
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -83,9 +97,8 @@ const SwiperTours = ({ tours, index, title }: { tours: TourType[], index: number
             ) : (
                 <Skeleton />
             )}
-            <LoginForm isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} />
         </section>
-    )
-}
+    );
+};
 
-export default SwiperTours
+export default SwiperTours;

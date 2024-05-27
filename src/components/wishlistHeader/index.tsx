@@ -1,22 +1,30 @@
-import React from 'react'
-import styles from "./style.module.scss"
-import { motion, AnimatePresence } from 'framer-motion'
-import { TourType } from '@/types/homePageTours'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useWishlist } from '@/context/WishlistContext'
-const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
+import React from 'react';
+import styles from "./style.module.scss";
+import { motion } from 'framer-motion';
+import { TourType } from '@/types/homePageTours';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useWishlist } from '@/context/WishlistContext';
+import { getVariants } from '@/animation/animate';  
+import useWindowWidth from '@/hooks/useWindowWidth'; 
 
-    const { wishlist, clearWishlist } = useWishlist()
+const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
+    const { wishlist, clearWishlist } = useWishlist();
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth !== null && windowWidth < 768;
 
     if (!wishlist) {
-        return null
+        return null;
     }
 
-
-
     return (
-        <motion.section className={styles.wishlistHeader} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+        <motion.section
+            className={styles.wishlistHeader}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={getVariants(isMobile)}
+        >
             {wishlistOpen && (
                 <motion.div className={styles.wishlistHeader__container}>
                     <div className={styles.wishlistHeader__upper}>
@@ -26,7 +34,7 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
                         {wishlist.length > 0 ? (
                             <>
                                 {wishlist.map((tour: TourType) => (
-                                    <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${tour._id}`}aria-label={ `View ${tour.title}`}>
+                                    <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${tour._id}`} aria-label={`View ${tour.title}`}>
                                         <Image src={tour?.mainImg?.url} alt="Tour" width={50} height={50} objectFit="cover" />
                                         <div className={styles.cardContent}>
                                             <div>
@@ -45,15 +53,12 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
                         )}
                     </div>
                     <div className={styles.btns}>
-                        {/* <button className={styles.wishlistHeader__lower_button} style={{ color: "var(--title-color)" }}>View Full Wishlist</button> */}
                         <button onClick={clearWishlist} className={styles.wishlistHeader__lower_button} style={{ color: "var(--accent-color)" }}>Clear Wishlist</button>
                     </div>
                 </motion.div>
-            )
-
-            }
+            )}
         </motion.section>
-    )
-}
+    );
+};
 
-export default WishlistHeader
+export default WishlistHeader;

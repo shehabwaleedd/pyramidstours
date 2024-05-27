@@ -39,7 +39,6 @@ export default async function UnifiedToursComponent({ location, type = 'recommen
         return null; // No tours to display
     }
 
-    // Shuffle and slice to a maximum of 5 tours
     const shuffleAndSliceTo5 = (array: EnhancedTourType[]) => {
         const shuffledArray = array.sort(() => Math.random() - 0.5);
         return shuffledArray.slice(0, 5);
@@ -50,9 +49,7 @@ export default async function UnifiedToursComponent({ location, type = 'recommen
 
     return (
         <section className={styles.recommendedTours}>
-            <div className={styles.recommendedTours__container}>
-                <SwiperTours tours={toursArray} index={uniqueKey} title={`${type === 'recommended' ? 'Similar Tours' : 'Tours You Might Like'}`} />
-            </div>
+            <SwiperTours tours={toursArray} index={uniqueKey} title={`${type === 'recommended' ? 'Similar Tours' : 'Tours You Might Like'}`} />
         </section>
     )
 }

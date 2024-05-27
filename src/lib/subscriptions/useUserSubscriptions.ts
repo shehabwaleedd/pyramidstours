@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { SubscriptionData } from '@/types/common';
+import Cookies from 'js-cookie';
 
 interface ApiResponse {
     message: string;
@@ -15,12 +16,13 @@ const useUserSubscriptions = (page: number) => {
     const [subscriptions, setSubscriptions] = useState<SubscriptionData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
+    const token = Cookies.get('token');
 
     const fetchUserSubscriptions = async () => {
         setLoading(true);
         try {
             const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription?page=${page}`, {
-                headers: { token: localStorage.getItem('token') },
+                headers: { token },
             });
             setSubscriptions(response.data.data.result);
         } catch (err) {

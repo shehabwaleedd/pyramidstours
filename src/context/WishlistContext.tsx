@@ -12,10 +12,15 @@ interface WishlistContextType {
     wishlist: TourType[];
     isLoginOpen: boolean;
     setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isRegisterOpen: boolean;
+    setIsRegisterOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleLoginSuccessForm: (token: string, userData: User) => void;
     clearWishlist: () => void;
     hasAnimationShown: boolean;
     setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>;
+    handleLoginIsOpen: () => void;
+    handleRegisterIsOpen: () => void;
+    
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
@@ -35,6 +40,9 @@ interface WishlistProviderProps {
 export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) => {
     const [hasAnimationShown, setHasAnimationShown] = useState<boolean>(false);
     const { isLoggedIn, setIsLoggedIn, setUser } = useAuth();
+    const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
+    const [isRegisterOpen, setIsRegisterOpen] = useState<boolean>(false);
+
     const [wishlist, setWishlist] = useState<TourType[]>(() => {
         if (typeof window !== 'undefined') {
             const storedWishlist = localStorage.getItem('wishlist');
@@ -42,7 +50,18 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
         }
         return [];
     });
-    const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
+
+    const handleLoginIsOpen = () => {
+        setIsLoginOpen(true);
+        setIsRegisterOpen(false);
+    }
+
+    const handleRegisterIsOpen = () => {
+        setIsRegisterOpen(true);
+        setIsLoginOpen(false);
+    }
+
+
 
     const addToWishlist = (tour: TourType) => {
         if (!isLoggedIn) {
@@ -86,6 +105,10 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
             setIsLoginOpen,
             handleLoginSuccessForm,
             clearWishlist,
+            isRegisterOpen,
+            setIsRegisterOpen,
+            handleRegisterIsOpen,
+            handleLoginIsOpen,
         }),
         [wishlist, isLoginOpen]
     );

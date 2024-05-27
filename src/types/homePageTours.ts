@@ -72,3 +72,8 @@ export interface TourGroup {
     mainTitle: string;
     tours: TourType[];
 }
+
+export interface GroupedToursType {
+    title: string;
+    tours: TourType[];
+}

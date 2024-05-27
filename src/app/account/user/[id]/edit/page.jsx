@@ -2,11 +2,11 @@
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import styles from "./page.module.scss"
-import Loading from "../../../../../animation/loading/Loading"
+import Cookies from 'js-cookie';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import Link from 'next/link';
 import { useAuth } from '../../../../../context/AuthContext';
@@ -16,6 +16,7 @@ const EditUser = () => {
     const { user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const token = Cookies.get('token');
 
     const validationSchema = yup.object({
         name: yup.string().required(),
@@ -57,7 +58,7 @@ const EditUser = () => {
                 const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, formData, {
                     headers:
                     {
-                        token: localStorage.getItem('token'),
+                        token,
                     },
                 });
                 if (response.status === 200 && response.data.message === "success") {
@@ -74,7 +75,7 @@ const EditUser = () => {
     });
 
     if (!user) {
-        return <Loading height={100} />; // Or any other loading indicator
+        return  <div>Loading...</div>; 
     }
 
 

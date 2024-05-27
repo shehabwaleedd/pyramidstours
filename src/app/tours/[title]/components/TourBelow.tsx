@@ -15,7 +15,7 @@ const TourBelow = ({ tour }: { tour: TourType }) => {
             <div className={styles.eventDetails__intro_desc}>
                 <p> <IoLocationSharp /> {tour?.location?.from}, {tour?.location?.to} </p>
                 <p> <FiClock /> {tour?.duration} </p>
-                <p> <BsCurrencyDollar />   From ${tour?.adultPricing?.find(p => p.adults === 1)?.price ?? 'N/A'}</p>
+                <p> <BsCurrencyDollar />   From {tour?.price ?? 'N/A'}</p>
                 <Link href={`/search/${tour?.category}`} aria-label={tour?.category}> <IoPricetagOutline /> {tour?.category} </Link>
             </div>
         </div>

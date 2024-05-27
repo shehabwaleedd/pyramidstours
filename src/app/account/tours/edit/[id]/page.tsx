@@ -6,7 +6,6 @@ import { Formik, Form } from 'formik';
 import axios from 'axios';
 import styles from "./page.module.scss"
 import { useTourById } from '@/lib/tours/useTourById';
-import Loading from '../../../../../animation/loading/Loading';
 import Link from 'next/link';
 import { IoArrowBack } from "react-icons/io5";
 import { Img, ImageFile, CurrentImage } from '@/types/editTour';
@@ -19,7 +18,7 @@ import PricingOptions from '../../createTour/components/PricingOptions';
 import ImagesUploader from './components/EditImagesUploader';
 import ImageUploader from './components/EditImageUploader';
 import ReactQuillField from '../../createTour/components/ReactQuillField';
-
+import Cookies from 'js-cookie';
 
 const EditTour = () => {
     const router = useRouter();
@@ -28,6 +27,7 @@ const EditTour = () => {
     const [newImageFiles, setNewImageFiles] = useState<ImageFile[]>([]);
     const { id } = useParams();
     const { tour, loading } = useTourById(id as string);
+    const token = Cookies.get('token');
 
     useEffect(() => {
         if (tour) {
@@ -115,8 +115,6 @@ const EditTour = () => {
         for (let [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
-
-        const token = localStorage.getItem('token');
         try {
             const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/tour/${id}`, formData, {
                 headers: {
@@ -144,7 +142,7 @@ const EditTour = () => {
                     </Link>
                     <h1>Edit Tour</h1>
                 </div>
-                {loading ? <Loading height={100} /> : (
+                {loading ? <div>Loading...</div> : (
                     <Formik
                         initialValues={initialValues}
                         onSubmit={handleSubmit} className={styles.form}>

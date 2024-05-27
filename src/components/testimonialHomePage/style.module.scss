@@ -23,7 +23,6 @@
         @media (max-width: 768px) {
             font-size: var(--bigger-font-size);
         }
-
     }
 
     &__swiper {
@@ -53,8 +52,6 @@
         border-radius: 1rem;
         gap: 2rem;
 
-
-
         &__header {
             display: flex;
             width: 100%;
@@ -70,7 +67,6 @@
                 width: 10vw;
                 height: 1px;
                 background-color: var(--border-color);
-
             }
 
             img {

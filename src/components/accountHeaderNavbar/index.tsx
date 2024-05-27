@@ -1,50 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from './style.module.scss';
-import { motion, AnimatePresence } from "framer-motion";
-import { usePathname } from 'next/navigation';
+import { motion } from "framer-motion";
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
+import useWindowWidth from '@/hooks/useWindowWidth';
+import { getVariants } from '@/animation/animate';  
+
 
 const AccountHeaderNavbar = ({ profileOpen }: { profileOpen: boolean }) => {
     const { user, handleLogout } = useAuth();
     const userAvatar = user?.avatar?.url || "/user.png";
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth !== null && windowWidth < 768;
+
 
     return (
-        <div className={styles.accountHeader}>
+        <>
             {profileOpen && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.2 }}
-                    className={styles.accountHeader__profile}>
-                    <div className={styles.accountHeader__profile_upper}>
-                        <div>
-                            <Image
-                                src={userAvatar ?? "/user.png"}
-                                alt="User Avatar"
-                                width={50}
-                                height={50}
-                                className={styles.accountHeader__profile_upper_avatar}
-                            />
+                <motion.div className={styles.accountHeader}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={getVariants(isMobile)}
+                >
+                    <div className={styles.accountHeader__profile}>
+                        <div className={styles.accountHeader__profile_upper}>
+                            <div>
+                                <Image
+                                    src={userAvatar}
+                                    alt="User Avatar"
+                                    width={50}
+                                    height={50}
+                                    className={styles.accountHeader__profile_upper_avatar}
+                                />
+                            </div>
+                            <div>
+                                <h3>{user?.name}</h3>
+                                <p>{user?.email}</p>
+                            </div>
                         </div>
-                        <div>
-                            <h3>{user?.name}</h3>
-                            <p>{user?.email}</p>
+                        <div className={styles.accountHeader__profile_lower}>
+                            <Link href="/account" aria-label="Account Page">
+                                <span>Account</span>
+                            </Link>
+                            <button onClick={handleLogout} style={{ color: "red" }} aria-label="Logout">
+                                Logout
+                            </button>
                         </div>
-                    </div>
-                    <div className={styles.accountHeader__profile_lower}>
-                        <Link href="/account"  aria-label="Account Page">
-                            <span>Account</span>
-                        </Link>
-                        <button onClick={handleLogout} style={{ color: "red" }} aria-label="Logout">
-                            Logout
-                        </button>
                     </div>
                 </motion.div>
             )}
-        </div>
+        </>
     );
 };
 

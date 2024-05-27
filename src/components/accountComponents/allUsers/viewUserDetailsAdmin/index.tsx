@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import styles from "./style.module.scss";
 import Image from 'next/image';
-import { IoLocationOutline } from "react-icons/io5";
+import { FaGlobeAmericas } from "react-icons/fa";
 import { FiPhone } from "react-icons/fi";
-import { MdOutlineWorkOutline } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import axios from 'axios';
 import { useUserById } from '@/lib/user/useUserById';
 import global from "../../../../app/page.module.scss"
 import { toast } from 'sonner';
+import Cookies from 'js-cookie';
+import useWindowWidth from '@/hooks/useWindowWidth'
+import { getVariants } from '@/animation/animate'
 
 interface ViewUserDetailsAdminProps {
     userOpen: string;
@@ -18,7 +20,9 @@ interface ViewUserDetailsAdminProps {
 
 const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, setUserOpen }) => {
     const { user, loading } = useUserById(userOpen);
-
+    const token = Cookies.get('token');
+    const windowWidth = useWindowWidth();
+    const isMobile = windowWidth !== null && windowWidth < 768;
 
     const deleteUser = async (id: string) => {
         const isConfirmed = window.confirm("Are you sure you want to delete this user?");
@@ -27,7 +31,7 @@ const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, s
                 const response = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/user/${id}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'token': localStorage.getItem('token'),
+                        token,
                     },
                 });
                 if (response.status === 200) {
@@ -42,16 +46,28 @@ const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, s
         }
     }
 
+    useEffect(() => {
 
-    if (loading) return <p>Loading...</p>;
+        const fetchRandomApi = async () => {
+            try {
+                const response = await axios.get('https://randomuser.me/api/');
+                console.log(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchRandomApi();
+
+    }, [])
 
     return (
         <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className={`${styles.viewUserDetailsAdmin} ${global.centeredGlass}`}>
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={getVariants(isMobile)}
+            className={`${styles.viewUserDetailsAdmin} ${!isMobile ? global.centeredGlass : global.bottomGlass}`}>
             <div className={styles.viewUserDetailsAdmin__container}>
                 <div className={styles.viewUserDetailsAdmin__container__close}>
                     <button onClick={() => setUserOpen(null)} aria-label="Close">close</button>
@@ -68,13 +84,12 @@ const ViewUserDetailsAdmin: React.FC<ViewUserDetailsAdminProps> = ({ userOpen, s
                 <div className={styles.viewUserDetailsAdmin__container__bottom}>
                     <p>{user?.email}</p>
                     <p><FiPhone /> {user?.phone}</p>
-                    <p><IoLocationOutline /> {user?.country}, {user?.region}</p>
-                    <p><MdOutlineWorkOutline /> {user?.company}</p>
-                    <p><FiUser /> {user?.gender}, {user?.age} yo</p>
+                    <p><FaGlobeAmericas /> {user?.nationality}</p>
+                    <p><FiUser />  {user?.age} yo</p>
 
                 </div>
                 <div className={styles.viewUserDetailsAdmin__container__lower}>
-                    <button style={{ color: "#c92a2a" }} onClick={() => deleteUser(user?._id ?? '')}aria-label="Delete User">Delete User</button>
+                    <button className={global.submitButton} style={{ color: "#1b1b1b", backgroundColor: "var(--accent-color)" }} onClick={() => deleteUser(user?._id ?? '')} aria-label="Delete User">Delete User</button>
                 </div>
             </div>
         </motion.section>

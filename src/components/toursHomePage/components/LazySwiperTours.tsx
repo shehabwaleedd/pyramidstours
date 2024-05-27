@@ -1,8 +1,7 @@
-import React, { Suspense } from 'react';
-import styles from "../style.module.scss"
-import Skeleton from '@/animation/skeleton';
+import React from 'react';
+import dynamic from 'next/dynamic';
 import { TourType } from '@/types/homePageTours';
-const SwiperToursLazy = React.lazy(() => import('../../swiperTours'));
+const  SwiperToursLazy = dynamic(() => import('@/components/swiperTours'), { ssr: false });
 
 interface LazySwiperToursProps {
     tours: TourType[];
@@ -11,10 +10,12 @@ interface LazySwiperToursProps {
 }
 
 const LazySwiperTours: React.FC<LazySwiperToursProps> = ({ tours, title, index }) => {
+
     return (
-        <Suspense fallback={<Skeleton />}>
-            <SwiperToursLazy tours={tours} title={title} index={index} />
-        </Suspense>
+
+        <SwiperToursLazy tours={tours} title={title} index={index} />
+
     );
 };
-export default LazySwiperTours
+
+export default LazySwiperTours;

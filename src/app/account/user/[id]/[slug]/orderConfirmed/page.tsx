@@ -4,10 +4,8 @@ import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Confetti from 'react-confetti'
 import { useAuth } from '@/context/AuthContext';
-import { useTourById } from '@/lib/tours/useTourById';
 import styles from "./page.module.scss"
 import { FaRegCheckCircle } from "react-icons/fa";
-import Loading from '@/animation/loading/Loading';
 import useSubscriptionById from '@/lib/subscriptions/useSubscriptionById';
 import common from "@/app/page.module.scss"
 
@@ -30,7 +28,7 @@ const OrderConfirmed = () => {
     }, [subscription, loading]);
 
     if (loading) {
-        return <Loading height={100} />
+        return <div>Loading...</div>;
     }
 
     return (

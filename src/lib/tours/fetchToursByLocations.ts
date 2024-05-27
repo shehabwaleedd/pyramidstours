@@ -1,14 +1,14 @@
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
 
 export async function fetchAndGroupTours() {
-    const locations = ["Cairo", "Giza", "Luxor", "Aswan", "Alexandria"];
+    const locations = ["Cairo", "Luxor", "Aswan"];
     const tag = 'top-rated-tours';
 
     // Fetching tours by locations
     const groupedToursByLocations = await Promise.all(locations.map(async location => {
         const locationQuery = `location.from=${location}`;
         const toursByLocation = await serverUseToursByIds(locationQuery);
-        return { title: location, tours: toursByLocation };
+        return { title: `${location} Tours`, tours: toursByLocation };
     }));
 
     // Fetching top-rated tours

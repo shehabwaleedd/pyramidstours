@@ -1,17 +1,18 @@
 import React from 'react';
-import styles from './style.module.scss';
 import { fetchAndGroupTours } from '@/lib/tours/fetchToursByLocations';
-import SwiperTours from '../swiperTours';
+import ToursHomePageComponent from './components/ToursHomePageComponent';
 import getBase64 from '@/lib/getLocalBase64';
-
+import { GroupedToursType } from '@/types/homePageTours';
 
 async function enhancedFetchAndGroupTours() {
-    const groupedTours = await fetchAndGroupTours();
+    const groupedTours: GroupedToursType[] = await fetchAndGroupTours() as GroupedToursType[];
 
     for (const group of groupedTours) {
         if (group.tours) {
             for (const tour of group.tours) {
-                tour.base64 = await getBase64(tour.mainImg.url);
+                if (!tour.base64) {
+                    tour.base64 = await getBase64(tour.mainImg.url);
+                }
             }
         }
     }
@@ -22,19 +23,5 @@ async function enhancedFetchAndGroupTours() {
 export default async function ToursHomePage() {
     const groupedTours = await enhancedFetchAndGroupTours();
 
-    return (
-        <section className={styles.testimonials}>
-            {groupedTours.map((group, index) => (
-                <SwiperTours
-                    key={index}
-                    tours={group.tours || []} 
-                    index={index}
-                    title={`${group.title}`}
-                />
-            ))}
-        </section>
-    );
-};
-
-
-
+    return <ToursHomePageComponent groupedTours={groupedTours} />;
+}

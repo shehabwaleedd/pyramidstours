@@ -1,43 +1,18 @@
-import "./globals.css";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
 import WhatsappIcon from "@/components/whatsappIcon";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { WishlistProvider } from "@/context/WishlistContext";
-import Script from "next/script"
+import { AnimationProvider } from "@/context/AnimationContext";
+
+import Script from "next/script";
 import { Toaster } from "sonner";
 import { serverUseToursByIds } from "@/lib/tours/serverUseToursByIds";
+import dynamic from "next/dynamic";
+const Footer = dynamic(() => import("@/components/footer"), { ssr: false });
+const Navbar = dynamic(() => import("@/components/navbar"));
+import "./globals.css"
 
-interface OpenGraph {
-  type: string;
-  title: string;
-  description: string;
-  images: string;
-  url: string;
-  site_name: string;
-}
-
-interface Twitter {
-  card: string;
-  site: string;
-  title: string;
-  description: string;
-  image: string;
-}
-
-
-interface Metadata {
-  title: string;
-  description: string;
-  keywords: string;
-  author: string;
-  openGraph: OpenGraph;
-  twitter: Twitter;
-}
-
-
-export const metadata: Metadata = {
+export const metadata = {
   title: "Pyramids Egypt Tours - Explore Ancient Wonders",
   description: "Embark on a journey through time with Pyramids Egypt Tours. Discover the ancient wonders of the Giza Pyramids, Sphinx, and more. Experience the rich history and breathtaking landscapes of Egypt with our expert-guided tours.",
   keywords: "Pyramids Egypt Tours, Giza Pyramids, Sphinx, Egypt Tours, Ancient Egypt, Historical Tours, Egypt Travel, Cairo Tours",
@@ -59,57 +34,46 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport = {
-  width: "device-width",
-  height: "device-height",
-  initialScale: 1,
-  minimumScale: 1,
-  maximumScale: 5,
-  viewportFit: "cover",
-  themeColor: "var(--background-color)",
-
-}
-
 async function fetchTours() {
   const tours = await serverUseToursByIds('') ?? [];
   return tours;
 }
 
-
-
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const tours = await fetchTours();
 
   return (
     <html lang="en">
       <head>
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-RDCTEVEDHC"></Script>
-        <Script id="google-analytics">
+        <link rel="preconnect" href="https://api.exchangerate-api.com" />
+        <link rel="dns-prefetch" href="https://api.exchangerate-api.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <Script strategy="worker" async src="https://www.googletagmanager.com/gtag/js?id=G-RDCTEVEDHC"></Script>
+        <Script id="google-analytics" strategy="worker">
           {`{
-              window.dataLayer = window.dataLayer || [];
+            window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-  
             gtag('config', 'G-RDCTEVEDHC');
-            }`}
+          }`}
         </Script>
       </head>
       <body>
         <AuthProvider>
           <WishlistProvider>
-            <CurrencyProvider>
-              <Navbar tours={tours} />
-              <Toaster />
-              {children}
-            </CurrencyProvider>
-            <WhatsappIcon />
-            <Footer />
+            <AnimationProvider>
+              <CurrencyProvider>
+                <Navbar tours={tours} />
+                <Toaster />
+                {children}
+              </CurrencyProvider>
+              <WhatsappIcon />
+              <Footer />
+            </AnimationProvider>
           </WishlistProvider>
         </AuthProvider>
       </body>
     </html>
   );
 }
-
-

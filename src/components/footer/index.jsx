@@ -22,10 +22,10 @@ const Footer = () => {
                             </span>
                         </li>
                         <li>
-                            <Link href="#" aria-label="Facebook">Facebook </Link>
+                            <Link href="https://www.facebook.com/profile.php?id=61559197923188&mibextid=LQQJ4d" target='_blank' aria-label="Facebook">Facebook </Link>
                         </li>
                         <li>
-                            <Link href="#" arial-label="Instagram Page">Instagram </Link>
+                            <Link href="https://www.instagram.com/pyramidsegypttours/" target='_blank' arial-label="Instagram Page">Instagram </Link>
                         </li>
                         <li>
                             <Link href="/privacy" aria-label="Privacy Policy">Privacy </Link>

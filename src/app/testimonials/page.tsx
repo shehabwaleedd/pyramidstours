@@ -6,6 +6,7 @@ import axios from 'axios';
 import styles from './page.module.scss';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { toast } from "sonner"
 
 interface FormValues {
     userName: string;
@@ -24,7 +25,7 @@ const CreateTestimonials: React.FC = () => {
             userName: '',
             email: '',
             description: '',
-            rate: 0, // Initial rate is 0
+            rate: 0,
         },
         validationSchema: yup.object({
             userName: yup.string().required("Name is required"),
@@ -39,17 +40,18 @@ const CreateTestimonials: React.FC = () => {
                 formData.append('email', values.email);
                 formData.append('description', values.description);
                 formData.append('rate', values.rate.toString());
-                if (avatar) formData.append('avatar', avatar); 
+                if (avatar) formData.append('avatar', avatar);
 
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/testimonial`, formData);
 
                 if (response.status === 200 && response.data.message === 'success') {
+                    toast.success("Review submitted successfully, directing you to the home page");
                     router.push('/');
                 } else {
-                    setErrorFromDataBase(response.data.err || "An error occurred");
+                    toast.error(response.data.err || "An error occurred");
                 }
             } catch (error) {
-                setErrorFromDataBase(error instanceof Error ? error.message : "An error occurred");
+                toast.error(error instanceof Error ? error.message : "An error occurred");
             }
         },
     });
@@ -139,7 +141,6 @@ const CreateTestimonials: React.FC = () => {
                 </div>
                 <button type="submit" className={styles.register__btn} disabled={formik.isSubmitting} aria-label="Submit Testimonial"> {formik.isSubmitting ? 'Submitting...' : 'Submit'}</button>
             </form>
-            {errorFromDataBase && <div className={styles.error}>{errorFromDataBase}</div>}
         </main>
     );
 };

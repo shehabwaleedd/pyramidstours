@@ -1,10 +1,12 @@
-/** @type {import('next').NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
-    reactStrictMode: true,
+    reactStrictMode: false,
+    experimental: { optimizeCss: true },
     images: {
         domains: ['res.cloudinary.com'],
     }
-
 };
 
 export default nextConfig;

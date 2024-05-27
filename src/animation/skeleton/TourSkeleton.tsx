@@ -1,3 +1,4 @@
+import LeftColumnSkeleton from "./LeftColumn";
 import "./skeleton.scss";
 export default function TourSkeleton() {
     return (
@@ -5,16 +6,7 @@ export default function TourSkeleton() {
             <div className="skeleton-video skeleton"></div>
             <div className="skeleton-title skeleton"></div>
             <div className="products-grid-tour">
-                <div className="tour-grid-left">
-                    {
-                        [...new Array(4)].map((p, index) => (
-                            <article key={index} className="skeleton-card-tours">
-                                <div className="skeleton skeleton-card-img">
-                                </div>
-                            </article>
-                        ))
-                    }
-                </div>
+                <LeftColumnSkeleton />
                 <div className="tour-grid-right">
 
                     <article className="skeleton-card-tour-header">

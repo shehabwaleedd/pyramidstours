@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import styles from './page.module.scss'
 import Image from 'next/image'
-import Loading from '@/animation/loading/Loading'
 import AdminView from '@/components/accountViews/admin'
 import UserView from '@/components/accountViews/user'
 import AllUsers from '@/components/accountComponents/allUsers'
@@ -14,27 +13,14 @@ import ForgotPassword from "@/components/accountComponents/forgetPassword"
 import PersonalInfo from '@/components/accountComponents/personalInfo'
 import ChangePasswordForm from '@/components/accountComponents/changePassword'
 import CreateTour from './tours/createTour/page'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import UserSubscriptions from '@/components/accountComponents/userSubscriptions'
+import Cookies from 'js-cookie'
 const Account = () => {
     const { user, loading, setUser, handleLogout, isLoggedIn } = useAuth();
     const [activeSection, setActiveSection] = useState<string>('');
-    const router = useRouter();
 
-
-    useEffect(() => {
-        // Access localStorage within useEffect to ensure it's client-side
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.log('No token found');
-        }
-    }, []);
-
-    useEffect(() => {
-        if (!isLoggedIn) {
-            router.push('/login');
-        }
-    }, [isLoggedIn])
+    const token = Cookies.get('token');
 
     const handleOpen = (sectionName: string) => () => {
         setActiveSection(sectionName);
@@ -42,10 +28,10 @@ const Account = () => {
 
 
     const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const token = localStorage.getItem('token');
+
         if (!token) return;
         const avatar = user?.avatar;
-        console.log(avatar);
+
         const formData = new FormData();
         if (avatar) formData.append('avatar', avatar.url);
         if (event.currentTarget.files) {
@@ -72,7 +58,7 @@ const Account = () => {
         }
     };
 
-    if (loading || !user) return <Loading height={100} />;
+    if (loading || !user) return <div>Loading</div>;
 
     return (
         <main className={styles.account}>

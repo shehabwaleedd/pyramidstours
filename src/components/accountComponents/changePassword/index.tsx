@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import styles from "./style.module.scss";
 import { toast } from 'sonner';
+import Cookies from 'js-cookie';
 // TypeScript types for form values
 interface FormValues {
     password: string;
@@ -25,6 +26,7 @@ const validationSchema = Yup.object({
 
 const ChangePasswordForm = () => {
     const [errors, setErrors] = useState<string | null>(null);
+    const token = Cookies.get('token');
 
     const handleSubmit = async (values: FormValues, { setSubmitting, resetForm }: FormikHelpers<FormValues>) => {
         const payload = {
@@ -35,7 +37,7 @@ const ChangePasswordForm = () => {
 
         try {
             const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/changePassword`, payload, {
-                headers: { token: localStorage.getItem('token') },
+                headers: { token },
             });
 
             if (response.data.success) {

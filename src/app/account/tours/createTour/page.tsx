@@ -13,7 +13,7 @@ import PricingOptions from './components/PricingOptions';
 import ImageUploader from './components/ImageUploader';
 import ImagesUploader from './components/ImagesUploader';
 import ReactQuillField from './components/ReactQuillField';
-import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const initialValues: FormValues = {
     title: '',
@@ -48,9 +48,10 @@ const CreateTour = () => {
     const [success, setSuccess] = useState<boolean>(false);
     const [uploadedImages, setUploadedImages] = useState<ImageFile[]>([]);
     const [mainImg, setMainImg] = useState<File | null>(null);
+    const token = Cookies.get('token');
 
     const handleSubmit = async (values: any, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
-        const token = localStorage.getItem("token");
+
         if (!token) {
             setError("Unauthorized");
             return;
