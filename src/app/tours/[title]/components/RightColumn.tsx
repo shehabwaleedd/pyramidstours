@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import ImageSlider from '@/components/imageSlider/ImageSlider';
+import dynamic from 'next/dynamic';
 import styles from '../page.module.scss';
 import { TourType } from '@/types/homePageTours';
 import { FaCheck, FaTimes } from 'react-icons/fa';
@@ -8,6 +8,8 @@ import Prices from './Prices';
 import Description from './rightColumnComponents/Description';
 import Itinerary from './rightColumnComponents/Itinerary';
 import HistoryBrief from './rightColumnComponents/History';
+import HeaderSkeleton from '@/animation/skeleton/HeaderSkeleton';
+const ImageSlider = dynamic(() => import('@/components/imageSlider/ImageSlider'), { ssr: false, loading: () => <HeaderSkeleton /> });
 
 const RightColumn = ({ tour }: { tour: TourType }) => {
     return (

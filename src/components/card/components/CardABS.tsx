@@ -10,13 +10,15 @@ const CardABS = ({ tour }: { tour: TourType }) => {
 
 
     const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
+
     const isInWishlist = useMemo(() => wishlist.some(item => item._id === tour._id), [wishlist, tour._id]);
     const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
     const router = useRouter();
 
 
     const handleWishlistClick = async (event: React.MouseEvent, tourId: string) => {
-        event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation(); 
         if (isInWishlist) {
             removeFromWishlist(tourId);
         } else {
@@ -25,7 +27,8 @@ const CardABS = ({ tour }: { tour: TourType }) => {
     };
 
     const handleCategoryClick = (event: React.MouseEvent, category: string) => {
-        event.stopPropagation();
+        event.preventDefault();
+        event.stopPropagation(); // Prevent Link navigation
         const slugCategory = slugify(category);
         router.push(`/${slugCategory}`);
     }

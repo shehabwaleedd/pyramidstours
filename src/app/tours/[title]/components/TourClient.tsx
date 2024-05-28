@@ -6,8 +6,8 @@ import { TourType } from '@/types/homePageTours';
 import TourUpper from './TourUpper';
 import TourBelow from './TourBelow';
 import LeftColumnSkeleton from '@/animation/skeleton/LeftColumn';
-const LeftColumn = dynamic(() => import('./LeftColumn'));
-const UnifiedToursComponent = dynamic(() => import('@/components/unifiedToursComponent'), { ssr: false });
+const LeftColumn = dynamic(() => import('./LeftColumn'), { loading: () => <LeftColumnSkeleton />, ssr: false, });
+const UnifiedToursComponent = dynamic(() => import('@/components/unifiedToursComponent'), { ssr: false, });
 const LeaveReview = dynamic(() => import('@/components/makeReview'), { ssr: false });
 
 interface TourClientProps {
@@ -29,12 +29,7 @@ const TourClient: React.FC<TourClientProps> = ({ tour, base64 }) => {
                 <TourUpper tour={tour} base64={base64} />
                 <TourBelow tour={tour} />
                 <aside className={styles.eventDetails__lower}>
-                    {tour &&
-                        <Suspense fallback={<LeftColumnSkeleton />}>
-                            <LeftColumn tour={tour} />
-                        </Suspense>
-                    }
-
+                    {tour && <LeftColumn tour={tour} />}
                     {tour && <RightColumn tour={tour} />}
                 </aside>
                 <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: cleanGoogleMapLink(tour?.mapDetails ?? '') }} />

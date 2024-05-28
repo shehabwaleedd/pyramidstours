@@ -1,3 +1,4 @@
+import HeaderSkeleton from "./HeaderSkeleton";
 import LeftColumnSkeleton from "./LeftColumn";
 import "./skeleton.scss";
 export default function TourSkeleton() {
@@ -9,10 +10,7 @@ export default function TourSkeleton() {
                 <LeftColumnSkeleton />
                 <div className="tour-grid-right">
 
-                    <article className="skeleton-card-tour-header">
-                        <div className="skeleton-card-img-header skeleton">
-                        </div>
-                    </article>
+                    <HeaderSkeleton />
                     <div className="equal-grid">
                         <div className="skeleton-card-tour-header">
                             <div className="skeleton-card-img-header skeleton">

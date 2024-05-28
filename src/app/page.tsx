@@ -6,26 +6,33 @@ import ToursHomePage from '@/components/toursHomePage';
 import dynamic from 'next/dynamic';
 import { serverUseTestimonials } from '@/lib/serverTestimonials';
 import Opening from '@/animation/opening';
-const TestimonialsCards = dynamic(() => import('@/components/testimonialHomePage'), { ssr: false });
+import Skeleton from '@/animation/skeleton';
+
+
+const TestimonialsCards = dynamic(() => import('@/components/testimonialHomePage'), { ssr: false, loading: () => <Skeleton />, });
+const LoginComponent = dynamic(() => import('@/components/accountComponents/loginComponent'), { ssr: false });
+const RegisterComponent = dynamic(() => import('@/components/accountComponents/registerComponent'), { ssr: false });
+
 async function fetchTestimonials() {
   const testimonials = await serverUseTestimonials();
   return testimonials;
 }
 
-
-
 export default async function Home() {
 
   const testimonials = await fetchTestimonials() ?? [];
+
 
   return (
     <>
       <Opening />
       <main className={styles.main}>
         <SearchForm />
-        <ToursHomePage />
+        <ToursHomePage  />
         <TestimonialsCards data={testimonials} />
       </main>
+      <LoginComponent />
+      <RegisterComponent />
     </>
   );
 }

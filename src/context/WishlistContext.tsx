@@ -16,11 +16,9 @@ interface WishlistContextType {
     setIsRegisterOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleLoginSuccessForm: (token: string, userData: User) => void;
     clearWishlist: () => void;
-    hasAnimationShown: boolean;
-    setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>;
     handleLoginIsOpen: () => void;
     handleRegisterIsOpen: () => void;
-    
+
 }
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
@@ -38,7 +36,6 @@ interface WishlistProviderProps {
 }
 
 export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) => {
-    const [hasAnimationShown, setHasAnimationShown] = useState<boolean>(false);
     const { isLoggedIn, setIsLoggedIn, setUser } = useAuth();
     const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
     const [isRegisterOpen, setIsRegisterOpen] = useState<boolean>(false);
@@ -96,8 +93,6 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
 
     const contextValue = useMemo(
         () => ({
-            hasAnimationShown,
-            setHasAnimationShown,
             addToWishlist,
             removeFromWishlist,
             wishlist,

@@ -237,10 +237,8 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
             <AnimatePresence mode='wait'>
                 {state.subscriptionOpen && state.subscriptionData && (<Proceed data={state.subscriptionData} setSubscriptionOpen={() => dispatch({ type: 'TOGGLE_SUBSCRIPTION_OPEN' })} />)}
             </AnimatePresence>
-            <AnimatePresence mode='wait'>
-                {isLoginOpen && <LoginComponent setIsLoginOpen={setIsLoginOpen} />}
-                {isRegisterOpen && <RegisterComponent setIsLoginOpen={setIsLoginOpen} />}
-            </AnimatePresence>
+            {isLoginOpen && <LoginComponent />}
+            {isRegisterOpen && <RegisterComponent />}
         </>
     );
 };

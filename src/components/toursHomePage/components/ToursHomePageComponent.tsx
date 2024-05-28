@@ -1,17 +1,16 @@
 'use client';
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
-import LazySwiperTours from './LazySwiperTours';
 import styles from '../style.module.scss';
 import { GroupedToursType } from '@/types/homePageTours';
-
+import SwiperTours from '@/components/swiperTours';
 interface ToursHomePageComponentProps {
     groupedTours: GroupedToursType[];
 }
 
 const ToursHomePageComponent: React.FC<ToursHomePageComponentProps> = ({ groupedTours }) => {
     return (
-        <section className={styles.testimonials}>
+        <section className={styles.homeTours}>
             {groupedTours.map((group, index) => (
                 <TourGroupSection key={index} group={group} index={index} />
             ))}
@@ -31,8 +30,8 @@ const TourGroupSection: React.FC<TourGroupSectionProps> = ({ group, index }) => 
     });
 
     return (
-        <div ref={ref} className={styles.swiperContent}>
-            {inView && <LazySwiperTours tours={group.tours} title={group.title} index={index} />}
+        <div ref={ref}>
+            {inView && <SwiperTours tours={group.tours} title={group.title} index={index} />}
         </div>
     );
 };

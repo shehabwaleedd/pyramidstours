@@ -6,6 +6,8 @@
     border: 1px solid var(--border-color);
     padding: 0.5rem;
     border-radius: 1rem;
+    cursor: zoom-in;
+    z-index: 9;
 }
 
 .image-slider-wrapper {

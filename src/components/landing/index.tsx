@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './style.module.scss';
-import SearchField from '../searchField';
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
+import dynamic from 'next/dynamic';
+const SearchField = dynamic(() => import('@/components/searchField'), { ssr: false });
 
 export default async function SearchForm() {
     const tours = await serverUseToursByIds('') || [];

@@ -7,11 +7,12 @@ import dynamic from 'next/dynamic';
 import { background } from './anim';
 import { useWishlist } from '@/context/WishlistContext';
 import NavLeft from './components/navLeft';
-import DesktopMenu from './desktopMenu';
 import NavbarRightLeft from './components/navbarRightLeft';
 import NavbarRightRight from './components/navbarRightRight';
 import { TourType } from '@/types/homePageTours';
 
+
+const DesktopMenu = dynamic(() => import('@/components/navbar/desktopMenu'), { ssr: false });
 const AccountHeaderNavbar = dynamic(() => import('@/components/accountHeaderNavbar/'), { ssr: false });
 const WishlistHeader = dynamic(() => import('@/components/wishlistHeader'), { ssr: false });
 

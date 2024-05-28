@@ -254,6 +254,10 @@
                         line-height: 1.3rem;
                     }
                 }
+                button {
+                    padding-top: 1rem;
+                    color: var(--second-accent-color);
+                }
             }
 
             &_exclusionsAndInclusions {
