@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import styles from '../style.module.scss';
 import { GroupedToursType } from '@/types/homePageTours';
 import SwiperTours from '@/components/swiperTours';
+import Skeleton from '@/animation/skeleton';
 interface ToursHomePageComponentProps {
     groupedTours: GroupedToursType[];
 }
@@ -24,6 +25,7 @@ interface TourGroupSectionProps {
 }
 
 const TourGroupSection: React.FC<TourGroupSectionProps> = ({ group, index }) => {
+
     const { ref, inView } = useInView({
         triggerOnce: true,
         threshold: 0.1  // Trigger as soon as even 10% of the element is visible.
@@ -31,7 +33,11 @@ const TourGroupSection: React.FC<TourGroupSectionProps> = ({ group, index }) => 
 
     return (
         <div ref={ref}>
-            {inView && <SwiperTours tours={group.tours} title={group.title} index={index} />}
+            {inView ? (
+                <SwiperTours tours={group.tours} title={group.title} index={index} isViewMoreAllowed={true} />
+            ) : (
+                <Skeleton />
+            )}
         </div>
     );
 };

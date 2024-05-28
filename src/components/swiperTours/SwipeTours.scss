@@ -106,8 +106,22 @@
     font-size: 18px;
     cursor: pointer;
     transition: background 0.3s ease;
-
+    
     &:hover {
         background: #e0e0e0;
     }
+    a {
+        font-family: var(--subtitle-font);
+        font-size: 1.4rem;
+        color: var(--title-color);
+    }
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper .swiper-slide {
+    height: auto;
 }

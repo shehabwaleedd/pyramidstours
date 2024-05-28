@@ -49,7 +49,7 @@ export default async function UnifiedToursComponent({ location, type = 'recommen
 
     return (
         <section className={styles.recommendedTours}>
-            <SwiperTours tours={toursArray} index={uniqueKey} title={`${type === 'recommended' ? 'Similar Tours' : 'Tours You Might Like'}`} />
+            <SwiperTours tours={toursArray} index={uniqueKey} title={`${type === 'recommended' ? 'Similar Tours' : 'Tours You Might Like'}`}  isViewMoreAllowed={false}/>
         </section>
     )
 }

@@ -12,6 +12,7 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
     const { wishlist, clearWishlist } = useWishlist();
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth !== null && windowWidth < 768;
+    const slugifiedTitle = (title: string) => title.toLowerCase().replace(/ /g, '-');
 
     if (!wishlist) {
         return null;
@@ -34,7 +35,7 @@ const WishlistHeader = ({ wishlistOpen }: { wishlistOpen: boolean }) => {
                         {wishlist.length > 0 ? (
                             <>
                                 {wishlist.map((tour: TourType) => (
-                                    <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${tour._id}`} aria-label={`View ${tour.title}`}>
+                                    <Link key={tour._id} className={styles.wishlistHeader__lower_card} href={`/tours/${slugifiedTitle(tour.title)}`} aria-label={`View ${tour.title}`}>
                                         <Image src={tour?.mainImg?.url} alt="Tour" width={50} height={50} objectFit="cover" />
                                         <div className={styles.cardContent}>
                                             <div>

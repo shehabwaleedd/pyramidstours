@@ -61,7 +61,8 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
 
 
     const addToWishlist = (tour: TourType) => {
-        if (!isLoggedIn) {
+        const token = Cookies.get('token');
+        if (!token) {
             setIsLoginOpen(true);
         } else {
             const newWishlist = [...wishlist, tour];

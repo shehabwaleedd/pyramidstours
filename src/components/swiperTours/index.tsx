@@ -1,7 +1,6 @@
-// SwiperTours.tsx
-
+'use client'
 import React, { useRef } from 'react';
-import styles from '@/components/toursHomePage/style.module.scss';
+import "./SwipeTours.scss"
 import { GoArrowRight, GoArrowLeft } from "react-icons/go";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
@@ -10,10 +9,12 @@ import { TourType } from '@/types/homePageTours';
 import "swiper/css";
 import 'swiper/css/navigation';
 import TourCard from "@/components/card"
+import Link from 'next/link';
+
 
 SwiperCore.use([Navigation]);
 
-const SwiperTours: React.FC<{ tours: TourType[], index: number, title: string }> = ({ tours, index, title }) => {
+const SwiperTours: React.FC<{ tours: TourType[], index: number, title: string, isViewMoreAllowed: boolean }> = ({ tours, index, title, isViewMoreAllowed }) => {
     const swiperRef = useRef<SwiperCore | null>(null);
 
     const handleNextSlide = () => {
@@ -29,11 +30,11 @@ const SwiperTours: React.FC<{ tours: TourType[], index: number, title: string }>
     };
 
     return (
-        <section className={styles.swiperSection}>
+        <section className="swiperSection">
             <div key={index}>
-                <div className={styles.homeTours__upper}>
+                <div className="homeTours__upper">
                     <h2>{title}</h2>
-                    <div className={styles.homeTours_btns}>
+                    <div className="homeTours_btns">
                         <button onClick={handlePrevSlide} aria-label="Previous slide">
                             <GoArrowLeft />
                         </button>
@@ -43,7 +44,7 @@ const SwiperTours: React.FC<{ tours: TourType[], index: number, title: string }>
                     </div>
                 </div>
                 <Swiper
-                    className={styles.swiperContainer}
+                    className="homeTours_btns"
                     breakpoints={{
                         576: { slidesPerView: 1 },
                         1024: { slidesPerView: 2 },
@@ -64,6 +65,16 @@ const SwiperTours: React.FC<{ tours: TourType[], index: number, title: string }>
                             <TourCard tour={tour} base64={tour.base64 || ''} priority={idx < 4} />
                         </SwiperSlide>
                     ))}
+                    {isViewMoreAllowed && (
+                        <SwiperSlide key="view-more">
+                            <div className="viewMoreCard">
+                                <Link href={`/${title.toLowerCase().replace(/ /g, '-')}`} aria-label={`View more ${title.toLowerCase()}`}>
+                                    View more of {title}
+                                </Link>
+                            </div>
+                        </SwiperSlide>
+                    )}
+
                 </Swiper>
             </div>
         </section>

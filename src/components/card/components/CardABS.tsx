@@ -1,24 +1,21 @@
 'use client'
-import React, { useMemo } from 'react'
-import styles from '../style.module.scss'
-import { IoMdHeartEmpty } from 'react-icons/io'
-import { useWishlist } from '@/context/WishlistContext'
-import { TourType } from '@/types/homePageTours'
-import { useRouter } from 'next/navigation'
+import React, { useMemo } from 'react';
+import styles from '../style.module.scss';
+import { IoMdHeartEmpty } from 'react-icons/io';
+import { IoMdHeart } from "react-icons/io";
+import { useWishlist } from '@/context/WishlistContext';
+import { TourType } from '@/types/homePageTours';
+import { useRouter } from 'next/navigation';
 
 const CardABS = ({ tour }: { tour: TourType }) => {
-
-
     const { addToWishlist, removeFromWishlist, wishlist } = useWishlist();
-
     const isInWishlist = useMemo(() => wishlist.some(item => item._id === tour._id), [wishlist, tour._id]);
     const slugify = (str: string) => str.toLowerCase().replace(/\s+/g, '-');
     const router = useRouter();
 
-
     const handleWishlistClick = async (event: React.MouseEvent, tourId: string) => {
         event.preventDefault();
-        event.stopPropagation(); 
+        event.stopPropagation();
         if (isInWishlist) {
             removeFromWishlist(tourId);
         } else {
@@ -28,15 +25,13 @@ const CardABS = ({ tour }: { tour: TourType }) => {
 
     const handleCategoryClick = (event: React.MouseEvent, category: string) => {
         event.preventDefault();
-        event.stopPropagation(); // Prevent Link navigation
+        event.stopPropagation();
         const slugCategory = slugify(category);
         router.push(`/${slugCategory}`);
     }
 
-
-
     return (
-        <div style={{ zIndex: 99999 }}>
+        <div className={styles.cardABS}>
             {tour.hasOffer ? (
                 <span style={{ backgroundColor: "var(--accent-color)" }}>
                     Offer
@@ -46,11 +41,15 @@ const CardABS = ({ tour }: { tour: TourType }) => {
                     {tour.category}
                 </button>
             )}
-            <button onClick={(event) => handleWishlistClick(event, tour._id)} style={{ backgroundColor: isInWishlist ? "#ffe4e4" : "var(--background-color)", zIndex: 99999 }} aria-label="Add to wishlist">
-                <IoMdHeartEmpty style={{ color: isInWishlist ? "var(--accent-color)" : "inherit", zIndex: 99999 }} />
+            <button
+                className={`${styles.wishlist} ${isInWishlist ? styles.wishlistActive : styles.wishlistInactive}`}
+                onClick={(event) => handleWishlistClick(event, tour._id)}
+                aria-label="Add to wishlist"
+            >
+                {isInWishlist ? <IoMdHeart /> : <IoMdHeartEmpty />}
             </button>
         </div>
-    )
+    );
 }
 
-export default CardABS
+export default CardABS;

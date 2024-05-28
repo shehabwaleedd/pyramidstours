@@ -49,7 +49,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 2rem;
 
     }
 }
@@ -61,6 +61,11 @@
     align-items: center;
     justify-content: flex-start;
     height: 100%;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    &:last-child {
+        border-bottom: none;
+    }
 
     img {
         width: 5rem;
