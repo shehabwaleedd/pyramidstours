@@ -28,7 +28,7 @@ interface TourGroupSectionProps {
 const TourGroupSection: React.FC<TourGroupSectionProps> = ({ group, index }) => {
     const { ref, inView } = useInView({
         triggerOnce: true,
-        threshold: 0.1 // Trigger as soon as even 10% of the element is visible.
+        threshold: 0.025 
     });
 
     // Render the first group (top-rated tours) immediately

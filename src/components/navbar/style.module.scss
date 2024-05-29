@@ -18,6 +18,10 @@
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
 
+    @media (max-width: 555px) {
+        height: 6vh;
+    }
+
 
     &__container {
         display: flex;

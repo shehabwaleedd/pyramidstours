@@ -29,13 +29,12 @@
     font-size: 5rem;
     text-align: left;
     line-height: 1;
-    padding: 0 0.5rem;
     text-transform: uppercase;
     font-family: var(--subtitle-font);
     color: var(--accent-color);
 
     @media (max-width: 555px) {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
 }
@@ -48,7 +47,7 @@
     color: var(--accent-color);
 
     @media (max-width: 555px) {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 }
 
