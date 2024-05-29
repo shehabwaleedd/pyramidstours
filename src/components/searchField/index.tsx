@@ -35,11 +35,10 @@ const SearchField = ({ isNavbar, tours }: { isNavbar: boolean, tours: TourType[]
         const query: Record<string, string> = {};
         if (selectedDestination) query['location.to'] = selectedDestination;
         if (selectedDay) query['repeatDays'] = selectedDay;
-        if (inputPrice) query['price'] = inputPrice; // Simpler format
-        const queryString = new URLSearchParams(query).toString();
-        router.push(`/search/results?${queryString}`);
+        const queryString = Object.keys(query).map(key => `${key}=${encodeURIComponent(query[key])}`).join('&');
+        const finalQuery = inputPrice ? `${queryString}&price[lte]=${inputPrice}` : queryString;
+        router.push(`/search/results?${finalQuery}`);
     };
-
 
     return (
         <form onSubmit={handleSearch} className={isNavbar ? styles.navbarSearch : styles.landinSearch}>

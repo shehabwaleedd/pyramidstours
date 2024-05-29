@@ -16,8 +16,6 @@ import { SubscriptionData } from '@/types/common';
 import 'react-calendar/dist/Calendar.css';
 const Proceed = dynamic(() => import('@/components/proceed'));
 const Calendar = dynamic(() => import('react-calendar'), { ssr: false });
-const LoginComponent = dynamic(() => import('@/components/accountComponents/loginComponent'));
-const RegisterComponent = dynamic(() => import('@/components/accountComponents/registerComponent'));
 import axios from 'axios';
 
 
@@ -241,8 +239,6 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
             </Formik>
             <AnimatePresence mode='wait'>
                 {state.subscriptionOpen && state.subscriptionData && (<Proceed data={state.subscriptionData} setSubscriptionOpen={() => dispatch({ type: 'TOGGLE_SUBSCRIPTION_OPEN' })} />)}
-                {isLoginOpen && <LoginComponent />}
-                {isRegisterOpen && <RegisterComponent />}
             </AnimatePresence>
         </>
     );

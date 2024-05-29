@@ -11,7 +11,6 @@ import { useWishlist } from '@/context/WishlistContext';
 import useWindowWidth from '@/hooks/useWindowWidth';
 import styles from '@/components/loginForm/style.module.scss';
 import { CountryDropdown } from 'react-country-region-selector';
-import { AnimatePresence } from 'framer-motion';
 
 const RegisterComponent: React.FC = () => {
     const [errorFromDataBase, setErrorFromDataBase] = useState<string>('');
