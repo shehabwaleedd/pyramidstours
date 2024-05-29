@@ -1,15 +1,12 @@
-'use client'
+'use client';
 
-import React, { createContext, useContext, useState, ReactNode, useEffect, useLayoutEffect } from 'react';
-import { gsap } from 'gsap';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface AnimationContextType {
-    hasAnimationShown: boolean;
-    setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>;
     renderingOpening: boolean;
     setRenderingOpening: React.Dispatch<React.SetStateAction<boolean>>;
-    timeline: gsap.core.Timeline | null;
-    setTimeline: React.Dispatch<React.SetStateAction<gsap.core.Timeline | null>>;
+    hasAnimationShown: boolean;
+    setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AnimationContext = createContext<AnimationContextType | undefined>(undefined);
@@ -28,25 +25,16 @@ interface AnimationProviderProps {
 
 export const AnimationProvider: React.FC<AnimationProviderProps> = ({ children }) => {
     const [hasAnimationShown, setHasAnimationShown] = useState<boolean>(false);
-    const [renderingOpening, setRenderingOpening] = useState<boolean>(false);
-    const [timeline, setTimeline] = useState<gsap.core.Timeline | null>(null);
+    const [renderingOpening, setRenderingOpening] = useState<boolean>(true);
 
     useEffect(() => {
-        if (!hasAnimationShown && !sessionStorage.getItem("hasAnimationShown")) {
-            setRenderingOpening(true);
-        }
-    }, [hasAnimationShown]);
-
-    useLayoutEffect(() => {
-        const context = gsap.context(() => {
-            const tl = gsap.timeline();
-            setTimeline(tl);
-        });
-        return () => context.revert();
+        const hasShown = !!sessionStorage.getItem("hasAnimationShown");
+        setHasAnimationShown(hasShown);
+        setRenderingOpening(!hasShown);
     }, []);
 
     return (
-        <AnimationContext.Provider value={{ hasAnimationShown, setHasAnimationShown, renderingOpening, setRenderingOpening, timeline, setTimeline }}>
+        <AnimationContext.Provider value={{ hasAnimationShown, setHasAnimationShown, renderingOpening, setRenderingOpening }}>
             {children}
         </AnimationContext.Provider>
     );

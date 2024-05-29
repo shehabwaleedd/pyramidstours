@@ -14,7 +14,7 @@ export async function fetchAndGroupTours() {
     // Fetching top-rated tours
     const topRatedToursQuery = `tags=${tag}`;
     const topRatedTours = await serverUseToursByIds(topRatedToursQuery);
-    const groupedTopRatedTours = { title: 'Top Rated Tours', tours: topRatedTours ? topRatedTours.slice(0, 7) : [] }; 
+    const groupedTopRatedTours = { title: 'Top Rated', tours: topRatedTours ? topRatedTours.slice(0, 7) : [] }; 
 
     // Combine both results
     const allGroupedTours = [groupedTopRatedTours, ...groupedToursByLocations].filter(group => group.tours && group.tours.length > 0);

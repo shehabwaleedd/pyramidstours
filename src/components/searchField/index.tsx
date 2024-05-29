@@ -3,19 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi'
 import { TourType } from '@/types/homePageTours';
 import styles from "./styles.module.scss"
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Destinations from './components/Destinations';
 import Days from './components/Days';
 import Price from './components/Price';
-
-interface ApiResponse {
-    message: string;
-    data: {
-        page: number;
-        result: TourType[];
-    };
-}
 
 
 const SearchField = ({ isNavbar, tours }: { isNavbar: boolean, tours: TourType[] }) => {

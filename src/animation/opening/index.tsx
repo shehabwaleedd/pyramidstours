@@ -1,18 +1,20 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import anime from 'animejs';
 import styles from "./style.module.scss";
 import { useAnimation } from '@/context/AnimationContext';
+import Cookies from 'js-cookie';
 
 const Opening: React.FC = () => {
-    const [animationComplete, setAnimationComplete] = useState(false);
     const counterRef = useRef<HTMLParagraphElement>(null);
     const textWrapperRef = useRef<HTMLParagraphElement>(null);
     const preLoaderRef = useRef<HTMLDivElement>(null);
     const loaderContentRef = useRef<HTMLDivElement>(null);
-    const { renderingOpening, setRenderingOpening, setHasAnimationShown } = useAnimation();
+    const { renderingOpening, setRenderingOpening, setHasAnimationShown, hasAnimationShown } = useAnimation();
+    const [animationComplete, setAnimationComplete] = useState(false);
+
 
 
     useEffect(() => {
@@ -39,6 +41,7 @@ const Opening: React.FC = () => {
 
     useEffect(() => {
         if (animationComplete && renderingOpening) {
+
             // Wrap each character of the text in a span for individual animation
             if (textWrapperRef.current) {
                 textWrapperRef.current.innerHTML = textWrapperRef.current.textContent!.replace(/\S/g, `<span class='${styles.letter}'>$&</span>`);
@@ -71,9 +74,10 @@ const Opening: React.FC = () => {
                             duration: 1,
                             ease: "power2.inOut",
                             onComplete: () => {
-                                sessionStorage.setItem('hasAnimationShown', 'true');
+                                sessionStorage.setItem('hasAnimationShown', 'true'); // Setting sessionStorage item
                                 setRenderingOpening(false);
                                 setHasAnimationShown(true);
+
                             }
                         });
                     }
@@ -83,14 +87,14 @@ const Opening: React.FC = () => {
 
     return (
         <>
-            {renderingOpening ? (
+            {renderingOpening  && (
                 <div className={styles.container} ref={preLoaderRef}>
                     <div className={styles.loaderContent} ref={loaderContentRef}>
                         <div className={styles.count}><p ref={counterRef} className={styles.ml16}>0</p></div>
                         <div className={styles.copy}><p ref={textWrapperRef} className={styles.ml16}>- 100</p></div>
                     </div>
                 </div>
-            ) : <></>}
+            )}
         </>
     );
 };

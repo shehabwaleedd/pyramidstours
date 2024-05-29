@@ -37,6 +37,7 @@
 
 
 
+
   --small-font-size: 0.8rem;
   --normal-font-size: 1rem;
   --body-font-size: 1.236rem;
@@ -136,67 +137,6 @@ img {
   display: none;
 }
 
-.noise::before {
-  pointer-events: none;
-  z-index: 99999999999;
-  position: absolute
-}
-
-.noise::before {
-  content: "";
-  background-image: url("../../public/assets//noise.webp");
-  height: 300%;
-  left: -50%;
-  opacity: .046;
-  top: -100%;
-  width: 300%;
-  animation: 14s steps(10) infinite grain
-}
-
-
-@keyframes grain {
-
-  0%,
-  100% {
-    transform: translate(0, 0)
-  }
-
-  10% {
-    transform: translate(-5%, -10%)
-  }
-
-  20% {
-    transform: translate(-15%, 5%)
-  }
-
-  30% {
-    transform: translate(7%, -25%)
-  }
-
-  40% {
-    transform: translate(-5%, 25%)
-  }
-
-  50% {
-    transform: translate(-15%, 10%)
-  }
-
-  60% {
-    transform: translate(15%, 0)
-  }
-
-  70% {
-    transform: translate(0, 15%)
-  }
-
-  80% {
-    transform: translate(3%, 15%)
-  }
-
-  90% {
-    transform: translate(-10%, 10%)
-  }
-}
 
 @font-face {
   font-family: 'Satoshi-Regular';

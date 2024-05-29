@@ -8,7 +8,7 @@ const Footer = () => {
         <footer className={styles.footer}>
             <Image src="/footer.webp" alt="Footer Background" width={900} height={900} />
             <section className={styles.footer_abs}>
-                <div className="noise"></div>
+                <div className={styles.noise}></div>
                 <section className={styles.footer__upper}>
                     <h2>
                         Pyramids Egypt Tour
