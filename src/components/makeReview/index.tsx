@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import Cookie from 'js-cookie';
 import { toast } from 'sonner';
 import CustomField from '@/app/account/tours/createTour/components/CustomField';
+import axios from 'axios';
 
 interface FormValues {
     comment: string;
@@ -26,10 +27,20 @@ const LeaveReview = () => {
     useEffect(() => {
         const fetchSubscriptions = async () => {
             try {
-                const response = await fetch('/api/subscription');
-                const data = await response.json();
-                setSubscriptions(data.data.result);
-            } catch (error) {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'token': Cookie.get('token') || '',
+                    },
+                });
+
+                if (response.status === 200) {
+                    console.log('Subscriptions fetched successfully:', response.data);
+                    setSubscriptions(response.data.data.result);
+                } else {
+                    console.error('Error fetching subscriptions:', response.data);
+                }
+            } catch (error: any) {
                 console.error('Error fetching subscriptions:', error);
             }
         };
@@ -52,23 +63,23 @@ const LeaveReview = () => {
 
     const handleSubmit = async (values: FormValues) => {
         try {
-            const response = await fetch('/api/review', {
-                method: 'POST',
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/review`, {
+                comment: values.comment,
+                rating: String(rating),
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'token': Cookie.get('token') || '',
                 },
-                body: JSON.stringify({
-                    comment: values.comment,
-                    rating: String(rating),
-                }),
             });
 
-            const data = await response.json();
+            const data = response.data;
 
             if (response.status === 200 && data.message === 'success') {
                 toast.success('Review submitted successfully');
+                console.log('Review submitted successfully:', data);
             } else {
+                console.error('Error submitting review:', data);
                 toast.error('Error submitting review. Please try again.');
             }
         } catch (error) {

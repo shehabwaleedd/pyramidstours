@@ -51,15 +51,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const fetchUser = async () => {
         setLoading(true);
         try {
-            const response = await fetch('/api/user/profile', {
-                headers: { token: Cookies.get('token') || '' }
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    token,
+                },
             });
 
-            const data = await response.json();
-            if (response.ok) {
-                setUser(data.data);
+            if (response.status === 200) {
+                setUser(response.data.data);
             } else {
-                console.error('Failed to fetch user data:', data);
+                console.error('Failed to fetch user data:', response.data);
             }
         } catch (error) {
             console.error('Failed to fetch user data', error);

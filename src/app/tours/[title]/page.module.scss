@@ -68,7 +68,7 @@
                 font-family: var(--title-font);
 
                 @media (max-width: 777px) {
-                    font-size: var(--semi-big-font-size);
+                    display: none;
                 }
             }
 
@@ -104,6 +104,9 @@
 
             @media (max-width: 777px) {
                 font-size: var(--semi-big-font-size);
+            }
+            @media (max-width: 577px) {
+                font-size: var(--big-font-size);
             }
         }
 

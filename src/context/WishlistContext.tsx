@@ -36,7 +36,7 @@ interface WishlistProviderProps {
 }
 
 export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) => {
-    const { isLoggedIn, setIsLoggedIn, setUser } = useAuth();
+    const { setIsLoggedIn, setUser } = useAuth();
     const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
     const [isRegisterOpen, setIsRegisterOpen] = useState<boolean>(false);
 
@@ -106,7 +106,7 @@ export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) 
             handleRegisterIsOpen,
             handleLoginIsOpen,
         }),
-        [wishlist, isLoginOpen]
+        [wishlist, isLoginOpen, isRegisterOpen]
     );
 
     return <WishlistContext.Provider value={contextValue}>{children}</WishlistContext.Provider>;

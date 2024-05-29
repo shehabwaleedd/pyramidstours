@@ -18,6 +18,8 @@ const Proceed = dynamic(() => import('@/components/proceed'));
 const Calendar = dynamic(() => import('react-calendar'), { ssr: false });
 const LoginComponent = dynamic(() => import('@/components/accountComponents/loginComponent'));
 const RegisterComponent = dynamic(() => import('@/components/accountComponents/registerComponent'));
+import axios from 'axios';
+
 
 const currencySymbols: { [key: string]: string } = { USD: '$', EUR: '€', EGP: '£' };
 
@@ -112,6 +114,7 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
     const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
         const token = Cookies.get('token');
         if (!token) {
+            setSubmitting(true)
             setIsLoginOpen(true);
             return;
         }
@@ -146,20 +149,18 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
         if (selectedOptions.length > 0) {
             bookingData.options = selectedOptions;
         }
+
         try {
-            const response = await fetch(`/api/subscription?tourId=${tour._id}`, {
-                method: 'POST',
+            setSubmitting(true);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/subscription/${tour._id}`, bookingData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'token': token || '',
+                    token,
                 },
-                body: JSON.stringify(bookingData),
             });
 
-            const responseData = await response.json();
-
-            if (response.status === 200 && responseData.message === "Subscription created successfully") {
-                dispatch({ type: 'SET_SUBSCRIPTION_DATA', payload: responseData.data });
+            if (response.status === 200 && response.data.message === "Subscription created successfully") {
+                dispatch({ type: 'SET_SUBSCRIPTION_DATA', payload: response.data.data });
                 toast.success('Subscription created successfully');
             } else {
                 toast.error('Subscription failed, Try Again.');
@@ -226,8 +227,12 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
                                 <h2>Total Price: {currencySymbol}{calculateTotalCost(values)}</h2>
                             </div>
                         </div>
-                        <button type="submit" className={styles.submitButton} disabled={state.isSubmitting} aria-label="Book now button">
-                            {state.isSubmitting ? 'Booking...' : 'Book Now'}
+                        <button
+                            type="submit"
+                            className={styles.submitButton}
+                            disabled={state.isSubmitting}
+                            aria-label="Action button">
+                            {isLoginOpen ? 'Logging in...' : isRegisterOpen ? 'Registering...' : state.isSubmitting ? 'Booking...' : 'Book Now'}
                         </button>
                         <p style={{ color: "var(--accent-color)" }}>Note: Infants under 6 years old are free of charge.</p>
                         <p>Note: The total cost of the tour is calculated by summing up the prices based on the number of adults and children, each multiplied by their respective pricing tiers, and adding the cost of any selected additional options.</p>
@@ -236,9 +241,9 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
             </Formik>
             <AnimatePresence mode='wait'>
                 {state.subscriptionOpen && state.subscriptionData && (<Proceed data={state.subscriptionData} setSubscriptionOpen={() => dispatch({ type: 'TOGGLE_SUBSCRIPTION_OPEN' })} />)}
+                {isLoginOpen && <LoginComponent />}
+                {isRegisterOpen && <RegisterComponent />}
             </AnimatePresence>
-            {isLoginOpen && <LoginComponent />}
-            {isRegisterOpen && <RegisterComponent />}
         </>
     );
 };
