@@ -28,7 +28,6 @@ export default async function Home() {
         <ToursHomePage  />
         <TestimonialsCards data={testimonials} />
       </main>
-      <AuthForms />
     </>
   );
 }

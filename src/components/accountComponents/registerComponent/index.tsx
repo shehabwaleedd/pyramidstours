@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { getVariants } from '@/animation/animate';
+import { mobileVariants } from '@/animation/animate';
 import { useAuth } from '@/context/AuthContext';
 import { useWishlist } from '@/context/WishlistContext';
 import useWindowWidth from '@/hooks/useWindowWidth';
@@ -67,7 +67,7 @@ const RegisterComponent: React.FC = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            variants={getVariants(isMobile)}>
+            variants={mobileVariants}>
             <div className={styles.loginUpper}>
                 <h2>Register To Continue</h2>
                 <button onClick={() => setIsRegisterOpen(false)} className={styles.closeButton}>close</button>

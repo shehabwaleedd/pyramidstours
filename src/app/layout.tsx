@@ -3,7 +3,7 @@ import WhatsappIcon from "@/components/whatsappIcon";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { AnimationProvider } from "@/context/AnimationContext";
-
+import AuthForms from '@/components/loginForm';
 import Script from "next/script";
 import { Toaster } from "sonner";
 import { serverUseToursByIds } from "@/lib/tours/serverUseToursByIds";
@@ -69,6 +69,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 {children}
               </CurrencyProvider>
               <WhatsappIcon />
+              <AuthForms />
               <Footer />
             </AnimationProvider>
           </WishlistProvider>

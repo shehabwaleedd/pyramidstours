@@ -28,32 +28,32 @@ const Account = () => {
 
 
     const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-
         if (!token) return;
-        const avatar = user?.avatar;
 
         const formData = new FormData();
-        if (avatar) formData.append('avatar', avatar.url);
-        if (event.currentTarget.files) {
+        if (event.currentTarget.files && event.currentTarget.files[0]) {
             formData.append('avatar', event.currentTarget.files[0]);
+        } else {
+            return;
         }
 
         try {
-            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, formData, {
+            const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/user `, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    token
-                }
+                    token,
+                },
             });
-            console.log(response.data);
+
             setUser((prevUser) => {
                 if (prevUser) {
-                    return { ...prevUser, data: { ...prevUser.data, avatar: response.data.avatar } };
+                    return { ...prevUser, avatar: response.data.avatar };
                 }
                 return prevUser;
             });
-        }
-        catch (err) {
+
+            console.log(response.data);
+        } catch (err) {
             console.error(err);
         }
     };
@@ -81,6 +81,7 @@ const Account = () => {
                             <input type="file" id="avatar" name="avatar" accept="image/*" onChange={handleAvatarChange} />
                             <label htmlFor="avatar">Change Profile Picture</label>
                         </div>
+
                         <div className={styles.account_lower_left_upper_bottom}>
                             <h2>{user?.name}</h2>
                         </div>
