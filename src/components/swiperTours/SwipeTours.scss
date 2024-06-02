@@ -42,43 +42,6 @@
     }
 
 
-
-    &_btns {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 2rem;
-        height: 100%;
-        padding: 2rem;
-        position: relative;
-
-        @media (max-width: 777px) {
-            padding: 0;
-            align-items: center;
-            gap: 1rem;
-            width: fit-content;
-        }
-
-        button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            font-size: 2rem;
-            font-family: var(--title-font);
-            background-color: transparent;
-            border: 1px solid var(--container-color);
-            padding: 0.5rem;
-            border-radius: 50%;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-
-            svg {
-                fill: var(--title-color);
-            }
-        }
-    }
-
     &__upper {
         display: flex;
         width: 100%;
@@ -89,7 +52,12 @@
             width: 100%;
         }
     }
+    &__lower {
+        height: auto;
+    }
 }
+
+
 
 
 
@@ -97,7 +65,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
     background: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -105,7 +72,7 @@
     padding: 20px;
     font-size: 18px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: var(--animation-primary);
     
     &:hover {
         background: #e0e0e0;
@@ -115,13 +82,4 @@
         font-size: 1.4rem;
         color: var(--title-color);
     }
-}
-
-.swiper {
-    width: 100%;
-    height: 100%;
-}
-
-.swiper .swiper-slide {
-    height: auto;
 }

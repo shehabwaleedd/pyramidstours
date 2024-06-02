@@ -19,7 +19,7 @@ const WishlistHeader = dynamic(() => import('@/components/wishlistHeader'), { ss
 const Navbar = ({ tours }: { tours: TourType[] }) => {
     const router = usePathname();
     const [desktopNavOpen, setDesktopNavOpen] = useState<boolean | null>(false);
-    const [profileOpen, setProfileOpen] = useState<boolean | null>(false);
+    const [profileOpen, setProfileOpen] = useState<boolean>(false);
     const [wishlistOpen, setWishlistOpen] = useState<boolean | null>(false);
     const [wishlistCount, setWishlistCount] = useState<number>(0);
 
@@ -68,7 +68,7 @@ const Navbar = ({ tours }: { tours: TourType[] }) => {
                 <motion.div variants={background} initial="initial" animate={desktopNavOpen ? "open" : "closed"} className={styles.background}></motion.div>
             </header>
             <AnimatePresence mode="wait">
-                {profileOpen && <AccountHeaderNavbar profileOpen={profileOpen} />}
+                {profileOpen && <AccountHeaderNavbar profileOpen={profileOpen} setProfileOpen={setProfileOpen} />}
                 {wishlistOpen && <WishlistHeader wishlistOpen={wishlistOpen} />}
             </AnimatePresence>
         </>

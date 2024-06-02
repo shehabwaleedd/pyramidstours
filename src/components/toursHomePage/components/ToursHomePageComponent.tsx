@@ -35,7 +35,7 @@ const TourGroupSection: React.FC<TourGroupSectionProps> = ({ group, index }) => 
     if (index === 0) {
         return (
             <div ref={ref}>
-                <SwiperTours tours={group.tours} title={group.title} index={index} isViewMoreAllowed={true} />
+                <SwiperTours tours={group.tours} title={group.title}  isViewMoreAllowed={true} />
             </div>
         );
     }
@@ -43,7 +43,7 @@ const TourGroupSection: React.FC<TourGroupSectionProps> = ({ group, index }) => 
     return (
         <div ref={ref}>
             {inView ? (
-                <SwiperTours tours={group.tours} title={group.title} index={index} isViewMoreAllowed={true} />
+                <SwiperTours tours={group.tours} title={group.title} isViewMoreAllowed={true} />
             ) : (
                 <Skeleton />
             )}

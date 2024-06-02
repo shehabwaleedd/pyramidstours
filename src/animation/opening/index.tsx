@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import anime from 'animejs';
 import styles from "./style.module.scss";
 import { useAnimation } from '@/context/AnimationContext';
-import Cookies from 'js-cookie';
+
 
 const Opening: React.FC = () => {
     const counterRef = useRef<HTMLParagraphElement>(null);

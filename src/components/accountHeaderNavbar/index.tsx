@@ -5,15 +5,19 @@ import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import useWindowWidth from '@/hooks/useWindowWidth';
-import { getVariants } from '@/animation/animate';  
+import { getVariants } from '@/animation/animate';
 
 
-const AccountHeaderNavbar = ({ profileOpen }: { profileOpen: boolean }) => {
+const AccountHeaderNavbar = ({ profileOpen, setProfileOpen }: { profileOpen: boolean, setProfileOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { user, handleLogout } = useAuth();
     const userAvatar = user?.avatar?.url || "/user.png";
     const windowWidth = useWindowWidth();
     const isMobile = windowWidth !== null && windowWidth < 768;
 
+    const handleLogoutClick = () => {
+        setProfileOpen(false);
+        handleLogout();
+    }
 
     return (
         <>
@@ -44,7 +48,7 @@ const AccountHeaderNavbar = ({ profileOpen }: { profileOpen: boolean }) => {
                             <Link href="/account" aria-label="Account Page">
                                 <span>Account</span>
                             </Link>
-                            <button onClick={handleLogout} style={{ color: "red" }} aria-label="Logout">
+                            <button onClick={handleLogoutClick} style={{ color: "red" }} aria-label="Logout">
                                 Logout
                             </button>
                         </div>

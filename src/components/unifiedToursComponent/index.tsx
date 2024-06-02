@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from "./style.module.scss"
-import TourCard from '../card'
 import { TourType } from '@/types/homePageTours'
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds'
 import SwiperTours from '../swiperTours'
@@ -49,7 +48,7 @@ export default async function UnifiedToursComponent({ location, type = 'recommen
 
     return (
         <section className={styles.recommendedTours}>
-            <SwiperTours tours={toursArray} index={uniqueKey} title={`${type === 'recommended' ? 'Similar Tours' : 'Tours You Might Like'}`}  isViewMoreAllowed={false}/>
+            <SwiperTours tours={toursArray} title={`${type === 'recommended' ? 'Similar Tours' : 'Tours You Might Like'}`}  isViewMoreAllowed={false}/>
         </section>
     )
 }

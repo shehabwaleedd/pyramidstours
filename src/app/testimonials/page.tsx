@@ -16,7 +16,6 @@ interface FormValues {
 }
 
 const CreateTestimonials: React.FC = () => {
-    const [errorFromDataBase, setErrorFromDataBase] = useState<string>('');
     const [rating, setRating] = useState<number>(0);
     const [avatar, setAvatar] = useState<File | null>(null);
     const router = useRouter();
@@ -70,12 +69,15 @@ const CreateTestimonials: React.FC = () => {
 
     return (
         <main className={styles.testimonials}>
-            <Image src="/assets/backgrounds/1.jpg"
-                height={1000}
+            <Image src="/backgroundss/Giza.webp"
+                height={1204}
                 width={1920}
-                alt='register background'
+                alt='Testimonials Page Background'
+                title='Testimonials Page Background'
                 placeholder='blur'
-                blurDataURL='/assets/backgrounds/1.jpg'
+                priority
+                quality={100}
+                blurDataURL="/backgroundss/testimonials.webp"
             />
             <form onSubmit={formik.handleSubmit} className={styles.testimonials__form}>
                 <div className={styles.testimonials__form__group}>
