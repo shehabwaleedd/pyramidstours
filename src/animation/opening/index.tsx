@@ -12,7 +12,7 @@ const Opening: React.FC = () => {
     const textWrapperRef = useRef<HTMLParagraphElement>(null);
     const preLoaderRef = useRef<HTMLDivElement>(null);
     const loaderContentRef = useRef<HTMLDivElement>(null);
-    const { renderingOpening, setRenderingOpening, setHasAnimationShown, hasAnimationShown } = useAnimation();
+    const { renderingOpening, setRenderingOpening, setHasAnimationShown } = useAnimation();
     const [animationComplete, setAnimationComplete] = useState(false);
 
 

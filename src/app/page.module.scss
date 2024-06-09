@@ -45,6 +45,9 @@
   height: fit-content;
   overflow-y: auto;
   overflow-x: hidden;
+  @media (max-width: 555px) {
+    height: 80vh;
+  }
 
 }
 

@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import { useCurrency } from '@/context/CurrencyContext';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { mobileVariants } from '@/animation/animate';
 
 const defaultImage = '/no-image.webp';
 
@@ -63,7 +64,11 @@ const Proceed = ({ data, setSubscriptionOpen }: { data: SubscriptionData, setSub
     };
 
     return (
-        <motion.section className={`${styles.proceed} ${globalStyles.bottomGlass}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+        <motion.section className={`${styles.proceed} ${globalStyles.bottomGlass}`} 
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={mobileVariants}>
             <div className={styles.proceed__upper}>
                 <h2>Your Order</h2>
                 <button onClick={handleClose} className={styles.close_button}>close</button>
