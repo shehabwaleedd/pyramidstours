@@ -45,12 +45,6 @@ export async function generateMetadata() {
     };
 }
 
-// handleLoginSuccessForm(response.data.token, response.data.data);
-// const { setUser } = useAuth();
-// const { handleLoginSuccessForm } = useWishlist();
-
-
-
 export default async function Tours() {
     const toursArray = await serverUseToursByIds('');
 
