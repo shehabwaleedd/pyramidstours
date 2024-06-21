@@ -5,9 +5,7 @@ import SearchForm from "@/components/landing";
 import ToursHomePage from '@/components/toursHomePage';
 import dynamic from 'next/dynamic';
 import { serverUseTestimonials } from '@/lib/serverTestimonials';
-import Opening from '@/animation/opening';
 import Skeleton from '@/animation/skeleton';
-import AuthForms from '@/components/loginForm';
 const TestimonialsCards = dynamic(() => import('@/components/testimonialHomePage'), { ssr: false, loading: () => <Skeleton />, });
 
 async function fetchTestimonials() {
@@ -21,13 +19,11 @@ export default async function Home() {
 
 
   return (
-    <>
-      <Opening />
-      <main className={styles.main}>
-        <SearchForm />
-        <ToursHomePage  />
-        <TestimonialsCards data={testimonials} />
-      </main>
-    </>
+    <main className={styles.main}>
+      <h1 style={{ display: "none" }}> Pyramids Egypt Tours - Best Egypt Travel Packages & Tours</h1>
+      <SearchForm />
+      <ToursHomePage />
+      <TestimonialsCards data={testimonials} />
+    </main>
   );
 }

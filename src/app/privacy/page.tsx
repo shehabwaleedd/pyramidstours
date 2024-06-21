@@ -3,7 +3,11 @@
 import React from 'react';
 
 export function generateMetadata() {
-    
+    return {
+        title: "Privacy Policy - Pyramids Egypt Tours",
+        description: "We are committed to protecting your privacy and ensuring your personal data is handled with care. This privacy policy explains how we collect, use, and protect your information when you use our website and services.",
+        url: "https://pyramidsegypttour.com/privacy"
+    };
 }
 
 export default async function Privacy() {

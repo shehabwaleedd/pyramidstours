@@ -18,11 +18,11 @@ const RightColumn = ({ tour }: { tour: TourType }) => {
             <Description description={tour?.description ?? ''} />
             <div className={styles.eventDetails__lower_right_exclusionsAndInclusions}>
                 <div className={styles.eventDetails__lower_right_exclusionsAndInclusions__inclusions}>
-                    <h2 style={{ color: "var(--second-accent-color)" }}>Inclusions</h2>
+                    <h2 style={{ color: "var(--third-accent-color)" }}>Inclusions</h2>
                     <ul>
                         {tour?.inclusions?.map((inclusion, index) => (
                             <li key={index}>
-                                <FaCheck style={{ color: "var(--second-accent-color)" }} /> {inclusion}
+                                <FaCheck style={{ color: "var(--third-accent-color)" }} /> {inclusion}
                             </li>
                         ))}
                     </ul>

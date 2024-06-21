@@ -42,6 +42,9 @@ export async function generateMetadata({ searchParams }: { searchParams: { resul
             title,
             description,
             image: 'https://pyramidsegypttour.com/backgroundss/default.webp',
+        },
+        alternates: {
+            canonical: canonicalUrl,
         }
     };
 }

@@ -13,10 +13,10 @@ import Participants from './chunks/Participants';
 import Options from './chunks/Options';
 import { TourType } from '@/types/homePageTours';
 import { SubscriptionData } from '@/types/common';
-import 'react-calendar/dist/Calendar.css';
 const Proceed = dynamic(() => import('@/components/proceed'));
 const Calendar = dynamic(() => import('react-calendar'), { ssr: false });
 import axios from 'axios';
+import CalendarComponent from './calendar';
 
 
 const currencySymbols: { [key: string]: string } = { USD: '$', EUR: '€', EGP: '£' };
@@ -216,7 +216,8 @@ const LeftColumn: React.FC<{ tour: TourType }> = ({ tour }) => {
                 {({ setFieldValue, values }) => (
                     <Form className={styles.eventDetails__lower_left}>
                         <h2>Tailor Your Tour</h2>
-                        <Calendar onChange={(value) => setFieldValue('date', handleDateChange(value as Date))} value={values.date} minDate={new Date()} className={styles.calendar} />
+                        {/* <Calendar onChange={(value) => setFieldValue('date', handleDateChange(value as Date))} value={values.date} minDate={new Date()} className={styles.calendar} /> */}
+                        <CalendarComponent values={values} setFieldValue={setFieldValue} handleDateChange={handleDateChange} />
                         <Available tour={tour} />
                         <Participants tour={tour} values={values} setFieldValue={setFieldValue} />
                         <Options tour={tour} optionCounts={state.optionCounts} handleIncrement={handleIncrement} handleDecrement={handleDecrement} currency={currency} currencySymbol={currencySymbol} convertPrice={convertPrice} />

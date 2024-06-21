@@ -5,10 +5,10 @@ import Image from 'next/image'
 
 export function generateMetadata() {
     return {
-        title: 'Contact - Pyramids Egypt Tour',
+        title: 'Contact - Pyramids Egypt Tour | Best Tours In Egypt',
         description: ' Pyramids Egypt Tour is a travel agency in Giza, Egypt. We offer tours to the pyramids of Egypt, the Sphinx, and other historical sites. Contact us for more information.',
         image: '/assets/backgrounds/1.webp',
-        url: 'https://www.pyramidsegypttour.com/contact',
+        url: 'https://pyramidsegypttour.com/contact',
         type: 'website',
         siteName: 'Pyramids Egypt Tour',
         keywords: [
@@ -25,7 +25,7 @@ export function generateMetadata() {
             title: 'Contact',
             description: ' Pyramids Egypt Tour is a travel agency in Giza, Egypt. We offer tours to the pyramids of Egypt, the Sphinx, and other historical sites. Contact us for more information.',
             image: '/assets/backgrounds/1.webp',
-            url: 'https://www.pyramidsegypttour.com/contact',
+            url: 'https://pyramidsegypttour.com/contact',
             type: 'website',
         },
         robots: "index, follow",
@@ -36,6 +36,9 @@ export function generateMetadata() {
             png: "/favicon.png",
         },
         manifest: "/manifest.json",
+        alternates: {
+            canonical: "https://pyramidsegypttour.com/contact",
+        }
     }
 }
 
@@ -44,6 +47,7 @@ const Contact = () => {
 
     return (
         <main className={styles.contact}>
+            <h1 style={{ display: "none" }}> Contact - Pyramids Egypt Tour | Best Tours In Egypt</h1>
             <Image src="/assets/backgrounds/2.jpg"
                 height={1000}
                 width={1920}

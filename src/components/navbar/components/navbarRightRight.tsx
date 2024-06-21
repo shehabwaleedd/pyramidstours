@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CurrencyConverter from '@/components/currencyConverter';
 import { LiaUserSolid } from 'react-icons/lia';
 import { IoMdHeartEmpty } from 'react-icons/io';
@@ -7,7 +7,7 @@ import styles from '../style.module.scss';
 import { useAuth } from '@/context/AuthContext';
 import { TbMenuDeep } from 'react-icons/tb';
 
-const NavbarRightRight = ({ toggleProfileOpen, toggleWishlistOpen, wishlistCount, toggleDesktopNavOpen } : {
+const NavbarRightRight = ({ toggleProfileOpen, toggleWishlistOpen, wishlistCount, toggleDesktopNavOpen }: {
     toggleProfileOpen: () => void;
     toggleWishlistOpen: () => void;
     wishlistCount: number;
@@ -15,11 +15,12 @@ const NavbarRightRight = ({ toggleProfileOpen, toggleWishlistOpen, wishlistCount
 
 }) => {
     const { isLoggedIn } = useAuth();
+    const [convertOpen, setConvertOpen] = useState<boolean>(false);
 
     return (
         <ul className={styles.navbar__right_right}>
             <li>
-                <CurrencyConverter />
+                <CurrencyConverter convertOpen={convertOpen} setConvertOpen={setConvertOpen} />
             </li>
             <li>
                 {isLoggedIn ? (

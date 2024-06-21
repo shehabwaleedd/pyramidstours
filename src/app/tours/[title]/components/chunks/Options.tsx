@@ -25,7 +25,7 @@ const Options = ({
             <div className={styles.eventDetails__lower_left_options__header}>
                 <h2>Options</h2>
             </div>
-            <div className={styles.headGroup}>
+            <div className={styles.column}>
                 {tour?.options?.map(option => (
                     <div key={option._id} className={styles.column}>
                         <span>{option.name} - {currencySymbol}{convertPrice(parseFloat(option.price), currency)}</span>
@@ -36,8 +36,8 @@ const Options = ({
                                 readOnly
                             />
                             <div className={styles.incrementBtns}>
-                                <button type="button" onClick={() => handleIncrement(option._id)} aria-label="Increment number of options">+</button>
                                 <button type="button" onClick={() => handleDecrement(option._id)} aria-label="Decrement number of options">-</button>
+                                <button type="button" onClick={() => handleIncrement(option._id)} aria-label="Increment number of options">+</button>
                             </div>
                         </div>
                     </div>

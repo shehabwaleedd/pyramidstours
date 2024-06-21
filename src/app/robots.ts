@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: ['/login', '/account'],
         },
-        sitemap: 'https://www.pyramidsegypttour.com/sitemap.xml',
+        sitemap: 'https://pyramidsegypttour.com/sitemap.xml',
     }
 }

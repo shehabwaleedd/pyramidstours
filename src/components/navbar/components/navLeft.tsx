@@ -11,8 +11,8 @@ const NavLeft = ({ tours }: { tours: TourType[] }) => {
     return (
         <section className={styles.navbar__logo}>
             <Link href="/" className={styles.logo_content} aria-label="Go to home page">
-                <h1>Pyramids</h1>
-                <h1 className={styles.navbar__logo_second}>Egypt Tours</h1>
+                <span>Pyramids</span>
+                <span className={styles.navbar__logo_second}>Egypt Tours</span>
             </Link>
             <SearchField isNavbar={isNavbar} tours={tours} />
         </section>)

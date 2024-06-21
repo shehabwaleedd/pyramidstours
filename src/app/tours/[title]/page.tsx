@@ -40,6 +40,9 @@ export async function generateMetadata({ params }: { params: { title: string } }
             images: tour[0]?.mainImg,
             cardType: 'summary_large_image',
         },
+        alternates: {
+            canonical: `https://pyramidsegypttour/tours/${params.title}`,
+        }
     }
 }
 

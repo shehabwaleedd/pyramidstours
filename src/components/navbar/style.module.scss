@@ -36,7 +36,7 @@
         font-family: var(--title-font);
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         width: 100%;
         position: relative;
         z-index: 9;
@@ -50,9 +50,10 @@
             gap: 0.5rem;
         }
 
-        h1 {
+        span {
             font-size: 1.8rem;
             letter-spacing: 0.05rem;
+            padding-right: 1rem;
         }
 
         &_second {

@@ -44,8 +44,6 @@ export default async function UnifiedToursComponent({ location, type = 'recommen
     };
     const toursArray = shuffleAndSliceTo5(tours);
 
-    const uniqueKey = parseInt(`${location}-${toursArray[0]?.id || 'default'}`);
-
     return (
         <section className={styles.recommendedTours}>
             <SwiperTours tours={toursArray} title={`${type === 'recommended' ? 'Similar Tours' : 'Tours You Might Like'}`}  isViewMoreAllowed={false}/>

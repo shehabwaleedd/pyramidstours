@@ -8,8 +8,7 @@ import getBase64 from '@/lib/getLocalBase64';
 import { serverUseToursByIds } from '@/lib/tours/serverUseToursByIds';
 
 export async function generateMetadata() {
-    // This example assumes searchParams is a plain string that indicates the query or some keywords
-    const title = "Explore Egypt Tours || Pyramids Egypt Tour"
+    const title = "Explore Egypt Tours | Pyramids Egypt Tour"
     const description = `Discover the best of Egypt with our comprehensive tours. Whether you're looking for a historical adventure in Giza or a relaxing getaway in Sharm El Sheikh, our expertly guided tours will help you explore Egypt's rich history and vibrant culture.`;
     const url = `https://pyramidsegypttour.com/tours`;
     const imageUrl = "https://pyramidsegypttour.com/backgroundss/default.webp";
@@ -41,6 +40,9 @@ export async function generateMetadata() {
             description,
             image: imageUrl,
         },
+        alternates: {
+            canonical: url,
+        }
 
     };
 }
@@ -62,7 +64,7 @@ export default async function Tours() {
             <section className={styles.tours__upper}>
                 <Image src="/assets/backgrounds/1.jpg" alt="search" width={1920} height={1080} />
                 <div className={styles.tours__upper__text}>
-                    <h1>Explore All Tours</h1>
+                    <h1>Explore All Of Egypt&apos;s Tours</h1>
                     <SearchBar />
                 </div>
             </section>

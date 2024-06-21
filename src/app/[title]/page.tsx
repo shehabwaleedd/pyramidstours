@@ -29,31 +29,25 @@ const imageMap = {
     'siwa-day-tours': '/backgroundss/Siwa.webp',
     'dahab-tours': '/backgroundss/Dahab.webp',
     'dahab-day-tours': '/backgroundss/Dahab.webp',
-    
+
 };
 
 
-
-
-
-
 export async function generateMetadata({ params }: { params: { title: string } }) {
-    const slugToTile = (slug: string): string => {
+    const slugToTitle = (slug: string): string => {
         return slug.replace(/-/g, ' ')
             .split(' ')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
     }
-    const title = titleMap[params.title] || `${slugToTile(params.title)} Tours`;
-    const description = descriptionMap[params.title] || 'Join us to explore stunning destinations, from historic landmarks to natural wonders. Experience the best tours customized for you.';
-    const keywords = `${title}, travel, tours, destinations, attractions`;
-    const url = `https://pyramidsegypttour.com/${params.title}`
+
+    const title = titleMap[params.title] || `${slugToTitle(params.title)} Tours`;
+    const description = descriptionMap[params.title] || `Join us to explore ${slugToTitle(params.title)} with Pyramids Egypt Tours. Discover the best tours, from historic landmarks to natural wonders.`;
+    const keywords = `${title}, travel, tours, ${slugToTitle(params.title)}, attractions, destinations`;
+    const url = `https://pyramidsegypttour.com/${params.title}`;
     type ImageMapKey = keyof typeof imageMap;
     const imageKey = params.title as ImageMapKey;
-
-    // Get the appropriate image URL from the image map, or default if not found
     const imageUrl = imageMap.hasOwnProperty(imageKey) ? imageMap[imageKey] : '/backgroundss/default.webp';
-
 
     return {
         title,
@@ -70,15 +64,19 @@ export async function generateMetadata({ params }: { params: { title: string } }
                     url: imageUrl,
                     width: 800,
                     height: 600,
-                    alt: title,
+                    alt: `${title} - Pyramids Egypt Tours`,
                 },
             ],
-            site_name: 'Pyramdis Egypt Tour',
+            site_name: 'Pyramids Egypt Tours',
         },
         twitter: {
-            title: title,
-            description: `Explore ${title} with Pyramid Egypt Tours`,
-            cardType: 'summary_large_image',
+            title,
+            description: `Explore ${title} with Pyramids Egypt Tours. Discover the best tours and travel packages.`,
+            card: 'summary_large_image',
+            image: imageUrl,
+        },
+        alternates: {
+            canonical: url,
         }
     }
 }
@@ -86,7 +84,7 @@ export async function generateMetadata({ params }: { params: { title: string } }
 export async function generateStaticParams() {
     const tours = await serverUseToursByIds('');
     const tags = tours ? tours.map((tour: any) => tour.tags).flat() : [];
-    
+
     return tags.map((tag: string) => ({
         params: {
             title: tag.split(' ').join('-').toLowerCase()
@@ -125,20 +123,15 @@ export default async function MenuPage({ params }: { params: { title: string } }
             </section>
             <section className={styles.menuPage__lower}>
                 {toursArray.length > 0 ?
-                    <>
-                        <div className={styles.menuPage__lower_tours}>
-                            {toursArray.map((tour: TourType, index: number) => (
-                                <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4} />
-                            ))}
-                        </div>
-                        <UnifiedToursComponent type="like" />
-                    </>
+                    <div className={styles.menuPage__lower_tours}>
+                        {toursArray.map((tour: TourType, index: number) => (
+                            <TourCard key={tour._id} tour={tour} base64={tour.base64 ?? ''} priority={index < 4} />
+                        ))}
+                    </div>
                     : (
-                        <>
-                            <h2>Sorry, No Tours Found</h2>
-                            <UnifiedToursComponent type="like" />
-                        </>
+                        <h2>Sorry, No Tours Found</h2>
                     )}
+                <UnifiedToursComponent type="like" />
             </section>
         </main>
     )

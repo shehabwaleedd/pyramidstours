@@ -1,12 +1,29 @@
-.select {
-    select {
-        border: none;
-        background-color: transparent;
-        color: var(--title-color);
-        cursor: pointer;
-        &:focus {
-            outline: none;
-        }
+.currency_converter {
+    position: relative;
+    color: var(--title-color);
+}
 
+.currency_converter__dropdown {
+    position: absolute;
+    background: #F2F0EBbb;
+    backdrop-filter: blur(5px);
+    border: 1px solid #dadada9b;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    button {
+        color: var(--title-color);
+        transition: var(--animation-primary);
+
+        &:hover {
+            transition: var(--animation-primary);
+            color: var(--accent-color);
+        }
     }
 }

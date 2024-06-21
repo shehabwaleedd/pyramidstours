@@ -5,6 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { toast } from 'sonner';
 import { User } from '@/types/hooks';
+import Script from 'next/script';
 
 interface AuthContextType {
     user: User | null;
@@ -14,7 +15,8 @@ interface AuthContextType {
     handleLoginSuccess: (token: string, userData: User) => void;
     handleLogout: () => void;
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-
+    cookiesConsent: string | null;
+    setCookiesConsent: (consent: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,6 +39,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
     const token = Cookies.get('token');
+    const [cookiesConsent, setCookiesConsentState] = useState<string | null>(() => {
+        const storedConsent = Cookies.get('cookies-consent');
+        return storedConsent || null;
+    });
 
     useEffect(() => {
         if (token) {
@@ -47,7 +53,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             setLoading(false);
         }
     }, [token]);
-    
+
     const fetchUser = async () => {
         setLoading(true);
         try {
@@ -87,11 +93,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         toast.success('Logged out successfully');
         router.push('/login');
     };
+    const setCookiesConsent = (consent: string) => {
+        Cookies.set('cookies-consent', consent, { expires: 365 });
+        setCookiesConsentState(consent);
+    };
+
 
     const authValue = useMemo(
-        () => ({ user, setUser, isLoggedIn, setIsLoggedIn, loading, handleLoginSuccess, handleLogout }),
-        [user, isLoggedIn, loading]
+        () => ({
+            user, setUser, isLoggedIn, setIsLoggedIn, loading, handleLoginSuccess, handleLogout, cookiesConsent, setCookiesConsent
+        }),
+        [user, isLoggedIn, cookiesConsent]
     );
 
-    return <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={authValue}>
+        {children}
+        {cookiesConsent === 'accepted' && (
+            <>
+                <Script
+                    async
+                    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+                />
+                <Script id="gtag-init" strategy="afterInteractive">
+                    {`window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');`}
+                </Script>
+            </>
+        )}
+    </AuthContext.Provider>;
 };

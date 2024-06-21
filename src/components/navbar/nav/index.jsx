@@ -14,7 +14,6 @@ const Data = [
   { id: 15, title: "Sharm El Sheikh Tours", href: "/sharm-el-sheikh-tours", expandable: false },
   { id: 16, title: "Dahab Tours", href: "/dahab-tours", expandable: false },
   { id: 17, title: "Taba Tours", href: "/taba-tours", expandable: false },
-  { id: 19, title: "El Gouna Tours", href: "/el-gouna-tours", expandable: false },
   {
     id: 3,
     title: "Egypt Travel Packages",
@@ -44,7 +43,8 @@ const Data = [
 
   { id: 8, title: "Nile Cruise Trips", href: "/nile-cruises", expandable: false },
   { id: 9, title: "Shore Excursions", href: "/shore-excursions", expandable: false },
-  { id: 11, title: "Payment Policy", href: "/policy", expandable: false },
+  { id: 11, title: "Payment Policy", href: "/payment-policy", expandable: false },
+  { id: 11, title: "Privacy Policy", href: "/privacy", expandable: false },
   { id: 1, title: "About Us", href: "/about", expandable: false },
   { id: 2, title: "Contact Us", href: "/contact", expandable: false },
 ];

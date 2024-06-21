@@ -73,7 +73,6 @@
         justify-content: flex-start;
         align-items: flex-start;
         position: relative;
-
         @media (min-width: 922px) {
             padding: 2rem;
         }
@@ -96,6 +95,7 @@
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             width: 100%;
             gap: 0.5rem;
+            padding-top: 2rem;
         }
     }
 }

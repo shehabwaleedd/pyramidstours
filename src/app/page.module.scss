@@ -78,11 +78,4 @@
   transition: var(--animation-primary);
   margin-top: 3vh;
   text-align: center;
-
-  &:hover {
-    transition: var(--animation-primary);
-    background-color: var(--accent-color);
-    color: var(--title-color);
-    font-family: var(--title-font);
-  }
 }

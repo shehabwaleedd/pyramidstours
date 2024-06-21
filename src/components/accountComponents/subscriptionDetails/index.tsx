@@ -36,19 +36,21 @@ const SubscriptionDetails = ({ setSubscriptionOpen, subscriptionOpen, handleUser
                                 <Image src={subscription?.tourDetails?.mainImg?.url || ""} alt="tour image" width={1080} height={900} />
                             </div>
                             <div className={styles.column}>
-                                <h3>Tour Name: <span>{subscription?.tourDetails?.title}</span></h3>
+                                <h3>{subscription?.tourDetails?.title}</h3>
                                 <div className={styles.group}>
                                     <p>Time: <span>{subscription?.time}</span></p>
                                     <p>Date: <span>{subscription?.date ? new Date(subscription.date).toLocaleDateString() : ''}</span></p>
                                     <p>Day: <span>{subscription?.day}</span></p>
                                 </div>
-                                <h3>Options:</h3>
-                                {subscription?.options && subscription?.options.map(option => (
-                                    <div key={option._id} className={styles.group}>
-                                        <p>{option.name}</p>
-                                        <p>{option.number} x {option.price}</p>
-                                    </div>
-                                ))}
+                                <h4>Options:</h4>
+                                <div className={styles.ThreeGrids}>
+                                    {subscription?.options && subscription?.options.map(option => (
+                                        <div key={option._id} className={styles.group}>
+                                            <p>{option.name}</p>
+                                            <p>{option.number} x {option.price}</p>
+                                        </div>
+                                    ))}
+                                </div>
                                 <div className={styles.group}>
                                     {subscription?.payment === "success" ? (
                                         <p style={{ color: "var(--success-color)" }}>Status: Paid</p>
