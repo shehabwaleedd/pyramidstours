@@ -54,6 +54,14 @@ export const metadata = {
     title: "Pyramids Egypt Tours - Best Egypt Travel Packages & Tours",
     description: "Discover the best Egypt travel packages and tours with Pyramids Egypt Tours. Explore the ancient pyramids, Sphinx, Nile cruises, and more with our expert guides.",
     url: "https://res.cloudinary.com/ds20vy7zo/image/upload/v1718916258/2_vjkdel.jpg",
+    images: [
+      {
+        url: "https://res.cloudinary.com/ds20vy7zo/image/upload/v1718916258/2_vjkdel.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Pyramids Egypt Tours - Best Egypt Travel Packages & Tours",
+      },
+    ],
     site_name: "Pyramids Egypt Tours",
   },
   twitter: {
@@ -99,29 +107,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
-        <meta property="og:image" content="https://res.cloudinary.com/dfxz1hh8s/image/upload/v1710937871/rthedhnufmo6l3rz69d0.jpg" />
-        <meta property="og:image:secure_url" content="https://res.cloudinary.com/dfxz1hh8s/image/upload/v1710937871/rthedhnufmo6l3rz69d0.jpg" />
-        <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Pyramids Egypt Tours - Explore Ancient Wonders" />
-        <meta name="twitter:image" content="https://res.cloudinary.com/dfxz1hh8s/image/upload/v1710937871/rthedhnufmo6l3rz69d0.jpg" />
-        <meta name="twitter:image:alt" content="Pyramids Egypt Tours - Explore Ancient Wonders" />
-        <meta name="twitter:image:width" content="1200" />
-        <meta name="twitter:image:height" content="630" />
-        <link rel="preconnect" href="https://api.exchangerate-api.com" />
-        <link rel="dns-prefetch" href="https://api.exchangerate-api.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <Script strategy="worker" async src="https://www.googletagmanager.com/gtag/js?id=G-RDCTEVEDHC"></Script>
-        <Script id="google-analytics" strategy="worker">
-          {`{
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-RDCTEVEDHC');
-          }`}
-        </Script>
         <Script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} id="structured-data" />
       </head>
       <body>
